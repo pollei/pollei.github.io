@@ -1,0 +1,395 @@
+<!DOCTYPE html><html lang=en><meta charset="UTF-8">
+<title>pollei github - SFCC IS 125 Linux &amp; Python</title>
+<style>
+div.urls { column-count: 2; min-width:36em; } 
+div.urls p { max-width: 28em ; margin: 2px; }
+h1,h2,h3,h4 {text-align:center; margin: 1px;}
+svg {float:right; }
+div.cntx {min-width:72em;float:left;clear:right}
+div.lsec--left {max-width:36em;outline:black dotted;float:left;padding:4px;margin:6px;min-height:7em;}
+div.lsec--right {max-width:36em;outline:black dotted;float:right;padding:4px;margin:6px;clear:right}
+div.tsec {max-width:30em;padding:0px;margin:0px;}
+ul {padding-left:13px;margin:2px;}
+form#uShare label {min-width:4em;text-align:right;display: inline-block;}
+form#uShare fieldset {border:none;display:contents;}
+form#uShare input:invalid { border: 2px dashed red;}
+form#uShare input[type=text] {font-family: Lucida Console, Courier, monospace;}
+@supports (user-select: all) {
+  span#enrollCode { user-select: all;}
+}
+@media screen and (min-width: 54em) { div.urls { column-count: 3; } }
+@media screen and (min-width: 72em) { div.urls { column-count: 4; } }
+span.NC { user-select: none;} /* Not Content */
+<!-- https://www.quirksmode.org/css/condcom.html msie conditional comments 
+     https://www.mediacurrent.com/blog/pro-tip-how-write-conditional-css-ie10-and-11
+     https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/
+     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { }
+    -->
+@media print { form * {display:none;} }
+</style>
+<script>
+function copyCode() {
+  var copyText = document.getElementById("enrollCode");
+  copyText.select();
+  document.execCommand("copy");
+}
+ function sf_cb(url,vn) {
+   var sf,hid,query;
+   sf=(document.getElementsByName('searchF'))[0];
+   sf.action=url;
+   if (vn) {
+      console.log('vn: '+vn);
+      hid=(document.getElementsByName(vn))[0];
+      query=(document.getElementsByName('q'))[0];
+      console.log('hid: '+hid);
+      hid.removeAttribute('disabled');query.setAttribute('disabled','');
+      hid.value=query.value;
+   }
+   sf.submit();
+   if (vn) {query.removeAttribute('disabled');hid.setAttribute('disabled','');}
+   sf.action='https://google.com/search';
+  }
+  function sf_url_cb() {
+   var query,url,scheme,host,todo,m,wnd;
+   query=(document.getElementsByName('q'))[0];
+   url=query.value;
+   if (! url.match(/(\w|\d+[.:]\d+)/i)) {
+       url='https://tools.ietf.org/html/rfc3986#section-9';
+   }
+   if (m=url.match(/^([a-z0-9_+.-]+:\/{0,2})(.*)$/i)) {
+     scheme=m[1];todo=m[2];
+   } else {scheme='https://';todo=url;}
+   if (m=todo.match(/^([^\/?#]+)([\/?#].*)$/i)) {
+     host=m[1];todo=m[2];
+   } else {host=todo;todo='';}
+   host=host.replace(/\s+/,'_');
+   todo=todo.replace(/\s+/,'%20');
+   url=scheme+host+todo;
+   wnd=window.open(url,'_blank','noopener');
+   wnd.opener = null;
+  }
+  function us_smb_cb() {
+   var query,usrn,url,wnd;
+   query=(document.getElementsByName('usrName'))[0];
+   usrn=query.value;
+   console.log('us_smb_cb: '+usrn);
+   if (! usrn.match(/^[a-zA-Z]+\d\d\d\d$/)) {alert('FirstL0000');return;}
+   console.log('us_smb_cb: '+usrn);
+   url='file://///scc-stufile.ccs.spokane.cc.wa.us/Users'+ usrn[0].toUpperCase() +'/'+usrn;
+   console.log('us_smb_cb url: '+url);
+   wnd=window.open(url,'_blank','noopener');
+   wnd.opener = null;
+  }
+  function us_sp_cb() {
+   var query,usrn,url,wnd;
+   query=(document.getElementsByName('usrName'))[0];
+   usrn=query.value;
+   if (! usrn.match(/^[a-zA-Z]+\d\d\d\d$/)) {alert('FirstL0000');return;}
+   console.log('us_sp_cb: '+usrn);
+   url='https://communitycollegesofspokane-my.sharepoint.com/personal/'+usrn+'_bigfoot_spokane_edu';
+   console.log('us_sp_cb url: '+url);
+   wnd=window.open(url,'_blank','noopener');
+   wnd.opener = null;
+  }
+  function onload_body_cb() {
+    if ("ActiveXObject" in window) {
+      try { 
+        var ax = new ActiveXObject("wscript.shell");
+        uname = ax.ExpandEnvironmentStrings("%USERNAME%");
+        //alert("un:"+uname);
+        console.log("un:"+uname)
+        } catch(e) {
+        //alert("caught:"+e);"Automation server can't create object"
+      }
+    } else {
+      //alert("no active X")
+      console.log("no active X")
+    }
+  }
+</script>
+<div class=search >
+<form style=display:inline id=searchF  name=searchF target=_blank action=https://google.com/search method=get >
+  <!-- action=https://google.com/search -->
+  <input type=text name=q  size=70 ><input type=hidden name=p  disabled><input type=hidden name=search disabled >
+  <input type=button value="google" onclick="sf_cb('https://google.com/search')" >
+  <input type=button value="bing" onclick="sf_cb('https://bing.com/search')">
+  <input type=button value="yahoo" onclick="sf_cb('https://search.yahoo.com/search','p')">
+  <input type=button value="wikipedia" onclick="sf_cb('https://en.wikipedia.org/w/index.php','search')">
+  <input type=button value="url" onclick="sf_url_cb()"  >
+</form>
+</div>
+<svg height=80 width=120><path d="M24,48L30,40L37,48L56,30L74,48L82,40L88,48A34,34,0,1,0,24,48ZM1,74L16,48L24,62L32,52L38,62L48,48L56,62L64,48L74,62L80,52L88,62L96,48L110,74A109,5,0,0,0,1,74Z"/></svg>
+
+<h2>SFCC</h2>
+<div class=urls>
+<p title="China-related security vulnerbility" ><a href=https://ccs-spokane.zoom.us/meeting target=_blank rel=nopener >ccs-spokane zoom </a></p>
+<p title="IS125 01 9288 - S20 - Linux and Python Fundamental" ><a href=https://ccs.instructure.com/courses/1914402 target=_blank rel=nopener >IS125 Canvas </a></p>
+<p title="sfcc iscs-vcenter virtual machines" ><a href=https://iscs-vcenter.sfcc.spokane.edu target=_blank rel=nopener >sfcc iscs-vcenter</a></p>
+<p title="Anyconnect Web Portal" ><a href=https://webvpn.ccs.spokane.edu/ target=_blank rel=nopener >webvpn ccs portal</a></p>
+<p title="azure portal" ><a href=https://portal.azure.com/ target=_blank rel=nopener >azure portal</a></p>
+<p title=cengage ><a href=https://www.cengage.com/ target=_blank rel=nopener >cengage </a></p>
+<p title='96567776287 zoom web-client join' ><a href=https://ccs-spokane.zoom.us/wc/96567776287/join target=_blank rel=nopener >96567776287 zoom </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+
+</div>
+
+<div>
+<h2>Linux|Un*x</h2>
+<div class=urls>
+<p ><a href=https://www.msys2.org/ target=_blank rel=nopener title="MSYS2 is a software distro and building platform for Windows">MSYS2 </a> /
+    <a href=https://docs.microsoft.com/en-us/windows/wsl/about target=_blank rel=nopener title='Windows Subsystem for Linux'>wsl </a> / 
+    <a href=https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/about/  target=_blank rel=nopener title='Hyper-V virtual machines on Windows'>Hyper-V </a>
+</p>
+
+
+<p title="list and review of open source operating systems focusing on Linux and BSD" ><a href=https://distrowatch.com/ target=_blank rel=nopener >distro watch </a></p>
+<p title="film that traces the history of GNU, Linux, open source, and the free software " ><a href=https://www.youtube.com/watch?v=4vW62KqKJ5A target=_blank rel=nopener >yt Revolution OS video </a></p>
+<p title="portable operating system interface" ><a href=https://pubs.opengroup.org/onlinepubs/9699919799/ target=_blank rel=nopener >POSIX.1-2017 </a></p>
+<p title="bell-labs history of unix" ><a href=http://www.bell-labs.com/history/unix/ target=_blank rel=nopener > bell-labs history of unix </a></p>
+<p ><a href=https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux target=_blank rel=nopener title='Red Hat® Enterprise Linux®' >rhel </a> / <a
+       href=http://www.centos.org/ target=_blank rel=nopener title="100% compatible rebuild of the Red Hat Enterprise Linux" >Centos </a> / <a
+       href=https://docs.fedoraproject.org/en-US/project/ target=_blank rel=nopener title="Freedom, Friends, Features, and First" >Fedora </a>
+</p>
+<p ><a href=https://rpmfusion.org/ target=_blank rel=nopener title='rpmfusion repository' >rpmfusion repo</a> / <a
+       href=https://fedoramagazine.org/third-party-repositories-fedora/ target=_blank rel=nopener title='fedoramagazine - third-party repositories article' >third-party repos</a></p>
+<p ></p>
+<p ><a href=http://www.debian.org/ target=_blank rel=nopener title='foundational distribution' >Debian </a> / <a
+       href=https://www.ubuntu.com/ target=_blank rel=nopener title="humanity to others" >Ubuntu </a> / <a
+       href=https://www.linuxmint.com/ target=_blank rel=nopener title=mint >Mint </a>
+</p>
+<p ><a href=https://www.archlinux.org/ target=_blank rel=nopener title='Arch Linux' >arch </a> / <a
+       href=https://www.hyperbola.info/ target=_blank rel=nopener title='hyperbola - fully free, long-term support distribution' >hyperbola </a> / <a
+       href=https://manjaro.org/ target=_blank rel=nopener >manjaro </a></p>
+<p ><a href=https://guix.gnu.org/ target=_blank rel=nopener title='GNU operating system - supports transactional upgrades and roll-backs, unprivileged package management' >guix </a> / <a
+       href=https://pureos.net/ target=_blank rel=nopener title='pureos - freedom respecting OS' >PureOs </a></p>
+
+<p title="Debian-based distribution with a collection of security and forensics tools" ><a href=http://www.kali.org/ target=_blank rel=nopener >Kali </a></p>
+
+<p title='gnome desktop' ><a href=https://www.gnome.org/ target=_blank rel=nopener >gnome desktop</a></p>
+<p title='kde plasma-desktop' ><a href=https://kde.org/plasma-desktop target=_blank rel=nopener >kde plasma-desktop </a></p>
+<p title='xfce - lightweight desktop environment' ><a href=https://www.xfce.org/ target=_blank rel=nopener >xfce </a></p>
+<p title=enlightenment ><a href=https://www.enlightenment.org/ target=_blank rel=nopener >enlightenment </a></p>
+<p title='Sway - tiling Wayland compositor' ><a href=https://swaywm.org/ target=_blank rel=nopener >sway wm </a></p>
+<p title='Byobu - text-based window manager and terminal multiplexer' ><a href=https://www.byobu.org/ target=_blank rel=nopener >byobu </a></p>
+<p title='Simple Desktop Display Manager &amp; GNOME Display Manager' ><a href=https://github.com/sddm/sddm target=_blank rel=nopener >sddm </a> / <a href=https://wiki.gnome.org/Projects/GDM target=_blank rel=nopener >GDM </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+
+<p title=mate-desktop ><a href=https://mate-desktop.org/ target=_blank rel=nopener >mate-desktop </a></p>
+
+<p ><a href=https://wayland.freedesktop.org/ target=_blank rel=nopener title=wayland >wayland gui</a> / <a
+       href=https://pipewire.org/ target=_blank rel=nopener title='pipewire - audio and video'>pipewire </a> / <a
+       href=https://www.khronos.org/vulkan/ target=_blank rel=nopener title='vulkan 3D' >vulkan </a></p>
+
+<p ><a href=https://www.tightvnc.com/ target=_blank rel=nopener title=tightvnc >tightvnc </a> / <a
+       href=https://remmina.org/ target=_blank rel=nopener title='remmina - RDP,VNC,Spice,NX' >remmina</a> / <a
+       href=https://wiki.gnome.org/Apps/Vinagre target=_blank rel=nopener title='Vinagre - remote desktop viewer'>Vinagre </a></p>
+<p title="gnu not un*x" ><a href=https://www.gnu.org/ target=_blank rel=nopener >gnu </a></p>
+
+<p ><a href=https://www.gnu.org/software/autoconf/ target=_blank rel=nopener title="gnu autoconf - automatically configure software source code packages" >gnu autoconf</a> / <a
+       href=https://www.gnu.org/software/automake/automake.html target=_blank rel=nopener title="gnu automake - tool for automatically generating Makefile.in files">gnu automake</a></p>
+
+<p title="gnu make - program builder" ><a href=https://www.gnu.org/software/make/ target=_blank rel=nopener >gnu make </a></p>
+<p title='meson build' ><a href=https://mesonbuild.com/ target=_blank rel=nopener >meson build</a></p>
+<p title='pkg-config provide details for compiling and linking a program to a library' ><a href=https://www.freedesktop.org/wiki/Software/pkg-config/ target=_blank rel=nopener >pkg-config </a></p>
+<p title='cmake - build, test and package software' ><a href=https://cmake.org/ target=_blank rel=nopener >cmake </a></p>
+<p title='ninja-build - small build system with a focus on speed' ><a href=https://ninja-build.org/ target=_blank rel=nopener >ninja-build </a></p>
+<p title='Sed - An Introduction and Tutorial by Bruce Barnett' ><a href=https://www.grymoire.com/Unix/Sed.html target=_blank rel=nopener >sed </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+
+<p title="GNU Compiler Collection - C, C++, Objective-C, Fortran, Ada, Go, and D" ><a href=https://gcc.gnu.org/ target=_blank rel=nopener >GNU Compiler Collection </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title="Secure Programming HOWTO - Creating Secure Software" ><a href=https://dwheeler.com/secure-programs/ target=_blank rel=nopener >Secure Programming HOWTO </a></p>
+<p title= ><a href=https://www.oreilly.com/library/view/unix-and-linux/9780133793871/ target=_blank rel=nopener >Unix and Linux: Visual Quickstart Guide </a></p>
+<p title='Filesystem Hierarchy Standard' ><a href=https://refspecs.linuxfoundation.org/fhs.shtml target=_blank rel=nopener >Filesystem Hierarchy Standard </a></p>
+<p title= ><a href=https://libvirt.org/ target=_blank rel=nopener >libvirt</a> / <a
+              href=https://www.linux-kvm.org/ target=_blank rel=nopener >kvm </a> / <a
+              href=https://wiki.qemu.org  target=_blank rel=nopener >qemu </a> / <a
+              href=https://linuxcontainers.org/  target=_blank rel=nopener >lxc </a> 
+</p>
+<p title= ><a href=https://cockpit-project.org/ target=_blank rel=nopener >cockpit</a> / <a
+              href=https://virt-manager.org/  target=_blank rel=nopener >virt-manager</a> / <a
+              href=https://wiki.gnome.org/Apps/Boxes target=_blank rel=nopener >Boxes </a>
+</p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title='spice - remote access to virtual machines' ><a href=https://www.spice-space.org/ target=_blank rel=nopener >spice </a></p>
+<p ><a href=https://flathub.org/ target=_blank rel=nopener title=flathub >flathub</a> / <a href=https://flatpak.org/ target=_blank rel=nopener title=flatpak >flatpak </a></p>
+
+<p ><a href=https://www.wireguard.com/ target=_blank rel=nopener title='wireguard vpn' >wireguard </a> / <a href=https://sshuttle.readthedocs.io target=_blank rel=nopener title=sshuttle >sshuttle</a></p>
+
+<p ><a href=https://bigbluebutton.org/ target=_blank rel=nopener title=bigbluebutton >bigbluebutton </a> / <a href=https://jitsi.org/ target=_blank rel=nopener title=jitsi >jitsi </a></p>
+<p ><a href=https://coreos.com/rkt/ target=_blank rel=nopener title='rkt - application container engine' >rkt </a> / <a
+       href=https://www.freedesktop.org/software/systemd/man/systemd-nspawn.html target=_blank rel=nopener title=systemd-nspawn >systemd-nspawn </a> / <a
+       href=https://gvisor.dev/ target=_blank rel=nopener title='gvisor - container sandbox runtime - user-space kernel, written in Go' >gvisor </a></p>
+<p ><a href=https://dnf.readthedocs.io/ target=_blank rel=nopener title='dnf packages, repo, and dependancies' >dnf </a> / <a
+       href=https://rpm.org/ target=_blank rel=nopener title='rpm - package manager' >rpm </a> / <a
+       href=https://www.freedesktop.org/software/PackageKit/ target=_blank rel=nopener >PackageKit </a></p>
+<!-- https://rpm-ostree.readthedocs.io/ https://podman.io/
+     https://docs.fedoraproject.org/en-US/fedora-silverblue/
+-->
+
+<p ><a href=https://wiki.debian.org/AptCLI target=_blank rel=nopener title='Advanced Package Tool' >apt </a> / <a
+       href=https://wiki.debian.org/Aptitude target=_blank rel=nopener title='Aptitude - Ncurses front-end to Apt and dpkg' >Aptitude </a></p>
+<p ><a href=https://slashdot.org/ target=_blank rel=nopener title="slashdot - news for knucklehead, stuff that doesn't matter" >/.</a> <a
+       href=https://lwn.net/ target=_blank rel=nopener title='linux weekly news' >lwn </a> <a
+       href=https://fedoramagazine.org/ target=_blank rel=nopener title='fedora magazine' >fm </a></p>
+<!-- https://www.redhat.com/sysadmin/ enable sysadmin -->
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+
+<!-- https://devhints.io/vim vim cheatsheet -->
+
+</div>
+<h3>(|k|[bd]?a|z|t?c)sh</h3>
+<div class=urls>
+<p title='Bourne-Again SHell manual' ><a href=https://www.gnu.org/software/bash/manual/bash.html target=_blank rel=nopener >Bourne-Again SHell </a></p>
+<p title='BASH Programming - Introduction HOW-TO' ><a href=https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html target=_blank rel=nopener >Bash-Prog-Intro </a></p>
+<p title='Bash Guide for Beginners' ><a href=https://tldp.org/LDP/Bash-Beginners-Guide/html/ target=_blank rel=nopener >Bash-Beginners-Guide </a></p>
+<p title='A-Z Index of the Linux command line: bash + utilities' ><a href=https://ss64.com/bash/ target=_blank rel=nopener >ss64 bash </a></p>
+<p title= ><a href=https://www.gnu.org/software/bash/manual/bashref.html target=_blank rel=nopener >bashref </a></p>
+<p title='Advanced Bash-Scripting Guide' ><a href=https://tldp.org/LDP/abs/html/ target=_blank rel=nopener >Advanced Bash </a></p>
+<p title='Filenames and Pathnames in Shell: How to securely' ><a href=https://dwheeler.com/essays/filenames-in-shell.html target=_blank rel=nopener >Filenames in Shell: HowTo</a></p>
+<p title=coreutils ><a href=https://www.gnu.org/software/coreutils/manual/coreutils.html target=_blank rel=nopener >coreutils </a></p>
+<p title='tutorial on the POSIX shell' ><a href=https://www.grymoire.com/Unix/Sh.html target=_blank rel=nopener >POSIX shell </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+<p title= ><a href= target=_blank rel=nopener > </a></p>
+
+</div>
+</div>
+
+
+<h2>Python</h2>
+<div class=urls>
+<p title="Python 3 Docs" ><a href=https://docs.python.org/3/ target=_blank rel=nopener >Python 3 Docs </a></p>
+<p title='wiki python BeginnersGuide' ><a href=https://wiki.python.org/moin/BeginnersGuide target=_blank rel=nopener >Beginner's Guide to Python </a></p>
+<p title='Python Programming for the Absolute Beginner, Third Edition' ><a href=http://www.cengageptr.com/Topics/TitleDetail/1435455002 target=_blank rel=nopener >Python Programming Absolute Beginner </a></p>
+<p title='Python Programming for the Absolute BeginnerBook related software' ><a href=http://www.delmarlearning.com/companions/content/1435455002/downloads/py3e_software.zip target=_blank rel=nopener >PPAB Book related software </a></p>
+<p title='Python Programming for the Absolute Beginner Book source code' ><a href=http://www.delmarlearning.com/companions/content/1435455002/downloads/py3e_source.zip target=_blank rel=nopener >PPAB Book source code</a></p>
+<p title= ><a href=http://www.programgames.com/ target=_blank rel=nopener >program games - Mike Dawson</a></p>
+<p title='PyGObject provides bindings for GTK, GStreamer, WebKitGTK, GLib, GIO' ><a href=https://pygobject.readthedocs.io/ target=_blank rel=nopener >pygobject docs </a></p>
+<p title='Python GTK+ 3 Tutorial' ><a href=https://python-gtk-3-tutorial.readthedocs.io/ target=_blank rel=nopener >Python GTK+ 3 Tutorial </a></p>
+<p title='web development with Flask documentation' ><a href=https://flask.palletsprojects.com/ target=_blank rel=nopener >Flask </a></p>
+<p title='Python packaging and dependency management' ><a href=https://python-poetry.org/ target=_blank rel=nopener >python-poetry </a></p>
+<p title='pip - package installer' ><a href=https://github.com/pypa/pip target=_blank rel=nopener >pip </a></p>
+<p title='Python app in Azure App Service' ><a href=https://docs.microsoft.com/en-us/azure/app-service/containers/quickstart-python?tabs=bash target=_blank rel=nopener >Python app in Azure App Service </a></p>
+<p title='Bandit - find common security issues in Python code' ><a href=https://github.com/PyCQA/bandit target=_blank rel=nopener >Bandit </a></p>
+<p title=Pylint ><a href=https://www.pylint.org/ target=_blank rel=nopener >Pylint </a></p>
+<p title='Mypy - optional static type checker for Python' ><a href=http://mypy-lang.org/ target=_blank rel=nopener >Mypy </a></p>
+
+<!-- https://realpython.com/primer-on-python-decorators/ https://thonny.org/ -->
+
+</div>
+<h2>Extra</h2>
+<div class=urls>
+<p title= ><a href=https://golang.org/ target=_blank rel=nopener >go lang </a></p>
+<p title='Raku Programming Language' ><a href=https://raku.org/ target=_blank rel=nopener >raku.org </a></p>
+<p title='Rust Programming Language' ><a href=https://www.rust-lang.org/ target=_blank rel=nopener >rust-lang.org </a></p>
+<p title='mozilla Web developer' ><a href=https://developer.mozilla.org/en-US/docs/Web target=_blank rel=nopener >mozilla Web developer </a></p>
+<p title="jupyter - interactive computing across dozens of programming languages" ><a href=https://jupyter.org/ target=_blank rel=nopener >jupyter </a></p>
+<p title= ><a href=https://julialang.org/ target=_blank rel=nopener >julia </a></p>
+<p title="r project - statistical computing and graphics" ><a href=https://www.r-project.org/ target=_blank rel=nopener >r project </a></p>
+<p title= ><a href=https://en.cppreference.com/w/ target=_blank rel=nopener >C/C++ reference </a></p>
+<p title='pathologically eclectic rubbish lister' ><a href=https://www.perl.org target=_blank rel=nopener >perl.org </a></p>
+<p title="Vala/Genie" ><a href=https://wiki.gnome.org/Projects/Vala target=_blank rel=nopener >Vala</a> / <a href=https://wiki.gnome.org/Projects/Genie target=_blank rel=nopener >Genie</a></p>
+<p title='Open JDK(Java Development Kit)' ><a href=https://developers.redhat.com/products/openjdk/overview target=_blank rel=nopener >Open JDK(Java Development Kit) </a></p>
+<p title=ECMAScript  ><a href=https://www.ecma-international.org/ecma-262/ target=_blank rel=nopener >ECMAScript  </a></p>
+<p title='lua - lightweight, embeddable scripting language' ><a href=https://www.lua.org/ target=_blank rel=nopener >lua </a></p>
+<p title='Gambas Almost Means BASIC!' ><a href=http://gambas.sourceforge.net/ target=_blank rel=nopener >gambas </a></p>
+
+<p title='PostgreSQL database system' ><a href=https://www.postgresql.org/ target=_blank rel=nopener >PostgreSQL database system</a></p>
+<p ><a href=https://httpd.apache.org/ target=_blank rel=nopener title='Apache HTTP Server' >apache httpd</a> / <a
+       href=https://nginx.org/ target=_blank rel=nopener title=nginx >nginx </a></p>
+<p ><a href= target=_blank rel=nopener title= > </a> / <a href= target=_blank rel=nopener title= > </a></p>
+<p ><a href= target=_blank rel=nopener title= > </a> / <a href= target=_blank rel=nopener title= > </a></p>
+
+
+https://httpd.apache.org/
+<p title='small, fast database engine' ><a href=https://www.sqlite.org/ target=_blank rel=nopener >SQLite </a></p>
+<p title='Dia - diagram creation' ><a href=https://wiki.gnome.org/Apps/Dia target=_blank rel=nopener >Dia </a></p>
+<p title='inkscape - vector graphics editor' ><a href=https://inkscape.org/ target=_blank rel=nopener >inkscape </a></p>
+<p title='diagramo - online flowchart software' ><a href=http://diagramo.com/ target=_blank rel=nopener >diagramo </a></p>
+
+ 
+  
+</div>
+
+<h2>Youtube: channels &amp; playlists</h2>
+<div class=urls>
+<p title='Linux Training Academy' ><a href=https://www.youtube.com/channel/UC7pdnrWVj8eDfCI0bRe_0kQ target=_blank rel=nopener >Linux Training Academy </a></p>
+<p title=SysAdmGirl ><a href=https://www.youtube.com/channel/UCkIHLaOEtdLpC3JrqR3Bwmw target=_blank rel=nopener >SysAdmGirl </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCkK9UDm_ZNrq_rIXCz3xCGA target=_blank rel=nopener >Bryan Lunduke </a></p>
+<p title=ccs ><a href=https://www.youtube.com/channel/UCKHyAbGEMhgZ8Ago8jSmVhw target=_blank rel=nopener >Community Colleges of Spokane </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UC9x0AN7BWHpCDHSm9NiJFJQ target=_blank rel=nopener >NetworkChuck</a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCaehgPKi7hgZwhOyNs_AFyw target=_blank rel=nopener >CCS eLearning </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCQG9iu9-iCr9E7gbLAekiKA target=_blank rel=nopener >NationalCyberLeague </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCkefXKtInZ9PLsoGRtml2FQ target=_blank rel=nopener >Professor Messer </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCmOv9ijvfjHcJdcuqyyyamg target=_blank rel=nopener >Internet Society </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCfX55Sx5hEFjoC3cNs6mCUQ target=_blank rel=nopener >The Linux Foundation </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UC88eard_2sz89an6unmlbeA target=_blank rel=nopener >BeginLinux Guru </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCG5LuxhUtax6wVhH1qPNxvA target=_blank rel=nopener >Red Hat Enterprise Linux </a></p>
+<p title= ><a href=https://www.youtube.com/channel/UCnIfca4LPFVn8-FjpPVc1ow target=_blank rel=nopener >Fedora Project </a></p>
+<p title='Pollei: SFCC IS 2020 playlist' ><a href=https://www.youtube.com/playlist?list=PLzzUy0J1FB1yVMFXDak86U86B5t_DmgnD target=_blank rel=nopener >sp: SFCC IS 2020 </a></p>
+<p title='Pollei: Linux playlist' ><a href=https://www.youtube.com/playlist?list=PLzzUy0J1FB1xolxXSzQ5o_MEe8fOwP8Hl target=_blank rel=nopener >sp: Linux </a></p>
+
+<p title='Joseph Delgadillo - Complete Linux Administration Course' ><a href=https://www.youtube.com/channel/UCqR4a4lUDbDkAFQnhw4pfXQ target=_blank rel=nopener >Joseph Delgadillo </a></p>
+</div>
+
+<div class=cntx >
+  <div class=lsec--left>
+  <h2>Outlook &amp; MS Office365</h2>
+  <ul>
+   <li><a href=https://onedrive.live.com/ target=_blank rel="noopener noreferrer external" title="file hosting service and synchronization service operated by Microsoft as part of its suite of Office Online services">onedrive</a>
+   <li><a href=https://onedrive.live.com/about/signin/ target=_blank rel="noopener noreferrer external" >onedrive signin</a>
+   <li><a href="https://www.office.com/" target=_blank rel="noopener noreferrer external" title="Word, Excel, PowerPoint, OneNote, Outlook, Publisher &amp; Access ">MS Office365 </a>
+   <li><a href="https://communitycollegesofspokane-my.sharepoint.com/" target=_blank rel="noopener noreferrer external" title="community colleges of spokane sharepoint  ">Sharepoint  </a>  
+   <li><a href=https://account.activedirectory.windowsazure.com/  target=_blank rel="noopener noreferrer external" title="azure active-directory account   ">azure ad account  </a>
+  </ul>
+  </div>
+   
+</div>
+
+<div class=cntx>
+<p >Zoom: <a href=https://www.geekwire.com/2020/new-york-city-schools-ban-zoom-due-security-concerns-shift-microsoft-teams/ target=_blank rel=nopener >New York City schools ban Zoom due to security concerns </a>
+ - <a href=https://www.schneier.com/blog/archives/2020/04/security_and_pr_1.html target=_blank rel=nopener >Security and Privacy Implications of Zoom </a>
+ - <a href=https://news.clearancejobs.com/2020/04/06/zooms-data-sailing-into-china-fbi-issues-warning-of-counterintelligence-threat/  target=_blank rel=nopener >Zoom: FBI Issues Warning of Counterintelligence Threat </a></p>
+</div>
+
+<div class=cntx>
+<p> &copy; 2019/2020-04 <a href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener >Stephen Pollei</a> --
+<a href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank 
+  rel=noopener >Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</a></p>
+</div>
+
+
+<!--
+https://ccs.instructure.com/about/5275180 me
+https://ccs.instructure.com/eportfolios/47642/ 
+
+https://app.codesignal.com/signup/AeCGgeMs7zoQz47AM/main
+
+https://git-scm.com/  GitHub, SourceForge, Bitbucket and GitLab
+giggle https://wiki.gnome.org/Apps/giggle/
+gitk git-gui https://git-scm.com/downloads/guis/
+https://git-cola.github.io/
+
+ssh putty
+
+
+https://discord.gg/afJeBT
+
+https://tkdocs.com/
+
+-->
+
+<!--
+https://lwn.net/Articles/635290/ GPL-enforcement suit against VMware
+https://lwn.net/Articles/696936/ GPL compliance suit against VMware dismissed
+https://sfconservancy.org/news/2019/apr/02/vmware-no-appeal/ VMware Suit Concludes in Germany
+-->
