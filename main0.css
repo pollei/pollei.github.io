@@ -1,0 +1,29 @@
+:where(p, div):where( :first-child) {
+    margin-block-start: 0;
+    /* outline: blueviolet 3px solid; */
+}
+
+* + :where(p, div) {
+    margin-block-start: 1em;
+    /* outline: red 3px solid; */
+}
+
+
+div.urls { column-count: 2;  min-width:36em; } 
+div.urls p { max-width: 28em ; margin: 2px; }
+h1,h2,h3,h4 {text-align:center; margin: 1px;}
+svg, img { float:right; clear: right;}
+ 
+div.cntx {min-width:72em;float:left;clear:right}
+div.lsec--left {max-width:36em;outline:black dotted;float:left;padding:4px;margin:6px;min-height:7em;}
+div.lsec--right {max-width:36em;outline:black dotted;float:right;padding:4px;margin:6px;clear:right}
+form#uShare label {min-width:4em;text-align:right;display: inline-block;}
+form#uShare fieldset {border:none;display:contents;}
+form#uShare input:invalid { border: 2px dashed red;}
+form#uShare input[type=text] {font-family: Lucida Console, Courier, monospace;}
+@supports (user-select: all) {
+  span#enrollCode { user-select: all;}
+}
+@media screen and (min-width: 54em) { div.urls { column-count: 3; } }
+@media screen and (min-width: 72em) { div.urls { column-count: 4; } }
+span.NC { user-select: none;} /* Not Content */ 
