@@ -50,16 +50,23 @@
             let wordCount=0;
             let fillSet = new Set(
                 ['at','as','by','be','for','from','in','of','on',
-                'out','to','with','the','a','an','that','this','it',
-                'but','and','why','how','when','if','then',
-                'i','is','are','was','am','very','do','not']);
+                'out','to','too','with','the','a','an','that','this','it',
+                'but','and','nor','or','yet','so','either','only',
+                'why','how','when','if','then','whether',
+                'since', 'though','unless','where','while',
+                'i','you','we','us',
+                'is','are','was','am','very','do','not','ok',
+                "it's","don't"
+                ]);
+                // https://7esl.com/list-of-prepositions/
+                // https://www.english-grammar-revolution.com/list-of-prepositions.html
 
             outp.innerText='';
 
             while (protext.length) {
                 let foundWord = protext.match(wordRE);
                 if (foundWord) {
-                    console.log(foundWord);
+                    // console.log(foundWord);
                     let newSpan = document.createElement('span');
                     let isFill = fillSet.has(foundWord[1].toLowerCase());
                     newSpan.innerText = foundWord[1];
@@ -78,7 +85,7 @@
                     }
                 let foundEmpty = protext.match(emptyRE);
                 if (foundEmpty) {
-                    console.log('{{'+ foundEmpty[1] + '}}');
+                    // console.log('{{'+ foundEmpty[1] + '}}');
                     let newSpan = document.createElement('span');
                     newSpan.innerText = foundEmpty[1];
                     newSpan.dataset.kind= 'empty';
@@ -86,7 +93,7 @@
                     protext=foundEmpty[2];
                     continue;
                 }
-                console.log('ended scan: {{' + protext +'}}')
+                // console.log('ended scan: {{' + protext +'}}')
                 break;
                 // return false;
             }
@@ -97,17 +104,17 @@
 </head>
 <body>
     <main>
-    <div id=inform-card>
-        <h1>paste in the words to count</h1>
-        <form action="#">
-            <textarea name="prose" id="in-prose" cols="72" rows="40"></textarea>
-            <input type="button" value="count words" onclick="wc_cb()">
-        </form>
-    </div>
-    <div id=out-card>
-        <p id=out-p ></p>
-        <p>There are <span id=out-wc>0</span> words in total</p>
-    </div>
+        <div id=inform-card>
+            <h1>paste in the words to count</h1>
+            <form action="#">
+                <textarea name="prose" id="in-prose" cols="72" rows="40"></textarea>
+                <input type="button" value="count words" onclick="wc_cb()">
+            </form>
+        </div>
+        <div id=out-card>
+            <p id=out-p ></p>
+            <p>There are <span id=out-wc>0</span> words in total</p>
+        </div>
     </main>
 </body>
 </html>
