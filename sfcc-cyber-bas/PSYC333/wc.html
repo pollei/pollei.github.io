@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter</title>
+    <style>
+        #out-p {
+            min-height: 3rem;
+            max-width: min(90vw, 72em);
+        }
+        main > div {
+            min-width: min(35vw,34rem);
+            max-width: max(45vw,68rem);
+        }
+        #inform-card {
+            outline: solid 2px orangered; 
+        }
+        #out-card{
+            outline: solid 3px orange; 
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        #out-p span[data-kind=word] {
+            /* color: red; */
+            background-color: greenyellow;
+        }
+        #out-p span[data-kind=fill-word] {
+            /* color: red; */
+            background-color: salmon;
+        }
+        #out-p span[data-kind=empty] {
+            /* color: red; */
+            background-color: grey;
+        }
+    </style>
+    <script>
+        function wc_cb() {
+            // let wordRE = /^(\w\S+)\b(.*)/sui ;
+            let wordRE =/^((?:\p{L}+|\p{N})+(?:\p{L}|\p{N}|\p{P}|\p{M})*)((?:\p{P}|\p{M}|\p{S})*(?:\s|\p{Z}|$).*)$/sui;
+            let emptyRE = /^((?:\p{P}|\p{M}|\p{S}|\p{Z}|\s)*(?:\s|\p{Z})+)((?:\p{L}|\p{N}|\p{P}|\p{M}|$).*)$/sui;
+            let prose=document.getElementById("in-prose");
+            let outp= document.getElementById("out-p");
+            let outWC= document.getElementById("out-wc");
+            let protext = prose.value;
+            let wordCount=0;
+            let fillSet = new Set(
+                ['at','as','by','be','for','from','in','of','on',
+                'out','to','with','the','a','an','that','this','it',
+                'but','and','why','how','when','if','then',
+                'i','is','are','was','am','very','do','not']);
+
+            outp.innerText='';
+
+            while (protext.length) {
+                let foundWord = protext.match(wordRE);
+                if (foundWord) {
+                    console.log(foundWord);
+                    let newSpan = document.createElement('span');
+                    let isFill = fillSet.has(foundWord[1].toLowerCase());
+                    newSpan.innerText = foundWord[1];
+                    if (isFill) {
+                        newSpan.dataset.kind= 'fill-word';
+                    } else {
+                        wordCount++;
+                        newSpan.dataset.kind= 'word';
+                    }
+                    
+                    outp.appendChild(newSpan);
+                    // outp.innerText='burpy ' + foundWord[1] + ' -- ' + foundWord[2];
+                    protext=foundWord[2];
+                    
+                    continue;
+                    }
+                let foundEmpty = protext.match(emptyRE);
+                if (foundEmpty) {
+                    console.log('{{'+ foundEmpty[1] + '}}');
+                    let newSpan = document.createElement('span');
+                    newSpan.innerText = foundEmpty[1];
+                    newSpan.dataset.kind= 'empty';
+                    outp.appendChild(newSpan);
+                    protext=foundEmpty[2];
+                    continue;
+                }
+                console.log('ended scan: {{' + protext +'}}')
+                break;
+                // return false;
+            }
+            outWC.innerText=wordCount;
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <main>
+    <div id=inform-card>
+        <h1>paste in the words to count</h1>
+        <form action="#">
+            <textarea name="prose" id="in-prose" cols="72" rows="40"></textarea>
+            <input type="button" value="count words" onclick="wc_cb()">
+        </form>
+    </div>
+    <div id=out-card>
+        <p id=out-p ></p>
+        <p>There are <span id=out-wc>0</span> words in total</p>
+    </div>
+    </main>
+</body>
+</html>
