@@ -26,17 +26,21 @@
             gap: 2rem;
         }
         #out-p span[data-kind=word] {
-            /* color: red; */
+            padding-inline: 0.2em;
+            margin-inline: 0.4em;
             background-color: greenyellow;
         }
         #out-p span[data-kind=fill-word] {
-            /* color: red; */
+            padding-inline: 0.1em;
+            margin-inline: 0.2em;
             background-color: salmon;
         }
         #out-p span[data-kind=empty] {
-            /* color: red; */
-            background-color: grey;
+            background-color: lightgrey;
         }
+        #out-cnts:not([data-is-counted]) {
+            opacity: 0.35; 
+        } 
     </style>
     <script>
         function wc_cb() {
@@ -45,9 +49,12 @@
             let emptyRE = /^((?:\p{P}|\p{M}|\p{S}|\p{Z}|\s)*(?:\s|\p{Z})+)((?:\p{L}|\p{N}|\p{P}|\p{M}|$).*)$/sui;
             let prose=document.getElementById("in-prose");
             let outp= document.getElementById("out-p");
+            let outCnts= document.getElementById("out-cnts");
             let outWC= document.getElementById("out-wc");
+            let outFWC= document.getElementById("out-fill-wc");
             let protext = prose.value;
             let wordCount=0;
+            let fillWordCount=0;
             let fillSet = new Set(
                 ['at','as','by','be','for','from','in','of','on',
                 'out','to','too','with','the','a','an','that','this','it',
@@ -56,8 +63,28 @@
                 'since', 'though','unless','where','while',
                 'i','you','we','us',
                 'is','are','was','am','very','do','not','ok',
-                "it's","don't"
+                "it's","don't", "i'd","i've","i'm","i'll",
+                "we'll","we'd","won't","can't",
+                "i", "me", "my", "myself", "we", "our", "ours", "ourselves",
+                "you", "your", "yours", "yourself", "yourselves", "he",
+                "him", "his", "himself", "she", "her", "hers", "herself",
+                "it", "its", "itself", "they", "them", "their", "theirs",
+                "themselves", "what", "which", "who", "whom", "this",
+                "that", "these", "those", "am", "is", "are", "was", "were",
+                "be", "been", "being", "have", "has", "had", "having",
+                "do", "does", "did", "doing", "a", "an", "the", "and",
+                "but", "if", "or", "because", "as", "until", "while",
+                "of", "at", "by", "for", "with", "about", "against",
+                "between", "into", "through", "during", "before", "after",
+                "above", "below", "to", "from", "up", "down", "in", "out",
+                "on", "off", "over", "under", "again", "further",
+                "then", "once", "here", "there", "when", "where",
+                "why", "how", "all", "any", "both", "each", "few", "more",
+                "most", "other", "some", "such", "no", "nor", "not",
+                "only", "own", "same", "so", "than", "too", "very",
+                "can", "will", "just", "should", "now"
                 ]);
+                // https://gist.github.com/sebleier/554280 stop words list
                 // https://7esl.com/list-of-prepositions/
                 // https://www.english-grammar-revolution.com/list-of-prepositions.html
 
@@ -68,9 +95,12 @@
                 if (foundWord) {
                     // console.log(foundWord);
                     let newSpan = document.createElement('span');
-                    let isFill = fillSet.has(foundWord[1].toLowerCase());
+                    let checkWord = 
+                        foundWord[1].toLowerCase().replace(/’/,"'").replace(/\p{P}+$/u,'');
+                    let isFill = fillSet.has(checkWord);
                     newSpan.innerText = foundWord[1];
                     if (isFill) {
+                        fillWordCount++;
                         newSpan.dataset.kind= 'fill-word';
                     } else {
                         wordCount++;
@@ -98,6 +128,8 @@
                 // return false;
             }
             outWC.innerText=wordCount;
+            outFWC.innerText=fillWordCount;
+            outCnts.dataset.isCounted='true';
             return false;
         }
     </script>
@@ -113,7 +145,7 @@
         </div>
         <div id=out-card>
             <p id=out-p ></p>
-            <p>There are <span id=out-wc>0</span> words in total</p>
+            <p id=out-cnts>There are <span id=out-wc>0</span> good words and <span id=out-fill-wc>0</span> filler words.</p>
         </div>
     </main>
 </body>
