@@ -45,8 +45,12 @@
     <script>
         function wc_cb() {
             // let wordRE = /^(\w\S+)\b(.*)/sui ;
-            let wordRE =/^((?:\p{L}+|\p{N})+(?:\p{L}|\p{N}|\p{P}|\p{M})*)((?:\p{P}|\p{M}|\p{S})*(?:\s|\p{Z}|$).*)$/sui;
-            let emptyRE = /^((?:\p{P}|\p{M}|\p{S}|\p{Z}|\s)*(?:\s|\p{Z})+)((?:\p{L}|\p{N}|\p{P}|\p{M}|$).*)$/sui;
+            /* let wordRE =/^((?:\p{L}+|\p{N})+(?:\p{L}|\p{N}|\p{P}|\p{M})*)((?:\p{P}|\p{M}|\p{S})*(?:\s|\p{Z}|$).*)$/sui;
+            let emptyRE = /^((?:\p{P}|\p{M}|\p{S}|\p{Z}|\s)*(?:\s|\p{Z})+)((?:\p{L}|\p{N}|\p{P}|\p{M}|$).*)$/sui; */
+            let wordRE = /^((?:\p{L}|\w)(?:\p{L}|\w|\p{Pc}|\p{Pd}|')*)((?!\p{L}|\w|\p{Pc}).*)$/sui;
+            let emptyRE = /^((?:(?!\p{L}|\w).)+)((?:\p{L}|\w|$).*)$/sui;
+            // https://regex101.com/ https://www.regular-expressions.info/
+            // https://www.unicode.org/
             let prose=document.getElementById("in-prose");
             let outp= document.getElementById("out-p");
             let outCnts= document.getElementById("out-cnts");
