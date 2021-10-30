@@ -95,7 +95,20 @@
         >modular arithmetic</a></p>
     </div>
   </div>
-  
+  <div>
+    <h2>setup cert notes</h2>
+    <pre>
+apt-get install vsftpd filezilla nginx net-tools
+adduser fuser
+openssl req -x509 -noenc -days 90 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/cybr410-selfsigned-key.pem \
+  -out /etc/ssl/certs/cybr410-selfsigned-req.pem
+openssl x509 -outform der \
+    -in /etc/ssl/certs/cybr410-selfsigned-req.pem \
+    -out /etc/ssl/certs/cybr410-selfsigned-req.crt
+
+    </pre>
+  </div>
 
 <div class=cntx>
 <p> &copy; 2019/2021-09 <a href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener >Stephen Pollei</a> --
