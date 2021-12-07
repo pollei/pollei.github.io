@@ -99,14 +99,17 @@
     <h2>setup cert notes</h2>
     <pre>
 hostname sjp-u0.student.spokane.cc.wa.us
+  # /etc/hostname
 apt-get install vsftpd filezilla nginx net-tools
 adduser fuser
-openssl req -x509 -noenc -days 90 -newkey rsa:2048 \
+openssl req -x509 -nodes -days 90 -newkey rsa:2048 \
   -keyout /etc/ssl/private/cybr410-selfsigned-key.pem \
   -out /etc/ssl/certs/cybr410-selfsigned-req.pem
+# had to use nodes and not noenc -- old software
 openssl x509 -outform der \
     -in /etc/ssl/certs/cybr410-selfsigned-req.pem \
     -out /etc/ssl/certs/cybr410-selfsigned-req.crt
+openssl dhparam -out /etc/ssl/certs/cybr410-dhparam.pem 2048
 
     </pre>
   </div>
