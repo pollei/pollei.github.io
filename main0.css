@@ -8,9 +8,28 @@
     /* outline: red 3px solid; */
 }
 
-
+p { max-width: 62em;}
 div.urls { column-count: 2;  min-width:36em; } 
 div.urls p { max-width: 28em ; margin: 2px; }
+div.qrtrs { 
+  min-width: 25em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;}
+div.qrtr { margin: 5.6px;
+  min-width: max( 11vw, 12em);
+  max-width: max( 32vw-3em, 16em);
+  min-height: 4.5em;
+  /* outline: orange dashed 2px; */
+}
+div.qrtr > :where(p, div) {
+  margin: 0;
+  
+}
+div.qrtr:focus-within, div.qrtr:hover  {
+  outline: orange dashed 1.4px;
+  outline-offset: 3.5px;
+}
 h1,h2,h3,h4 {text-align:center; margin: 1px;}
 svg, img { float:right; clear: right;}
  
@@ -27,3 +46,7 @@ form#uShare input[type=text] {font-family: Lucida Console, Courier, monospace;}
 @media screen and (min-width: 54em) { div.urls { column-count: 3; } }
 @media screen and (min-width: 72em) { div.urls { column-count: 4; } }
 span.NC { user-select: none;} /* Not Content */ 
+a[href=""] {
+  pointer-events: none;
+  opacity: 0.65;
+}
