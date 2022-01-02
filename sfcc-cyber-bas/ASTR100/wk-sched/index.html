@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Astronomy Schedule</title>
+<style>
+    /* https://utopia.fyi/ fluidity in responsive design TODO */
+h1, h2 { text-align: center;}
+
+div#staticTail {
+    display: flex; justify-content: space-evenly; flex-wrap: wrap;
+    margin: .5em;
+}
+div#desc {
+    max-width: clamp(18em, 60vw, 52em);
+    margin: 1em; 
+}
+div#desc p {line-height: 1.32; }
+div#nukeD { margin-top: 2em; margin-left: auto;  align-self: center;  }
+div#nukeD:hover button { color: red;}
+.wkdiv {margin: 2em .3em;}
+.tenday {
+    display: grid;
+    grid-template-columns: repeat(10, 2px 1fr 1fr 1fr 1fr 2px);
+    grid-auto-rows: auto;
+}
+.tenday p { margin: clamp(3.6px, 1.5vmin, 11px);}
+.tenday [data-wkday] {
+    color: hsl(270, 50%, 40%);
+    grid-column: span 4;
+    grid-row: 2;
+    text-align: center;
+    font-weight: bolder;
+    font-size: clamp(1.1rem, 2.4vw, 2.2rem);
+}
+.tenday [data-wkdate] {
+    color: hsl(80, 60%, 26%);
+    background-color: hsl(260, 60%, 95%);
+    grid-column: span 4;
+    grid-row: 3;
+    text-align: center;
+    font-weight: bolder;
+    font-size: clamp(1rem, 1.3vw, 2rem);
+}
+.tenday [class^=wkt] {
+    /* background-color: hsl(6, 93%, 71%); */
+    background-color: hsl(6, 93%, 21%);
+    color: hsl(186, 93%, 91%);;
+    text-align: center;
+    font-size: clamp(1rem, 1vw, 1.5rem);
+    padding: 3px;
+}
+.tenday [class^=wkt].tskdone {
+    background-color: hsl(6, 93%, 91%); margin-left:9px; margin-right: 9px;
+    color: black;
+}
+.wkevtpre {
+    grid-row:4; grid-column: 2 / span 20;
+    background-color: hsl(150, 100%, 50%);
+    text-align: center; font-size: clamp(1rem, 1vw, 1.5rem);}
+[data-day-rng-st~=aging] .wkevtpre {
+    background-color: hsl(150, 100%, 80%);
+}
+.wktlecture { grid-row: 5; grid-column: 3 / span 31;}
+:is([data-tdy-offs="4"],[data-tdy-offs="5"]) .wkcntrl label[data-lwkt-due="5"] input:not(:checked),
+:is([data-tdy-offs="6"],[data-tdy-offs="7"]) .wkcntrl label[data-lwkt-due="7"] input:not(:checked),
+:is([data-tdy-offs="8"],[data-tdy-offs="9"]) .wkcntrl label[data-lwkt-due="9"] input:not(:checked)
+{
+    outline:   2.5px solid red;}
+.wktcte { grid-row: 6; grid-column: 4 / span 33;}
+.wktsn { grid-row: 7; grid-column: 5 / span 42;}
+.wktma { grid-row: 8; grid-column: 7 / span 50;}
+.wktqz { grid-row: 4; grid-column: 43 / span 16;}
+.tenday [data-dvrd] {
+    grid-row: 1 / span 9;
+    background-color: black;
+    z-index: -1;
+}
+.tenday .lft-fill {
+    grid-column: 1; grid-row: 1 / span 4;
+}
+.tenday [data-dvrd="1"] { grid-column: 6 / span 2;}
+.tenday [data-dvrd="2"] { grid-column: 12 / span 2;}
+.tenday [data-dvrd="3"] { grid-column: 18 / span 2;}
+.tenday [data-dvrd="4"] { grid-column: 24 / span 2;}
+.tenday [data-dvrd="5"] { grid-column: 30 / span 2;}
+.tenday [data-dvrd="6"] { grid-column: 36 / span 2;}
+.tenday [data-dvrd="7"] { grid-column: 42 / span 2;}
+.tenday [data-dvrd="8"] { grid-column: 48 / span 2;}
+.tenday [data-dvrd="9"] { grid-column: 54 / span 2;}
+input:invalid {
+    box-shadow: 0 0 5px 1px red, 0 0 9px 1px red;
+}
+.tenday .hltdy {
+    grid-row: 4 / span 9;
+    z-index: -2;
+    background-color: hsl(219, 79%, 87%);
+    grid-column: calc(2 + 6 * var(--tdy-offs, 10)) / span 4;
+    
+}
+.wkcntrl label { margin: clamp(.1em, 1.8vw, 6em);}
+.wkdiv:not([data-day-rng-st~=active]) .wkcntrl label {
+    opacity: 0.4;
+}
+.wkcntrl button { visibility: hidden;}
+[data-day-rng-st~=aging] .wkcntrl button { visibility: visible;}
+/* [data-day-rng-st~=early] .wkcntrl { display: none; } */
+</style>
+<script>
+function is_val_fri_str(dts ) {
+    if (!dts.match(/\d\d\d\d-\d\d-\d\d/)) return false;
+    let dta = dts.split('-',3).map( x => parseInt(x,10));
+    //console.log(dta);
+    if (dta[0]<2021 || dta[0]>2025) {return false;}
+    if (dta[1]<1 || dta[1]>12) {return false;}
+    if (dta[1]<1 || dta[1]>31) {return false;}
+    let dt = new Date(dta[0],dta[1]-1, dta[2], 2 );
+    // gawd the month is zero indexed so jan is 0, dec is 11
+    // b0rken
+    //console.log(dt);
+    if (dt.getDay() != 5) {return false;}
+    return true;
+}
+function nextFri(dts) {
+    let frid = str_to_Date(dts);
+    frid.setDate(frid.getDate() +7);
+    return Date_to_str(frid);
+}
+function str_to_Date(dts) {
+    let dta = dts.split('-',3).map( x => parseInt(x,10));
+    return new Date(dta[0],dta[1]-1, dta[2] );
+}
+function Date_to_str(dt) {
+    function df2(n) { if (n<10) return '0' + n.toString(10); return n.toString(10);}
+    return [dt.getFullYear(), dt.getMonth()+1, dt.getDate() ].map(df2).join('-');
+}
+function Date_within_days_now(dts, n) {
+    let bnchMrk = str_to_Date(dts).getTime() + (+n *86400000);
+    return Date.now() < bnchMrk;
+}
+function getDateOffs(dts) {
+    return Math.floor((Date.now() - str_to_Date(dts).getTime()) / 86400000 );
+}
+function togFinWeekButt(wkdiv) {
+    let inps = wkdiv.querySelectorAll('input[name^=wkt]');
+    let dtOff = getDateOffs(wkdiv.dataset.strtDay);
+    let butt = wkdiv.querySelectorAll('.wkcntrl button')[0];
+    let allChked = true;
+    for (inp of inps) { if (!inp.checked) allChked=false; }
+    if (dtOff > 9 || allChked) {
+        butt.removeAttribute('disabled');
+    } else {
+        butt.setAttribute('disabled','');
+    }
+}
+function FinWeekButt_cb(evt) {
+    // evt.stopPropagation();
+    // evt.preventDefault();
+    let wkdiv = evt.target.closest(".wkdiv");
+    let outp = document.getElementById('top-output');
+    let dtStr = localStorage.getItem('sfcc::astr100::strt-day');
+    localStorage.setItem('sfcc::astr100::strt-day', nextFri( dtStr));
+    localStorage.removeItem( 'sfcc::astr100::wk-tasks::' + dtStr );
+    outp.removeChild(wkdiv);
+    location.reload();
+}
+function wk_cb(evt) {
+    //console.log(evt);
+    //console.log(evt.target.name);
+    //console.log(evt.target.closest(".wkdiv"));
+    let targ= evt.target;
+    let wkdiv = targ.closest(".wkdiv");
+    let tsk = wkdiv.getElementsByClassName(targ.name)[0];
+    //console.log(tsk);
+    if (targ.checked) {
+        tsk.classList.add('tskdone');
+    } else {
+        tsk.classList.remove('tskdone');
+    }
+    let inps = wkdiv.querySelectorAll('input[name^=wkt]');
+    let chks = [];
+    for (inp of inps) { if (inp.checked) { chks.push(inp.name); } }
+    localStorage.setItem(
+        'sfcc::astr100::wk-tasks::' + wkdiv.dataset.strtDay,
+        chks.join(':') );
+    togFinWeekButt(wkdiv);
+}
+function frmStrtDayButt_cb(evt) {
+    let frm= evt.target.closest('form');
+    let dtStr = frm.querySelector('input[type=text]').value;
+    //console.log('burp frmStrtDayButt_cb strt');
+    //console.log(dtStr);
+    evt.stopPropagation();
+    evt.preventDefault();
+    if (!is_val_fri_str(dtStr)) return false;
+    frm.style.display='none';
+    localStorage.setItem('sfcc::astr100::strt-day', dtStr);
+    out_weekd(dtStr);
+}
+function nukeButt_cb(evt) {
+    let keys = [];
+    let outp = document.getElementById('top-output');
+    evt.stopPropagation();
+    evt.preventDefault();
+    for (let i=0; i<localStorage.length; i++) {
+        if (localStorage.key(i).match(/^sfcc::astr100::/)) {
+            keys.push(localStorage.key(i)); }
+    }
+    //console.log(keys);
+    keys.forEach( x => localStorage.removeItem(x));
+    while (outp.firstElementChild) { outp.removeChild(outp.firstElementChild); }
+    //
+    const tplate = document.getElementById('tmpl-nuke-msg');
+    let clone = tplate.content.firstElementChild.cloneNode(true);
+    outp.appendChild(clone);
+}
+function out_frmStrtDay() {
+    let outp = document.getElementById('top-output');
+    const tplate = document.getElementById('tmpl-frm-strt-day');
+    //const frmFSD = tplates.getElementsByClassName('frm-strt-day');
+    //console.log(tplate.content);
+    //console.log(frmFSD);
+    let clone = tplate.content.firstElementChild.cloneNode(true);
+    outp.appendChild(clone);
+    outp.querySelector('button').addEventListener("click", frmStrtDayButt_cb);
+}
+function out_weekd(strtDay) {
+    let outp = document.getElementById('top-output');
+    const tplate = document.getElementById('tmpl-weekd');
+    let clone = tplate.content.firstElementChild.cloneNode(true);
+    let sDate = str_to_Date(strtDay);
+    outp.appendChild(clone);
+    let wkdates = clone.querySelectorAll('p[data-wkdate]');
+    //console.log(wkdates);
+    //console.log(strtDay);
+    for (wkd of wkdates) {
+        let nDate = new Date(sDate);
+        //console.log(wkd.dataset.wkdate);
+        nDate.setDate(nDate.getDate() + +(wkd.dataset.wkdate) -1);
+        wkd.innerText = Date_to_str(nDate);
+    }
+    // console.log(clone);
+    clone.dataset.strtDay = strtDay;
+    let wkcntrl = clone.getElementsByClassName("wkcntrl")[0];
+    wkcntrl.addEventListener("change", wk_cb );
+    clone.querySelector('.wkcntrl button').addEventListener("click", FinWeekButt_cb );
+    let dtOff = getDateOffs(strtDay);
+    if (dtOff >= 0 && dtOff < 10) {
+        clone.style.setProperty('--tdy-offs', dtOff );
+        clone.dataset.tdyOffs= dtOff;
+    }
+    if (dtOff < 0) {clone.dataset.dayRngSt = 'early'}
+    if (dtOff>=0 && dtOff<=6) {clone.dataset.dayRngSt = 'active'}
+    if (dtOff>=7 && dtOff<=9) {clone.dataset.dayRngSt = 'active aging'}
+    if (dtOff>=10  ) {clone.dataset.dayRngSt = 'aging stale'}
+    let tskStr=localStorage.getItem( 'sfcc::astr100::wk-tasks::' + strtDay );
+    if (tskStr && tskStr.length >3 ) {
+        let tsks = tskStr.split(':');
+        for (task of tsks) {
+            let elem = wkcntrl.querySelectorAll('input[name=' + task + ']')[0];
+            elem.checked =true;
+            clone.getElementsByClassName(task)[0].classList.add('tskdone');
+        }
+    }
+    togFinWeekButt(clone);
+}
+</script>
+<h1>Weekly Astronomy Schedule</h1>
+<div id="top-output">
+
+</div>
+<div id="staticTail">
+    <div id="desc">
+        <h2>description</h2>
+        <p>A schedule of astronomy tasks using a grid that visually indicates
+            when tasks are available and when they are due. Checking a task as completed dims the task.
+            Towards the end of the week, completing all tasks allows you to advance to the next week.
+        </p>
+        <p>Uses &quot;local storage&quot; that is specific to the browser to store progress.
+            Clicking &OpenCurlyQuote;nuke local storage&CloseCurlyQuote;
+            will erase this small amount of data.
+        </p>
+    </div>
+    <div id=nukeD>
+        <form >
+            <button title="clicking this well delete all of your progress"
+            id=nukeButt >nuke local storage</button>
+        </form>
+    </div>
+</div>
+<footer>
+    <div id="copyright-notice">
+        <p> &copy; 2021-12 <a
+            href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener
+            >Stephen Pollei</a> --
+            <a href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank rel=noopener 
+              >Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</a>
+        </p>
+    </div>
+</footer>
+<template id=tmpl-frm-strt-day >
+<div class=div-frm-strt-day >
+    <form  >
+        <label >Week 1 start day: <input type="text" list="dl-strt-days"
+            pattern="202[123]-[01]\d-[0-3]\d" value="2022-01-07"></label>
+        <button>OK</button>
+    </form>
+</div>
+</template>
+<template id=tmpl-weekd > 
+<div class=wkdiv>
+    <div class="tenday">
+        <p data-wkday=1 >Fri</p>
+        <p data-wkday=2 >Sat</p>
+        <p data-wkday=3 >Sun</p>
+        <p data-wkday=4 >Mon</p>
+        <p data-wkday=5 >Tues</p>
+        <p data-wkday=6 >Wed</p>
+        <p data-wkday=7 >Thurs</p>
+        <p data-wkday=8 >Fri</p>
+        <p data-wkday=9 >Sat</p>
+        <p data-wkday=10 >Sun</p>
+        <p data-wkdate=1 ></p>
+        <p data-wkdate=2 ></p>
+        <p data-wkdate=3 ></p>
+        <p data-wkdate=4 ></p>
+        <p data-wkdate=5 ></p>
+        <p data-wkdate=6 ></p>
+        <p data-wkdate=7 ></p>
+        <p data-wkdate=8 ></p>
+        <p data-wkdate=9 ></p>
+        <p data-wkdate=10 ></p>
+        <p class=wkevtpre>preview upcoming agenda for the week</p>
+        <p class=wktlecture >Lecture</p>
+        <p class=wktcte >Critical Thinking Exercise</p>
+        <p class=wktsn >Starry Night</p>
+        <p class=wktma >Mastering Astronomy</p>
+        <p class=wktqz >quiz</p>
+        <div class="lft-fill"></div>
+        <div data-dvrd=1 ></div>
+        <div data-dvrd=2 ></div>
+        <div data-dvrd=3 ></div>
+        <div data-dvrd=4 ></div>
+        <div data-dvrd=5 ></div>
+        <div data-dvrd=6 ></div>
+        <div data-dvrd=7 ></div>
+        <div data-dvrd=8 ></div>
+        <div data-dvrd=9 ></div>
+        <div class="hltdy"></div>
+    </div>
+    <form  class=wkcntrl >
+        <label data-lwkt-due=5 >Lecture<input type="checkbox" name="wktlecture" ></label> | 
+        <label data-lwkt-due=5 >Critical Thinking Exercise <input type="checkbox" name="wktcte" ></label> | 
+        <label data-lwkt-due=7 >Starry Night <input type="checkbox" name="wktsn" ></label> | 
+        <label data-lwkt-due=9 >Mastering Astronomy <input type="checkbox" name="wktma" ></label> | 
+        <label data-lwkt-due=9 >quiz <input type="checkbox" name="wktqz" ></label>
+        <button disabled>Finish Week</button>
+    </form>
+</div>
+</template>
+<template id=tmpl-nuke-msg >
+    <div>
+        <p>Local Storage has been nuked!</p>
+        <p>Close this window without reloading or local storage will not remain empty</p>
+    </div>
+</template>
+
+<datalist id=dl-strt-days >
+    <option value="2021-12-24">
+    <option value="2021-12-31">
+    <option value="2022-01-07">
+    <option value="2022-04-08">
+    <option value="2022-06-17">
+</datalist>
+
+<script>
+(function (){
+    //let wks= document.getElementsByClassName("wkcntrl");
+    //for (wk of wks) { wk.addEventListener("change", wk_cb ); }
+    //let strtDt = new Date('2022-01=07');
+    let strtDay = localStorage.getItem('sfcc::astr100::strt-day');
+    if (!strtDay) {
+        let params = new URLSearchParams(document.location.search);
+        let pstrtDay = params.get('strtDay');
+        if (!pstrtDay) {pstrtDay = '2022-01-07'}
+        if (pstrtDay && is_val_fri_str(pstrtDay)) {
+            strtDay =pstrtDay;
+            localStorage.setItem('sfcc::astr100::strt-day', strtDay);
+            out_weekd(strtDay);
+        }
+        else {out_frmStrtDay();}
+    } else {
+        let dtOff = getDateOffs(strtDay);
+        out_weekd(strtDay);
+        //console.log(nextFri(strtDay));
+        // FIXME TODO change 2 to 6
+        if (dtOff>6) { out_weekd(nextFri(strtDay))}
+    }
+    let nukeButt = document.getElementById('nukeButt');
+    nukeButt.addEventListener('click', nukeButt_cb);
+    // https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template
+})()
+</script>    
