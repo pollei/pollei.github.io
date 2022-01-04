@@ -17,8 +17,8 @@ div.qrtrs {
   flex-wrap: wrap;
   gap: 1rem;}
 div.qrtr { margin: 5.6px;
-  min-width: max( 11vw, 12em);
-  max-width: max( 32vw-3em, 16em);
+  min-width: max( 10vw - 1em, 11em);
+  max-width: max( 33vw - 3em, 16em);
   min-height: 4.5em;
   /* outline: orange dashed 2px; */
 }
