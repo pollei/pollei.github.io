@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en">
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doorkeep</title>
+<style>
+    h1,h2,h3 { text-align: center;}
+    iframe {min-width: 90vw; }
+    footer p {max-width: clamp(12em,90vw,72em);}
+</style>
+<script>
+function cmd_cb() {
+    let resdv = document.getElementById('results');
+    let cmdta = document.getElementById('cmdta');
+    let cmdSz = document.getElementById('cmd-sz').value;
+    const tplate = document.getElementById('tmpl-ifrm');
+    let clone = tplate.content.firstElementChild.cloneNode(true);
+    let h = Math.max(150,Math.round( (document.firstElementChild.clientHeight * cmdSz)/10));
+    let ifrm = clone.getElementsByTagName('iframe')[0];
+    let pre = clone.getElementsByTagName('pre')[0];
+    ifrm.setAttribute(
+        'src',
+        "http://fishstick/swancorp/nicedoor.php?cmd=" +
+            encodeURIComponent(cmdta.value)
+        )
+    ifrm.setAttribute('height',h);
+    pre.innerText=cmdta.value;
+    resdv.appendChild(clone);
+}
+</script>
+<h1>Doorkeep</h1>
+<div id=results></div>
+<div id=cmddv>
+    <form id=cmmdfrm >
+        <textarea name="cmd" id="cmdta" cols="92" rows="10"></textarea>
+        <input type="button" value="Do It!" id=cmd-doit-btn >
+        <input type="range" id="cmd-sz" list=cmd-sz-dl
+        min="1" max="9" value="2" step=0.1 orient=vertical >
+        <label for="cmd-sz">Iframe height</label>
+    </form>
+</div>
+<footer>
+<p>A little bit nicer interface to fishstick's nicedoor. Escapes the cmds and places results into iframes</p>
+</footer>
+<template id=tmpl-ifrm>
+  <div class="cmd-out-div">
+    <pre></pre>
+    <iframe  frameborder=1 sandbox="" width=800 ></iframe>
+  </div>
+</template>
+<datalist id=cmd-sz-dl ><option>2.9</option><option>5.8</option><option>8.6</option></datalist>
+
+<script>
+(function (){
+    let doit = document.getElementById('cmd-doit-btn');
+    doit.addEventListener('click', cmd_cb);
+})()
+</script>
