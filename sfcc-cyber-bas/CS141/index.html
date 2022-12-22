@@ -2,6 +2,47 @@
 <title>SFCC CS 141 Java  - pollei github  </title>
 <link rel="stylesheet" href="../../main0.css">
 <script src="../../main0.js"></script>
+<style>
+  .javaVers {
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+  }
+  .javaVers p.javaver {
+    grid-column: 1   ;
+    font-size: xx-large;
+    font-weight: bold;
+    grid-row-end: span 3;
+  }
+  .javaVers p.javaRelDate {
+    grid-column : 4 / span 2;
+  }
+  .javaVers p.javaEol {
+    grid-column : 7 / span 3;
+  }
+  .javaVers p.javaDesc {
+    grid-column: 2 / span 8;
+  }
+    .javaVers p  {
+    font-size: larger; 
+    /* outline:  orange dashed 2px; */
+    margin-block: 0;
+  }
+  p.jvEampTag {
+    grid-column: 3 / span 2;
+  }
+  pre.jvExamp {
+    grid-column: 4 / span 8 ;
+    margin: 0.5rem;
+  }
+  pre.jvExamp:hover, pre.jvExamp:focus-within {
+    box-shadow: 0 0 5px 1px orange;
+
+  }
+  :is(pre.jvExamp:hover, pre.jvExamp:focus-within) span {
+    text-decoration: underline orange;
+    font-weight: bold;
+  }
+</style>
 
 <h1>SFCC CS&amp; 141 Computer Science I Java - Section 02 - Class Nbr 21442  </h1>
  
@@ -42,6 +83,7 @@
   This course allows students to write, compile, debug, run, analyze and evaluate computer programs
   written in a current object-oriented language.  Edward Hogan
 </p>
+
 <h2>Docs</h2>
 <div class="urls">
   <p><a href="https://docs.oracle.com/en/java/javase/" target=_blank rel=nopener 
@@ -71,6 +113,105 @@
     target=_blank rel=nopener >jdk.httpserver</a></p>
               
 </div>
+
+<div>
+<p>
+  As of 2022, there are three <span title="Long Term Support">LTS</span> versions of Java:
+  Java8, Java11, and Java17. The assignments and projects that I've written for the class use
+  features that were introduced later than Java11 .
+</p>
+<div class="javaVers">
+ <p class="javaver">Java8</p>
+ <p class="javaRelDate">March 2014 released</p>
+ <p class="javaEol" title="End of Updates - End of Life">Premier Support Until March 2022</p>
+ <p class="javaDesc">Java8 supports generics, annotations, lambda functions, and limited type inference.</p>
+ 
+
+ <p class="javaver">Java11</p>
+ <p class="javaRelDate">Sept. 2018 released</p>
+ <p class="javaEol" title="End of Updates - End of Life">Premier Support Until September 2023</p>
+ <p class="javaDesc">Java11 supports
+   <a href="https://openjdk.org/jeps/286" target=_blank rel=nopener 
+   > enhanced Local-Variable type inference</a>, and 
+   <a href="https://openjdk.org/jeps/323"
+   >enhanced Lambda Parameters</a> .
+ </p>
+ <p class="jvEampTag">type inference:</p>
+ <pre class="jvExamp">
+  public Set&lt;Move&gt; getMoves(PlyrSym sym) {
+		<span>var ret </span>= new HashSet&lt;Move&gt;();
+		for (<span>var x</span>=0;x &lt;3; x++) {
+			for (<span>var y</span>=0;y &lt;3; y++) {
+				if (board.boxes[x][y].isEmpty() ) {
+					ret.add(new Move(sym,x,y));
+				}
+			}
+		}
+		return ret;	
+	}
+ </pre>
+
+ <p class="javaver">Java17</p>
+ <p class="javaRelDate">Sept. 2021 released</p>
+ <p class="javaEol" title="End of Updates - End of Life">Premier Support Until September 2026</p>
+ <p class="javaDesc">Java17 supports
+   <a href="https://openjdk.org/jeps/361"  target=_blank rel=nopener >Switch Expressions</a>,
+   <a href="https://openjdk.org/jeps/394" target=_blank rel=nopener title="JEP 394: Pattern Matching for instanceof"
+   >enhanced instanceof</a>,
+   <a href="https://openjdk.org/jeps/395"  target=_blank rel=nopener
+   title="JEP 395: Records -  classes that act as transparent carriers for immutable data"
+   >records</a>, and 
+   <a href="https://openjdk.java.net/jeps/409">Sealed Classes</a> .
+ </p>
+ <p class="jvEampTag">switch expression:</p>
+ <pre class="jvExamp"></pre>
+ <p class="jvEampTag">instanceof:</p>
+ <pre class="jvExamp">
+  private void paintO(Graphics g) {
+    var grph = g.create(); 
+    if <span>(grph instanceof Graphics2D grph2d)</span> {
+      double x = getWidth();
+      double y = getHeight(); 
+      var strk = new BasicStroke((float)(x/50 + y/50 +2));
+      var circ = new Ellipse2D.Double(0.1*x, 0.1*y,0.8*x, 0.8*y);
+      grph2d.setStroke(strk);
+      grph2d.draw(circ); 
+    }
+  }</pre>
+ <pre class="jvExamp">
+  public void actionPerformed(ActionEvent e) { 
+    if <span>(e.getSource() instanceof JComponent compo)</span> {
+      var constra = layOut.getConstraints(compo);
+      int x = (constra.gridx -1)/2;
+      int y = (constra.gridy -1)/2; 
+      compBoxes[x][y].sym = PlyrSym.X; 
+      this.revalidate();
+      this.repaint();
+    } 
+  }</pre>
+ <p class="jvEampTag">record:</p>
+ <pre class="jvExamp">
+   static public <span>record SqrLoc(int x, int y)</span> {
+    public SqrLoc {
+      if (x&lt;0 || x&gt;2 || y&lt;0 || y&gt;2 )
+        throw new java.lang.IllegalArgumentException(); }
+    public boolean isCenter() {
+      return (1 == this.x &amp;&amp; 1 == this.y);
+    }
+    public boolean isCorner() {
+      return ((0 == this.x || 2 == this.x) &amp;&amp;
+          (0 == this.y || 2 == this.y));
+    }
+    public boolean isSide() {
+      return ((1 == this.x &amp;&amp; ( 0 == this.y ||  2 == this.y )) ||
+          (1 == this.y &amp;&amp; ( 0 == this.x ||  2 == this.x )) );
+    }
+}</pre>
+ <p class="jvEampTag">sealed:</p>
+ <pre class="jvExamp"></pre>
+</div>
+</div>
+
 <div class=cntx>
 <p> &copy; 2019/2022-05 <a href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener >Stephen Pollei</a> --
 <a href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank 
