@@ -2,6 +2,130 @@
 <title>SFCC CYBR 475 Capstone Internship   - pollei github  </title>
 <link rel="stylesheet" href="../../main0.css">
 <script src="../../main0.js"></script>
+<script src="fun.js"></script>
+<style>
+.topLvl , .infoJunk {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2ch;
+}
+.topLvl > * {
+  margin: 0.5em;
+}
+
+@media screen {
+  .paperContent {
+  min-height: 5rem;
+  min-width: 50ch;
+  margin: 2em;
+  padding: 1em;
+ }
+ .kvSpans {
+  min-width: 8rem; 
+ }
+}
+.pprData {
+  text-decoration: underline;
+ }
+div.kvSpans {
+  display: flex; flex-wrap: wrap; justify-content: space-around;
+}
+.kvSpans > * {
+  margin-block: 0;
+  margin-right: 2em;
+}
+div.paperTopLvl {
+  max-width: max( 72rem, 48vw );
+}
+@media print {
+  /* body > *:not( div.printSelect) {display: none; } */
+  body > *:not( div.paperTopLvl),
+  div.paperTopLvl > *:not( div.paperContent ) {
+    display: none; }
+  .paperDesc , .paperFormDiv {
+    display: none;
+  }
+  #contractSignatures, .paperContent { break-after:page; }
+}
+#superLtrHead { max-width: fit-content; float: left;}
+#superLtrLogo {
+  max-width: min-content; float: right; margin-top: 0; margin-bottom: 1em;
+  padding: 6px;
+  border: 1px solid black;
+}
+#superLtrHead p , .compactParas p {
+  margin: 0;
+}
+#superLtrLogo p {
+  font-weight : bolder; text-align: center;
+  text-transform: uppercase; font-size: smaller;
+}
+#contractInitials {
+  padding: 0.25em; border: 1px solid black;
+}
+.initialBlock , .initialRect {
+  display: inline-block;
+  margin: 0.1em;
+}
+.initialRect {
+  border: 1px solid black; 
+  padding: 0.3em 2em;
+}
+#contractSignatures {
+  display: grid;
+  grid-template-columns: fit-content(29ch) 1fr fit-content(18ch);
+   
+  gap: 0.5em;
+}
+#contractSignatures > span {
+  min-height: 2.16em;
+}
+.sigBlockLine {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: end;
+  text-align: center;
+}
+.sigBlockLine > span {
+  border-top: 1px solid black;
+}
+#infoStudFullName {
+  display: grid;
+  grid-template-columns: fit-content(29ch) fit-content(12ch) fit-content(18ch);
+  gap: 0.8em;
+}
+#infoStudFullName [data-intern-store] {
+  border-bottom: 1px solid black;
+  align-self: stretch;
+}
+.infoJunk {
+  display: flex; 
+}
+.infoJunk > * {
+  min-width: 9em; margin: 0;
+}
+.infoJunk :is(p, div) {margin:0;}
+.infoJunk [data-intern-store] {
+  text-decoration: underline;
+}
+.infoJunkLabel {
+  font-size: larger;
+  font-weight: bolder;
+}
+img { margin:0;}
+hr { clear:both; display: block;}
+.hilite {
+  font-size: larger;
+  font-weight : bolder;
+}
+.detail { font-size: smaller;}
+ [data-intern-dialog] {
+  cursor: pointer; }
+   [data-intern-dialog]:focus-within ,  [data-intern-dialog]:hover {
+    border: 1px dashed darkorchid;
+  }
+</style>
 
 <h1>SFCC CYBR 475 Capstone Internship </h1>
  
@@ -45,9 +169,737 @@
    the concepts taught by instructors and how their skills will be used in their careers.
     Grading option: PASS/FAIL  Prerequisite: Applied BAS degree students only.
 </p>
+<h2>CYBR475 Capstone Internship Guide</h2>
+<div id="guideTopLevel" class="topLvl">
+<div>
+<p>
+  The intent of this course is to allow students to enter into the IT workforce
+   in a short-term opportunity.  The minimum requirements for this
+    five credit course is 132 hours of technology related work.
+    The work can be paid or un-paid.  We strongly encourage students to work
+     as many hours as their employer will allow to gain as much experience
+      as possible during their internship.
+      Students can register for 5 or 10 credits.
+      If you have registered for 10 credits you will need to double the number of work hours.
+</p>
+<p>
+  It is the student’s obligation to obtain the work for this course.
+  The CS/IS department will assist if possible, but it is you the student’s
+  responsibility to find work.
+   Any known opportunities will be listed in Canvas discussions.
+   The credit cannot be given for previous work experience.
+   Students that are presently employed in a technology related job can use
+    their current employment as the foundation for their internship.
+    They will be required to participate in or complete task(s)
+     or duties that are not part of the current duties that will
+      enrich their knowledge of the IT industry and their employable skills.
+        This must be coordinated with the course instructor before the work is started.
+</p>
+<p>
+  The minimum work may be completed with multiple employers to meet
+   the minimum requirements for hours.  The work can be divided into
+    multiple roles, duties or tasks to meet the minimum requirements.
+</p>
+<p>
+  The work must be scheduled to be completed during the quarter the course is taken.
+  A student may take CYBR475 in Spring Quarter and arrange to complete the
+   work during the Summer Quarter.  The arrangement must be in writing with
+    a letter of confirmation from the employer.  If the final paperwork is not
+     completed in the timelines identified, the course grade will be adjusted to an F grade
+</p>
+</div>
+<div>
+<h3>Letters, Contract, and Sheets</h3>
+<ul>
+    <li title="an introduction letter for supervisors about the program and thank you for supporting our program. This document is provided to your supervisor to introduce them to our internship program.  It is not submitted to the instructor for grading."
+    ><a href="#superLtrContent" inert
+    >Internship supervisor letter</a><span title="Informational">🛈</span></li>
+    <li title=" this document is required to be completed at the start of employment or when  work is arranged. It includes expectations for students, instructors and worksite supervisors.  At the start of your employment, upload a signed copy if this document in the &quot;upload contract&quot; assignment."
+    ><a href="#contractContent" inert
+    >Internship Contract</a><span title="graded">🎓</span>🖋</li>
+    <li title="this document is required to be completed at the start of employment or when the work is arranged.  It is a contact information sheet for the student and the worksite supervisor. At the start of your employment, upload a signed copy if this document in the &quot;upload Information Sheet&quot; assignment."
+    ><a href="#infoSheetContent" inert
+    >Internship Information Sheet</a><span title="graded">🎓</span>🖋</li>
+    <li title=" this document is required to be completed at the end of the course.  It is recommend that it be completed at the time work occurs.  A work generated time sheet may be substituted if accompanied with a description of work completed during. Upon completing your timesheet(s), upload your timesheet(s) in the &quot;upload timesheet&quot; assignment. You can upload multiple documents if you have multiple timesheets."
+    ><a href="#timeSheetContent" inert
+    >Internship Time Sheet</a><span title="graded">🎓</span>📅</li>
+    <li title="this document is required to be completed for each week you work.  It is a  self-appraisal and reflection of the process.  At the end of each week of your employment, upload a completed copy of this document in the &quot;upload weekly report&quot; assignment. A separate document for each week is required"
+    ><a href="#weeklyReportContent" inert
+    >Internship Weekly Report</a><span title="graded">🎓</span>📅</li>
+    <li title=" this document is required.  It must be completed by your supervisor(s) at the end of your internship course. At the completion of your employment, upload a signed copy if this document in the &quot;upload Evaluation&quot; assignment"
+    ><a href="#studEvalContent" inert
+    > Internship Evaluation</a><span title="graded">🎓</span>🖋</li>
+</ul>
+
+</div>
+</div>
+
+
+<div class="paperTopLvl">
+<h2>Introduction Supervisor letter</h2>
+<div class="paperDesc">
+  <p>This is an introduction letter for supervisors about the program
+  and thank you for supporting our program.
+  This document is provided to your supervisor to introduce
+    them to our internship program.  It is not submitted to
+    the instructor for grading</p>
+</div>
+<div class="paperContent" id="superLtrContent" onclick="void(0)">
+  <div id="superLtrHead">
+    <p class="hilite">Spokane Falls Community College</p>
+    <p class="hilite">Division of Computing, Math and Science</p>
+    <p class=detail >MS 3180 3410 W. Whistalks Way      Spokane, WA 99224</p>
+    <p  class=detail >(509) 533-3660    FAX (509) 533-3856</p>
+  </div>
+  <div id="superLtrLogo">
+    <img src="../../sfcc-icon.svg" alt="sfcc icon" height="50" width="75">
+    <p >Community Colleges of Spokane</p>
+  </div>
+  <hr>
+  <div id="superLtrGreet" class="js-mut compactParas" data-intern-dialog="superLtrFillinDial">
+    <p>Date: <span data-intern-store="introLetDate">2023-mm-dd</span></p>
+    <p> &nbsp; </p>
+    <p  data-intern-store="supervName">Supervisor Name</p>
+    <p  data-intern-store="orgName">Business / Company</p>
+    <p  data-intern-store="orgAddrLine1">Address line 1</p>
+    <p  data-intern-store="orgAddrLine2">Address  line 22</p>
+  </div>
+  <div id="superLtrBody">
+    <p>Dear Mr. /Ms. <span data-intern-store="supervName"> (Cooperative Education Supervisor) </span></p>
+    <p>Professional Cooperative Education is part of a student’s
+      learning experience. The overall goal of the cooperative
+      experience for the student is to apply education and training
+        in a work environment. Upon successful completion the student
+        will receive credit for the cooperative experience</p>
+    <p>Each student and cooperative experience location is unique;
+       therefore, a special contract must be developed for each one.
+      The content and process of the experience will be determined
+      mutually by you and the student. The student is required
+        to be an understudy to a professional, solve problems
+        as assigned, and produce products of value to
+          the organization.</p>
+    <p>At least once and perhaps periodically,
+      the SFCC cooperative education coordinator might make
+      prearranged visits. The coordinator will call to make
+      appointments at times when they can see you and the student.
+      We look forward to continuing relationships that will be
+      beneficial to your organization and
+      Spokane Falls Community College students.</p>
+    <p>We look forward to working with you and hopes you will
+      feel free to contact us whenever you have questions about
+      any aspect of this cooperative education experience.</p>
+    <p>Thank you for your support of our programs.</p>
+    <p>Sincerely,</p>
+  </div>
+  <div id="superLtrFoot" class="compactParas">
+    <p class="hilite">Rick Dubois </p>
+    <p>IS/CS Instructor</p>
+    <p>MS3180</p>
+    <p>3410 W. Whistalks Way</p>
+    <p>Spokane, WA 99224-5288</p>
+    <p>(509) 533-3246</p>
+    <p>(509) 533-3856  FAX</p>
+    <p>Rick.Dubois&#64;sfcc.spokane.edu</p> 
+  </div>
+</div>
+<div class="paperFormDiv">
+  <form action="" >
+    <p>
+      <button data-intern-dialog="superLtrFillinDial" type="button">edit</button>
+       <button class="paperFormPrintButt" type="button">print</button></p>
+  </form>
+
+</div>
+</div>
+
+<dialog id="superLtrFillinDial">
+  <form method="dialog">
+      <p>
+          <label for="superLtrDate">Intro Letter Day</label>
+          <input type="date" name="introLetDate"  id="superLtrtDate" ></p>
+      <fieldset title="Student Information">
+        <legend>Student Information</legend>
+      <p><label for="superLtrstuName">Student name</label>
+      <input type="text" name="stuName" id="superLtrstuName"></p>
+      
+      <p><label for="superLtrstuEmail">Student Email</label>
+          <input type="text" name="stuEmail" id="superLtrstuEmail"></p>
+      </fieldset>
+      <fieldset title="Business Information">
+        <legend>Business/Organization Information</legend>
+      <p><label for="superLtrSupervName">Supervisor name</label>
+        <input type="text" name="supervName" id="superLtrSupervName"></p>
+      <p><label for="superLtrorgName">Business/Organization name</label>
+          <input type="text" name="orgName" id="superLtrorgName"></p>
+      <p><label for="superLtrorgAddrLine1">Business/Organization Address line 1</label>
+        <input type="text" name="orgAddrLine1" id="superLtrorgAddrLine1"></p>
+      <p><label for="superLtrorgAddrLine2">Business/Organization  Address line 2</label>
+        <input type="text" name="orgAddrLine2" id="superLtrorgAddrLine2"></p>
+      </fieldset>
+      <p>
+        <button class="fillinDialDoneButt" value="done">done</button>
+        <button value="cancel">cancel</button></p>
+  </form>
+
+</dialog>
+
+<div class="paperTopLvl">
+<h2>Contract</h2>
+<div class="paperDesc">
+<p>This document is required to be completed at the start of
+   employment or when work is arranged. It includes expectations
+  for students, instructors and worksite supervisors.
+  At the start of your employment, upload a signed copy if
+    this document in the &quot;upload contract&quot; assignment</p>
+</div>
+<div class="paperContent" id="contractContent" onclick="void(0)">
+  <div id="contractHead">
+    <h2 class="hilite">Spokane Falls Community College</h2>
+    <h3>Student Professional Capstone Internship Agreement</h3>
+  </div>
+  <div id="contractContacts" data-intern-dialog="contractFillinDial">
+    <div class="kvSpans">
+      <span>
+        <span class="pprLabel">Student’s Name</span>
+        <span class="pprData" data-intern-store="stuName">&nbsp;&nbsp;&nbsp;</span> </span>
+        <span>
+          <span class="pprLabel">Primary Phone</span>
+          <span class="pprData" data-intern-store="stuPhone">&nbsp;&nbsp;&nbsp;</span> </span>
+      <span></span>
+
+    </div>
+    <div class="kvSpans">
+      <span>
+        <span class="pprLabel">Work Site</span>
+        <span class="pprData"  data-intern-store="workSite">&nbsp;&nbsp;&nbsp;</span> </span>
+      <span>
+        <span class="pprLabel">address </span>
+        <span class="pprData"  data-intern-store="workAddress">&nbsp;&nbsp;&nbsp;</span> </span>
+      <span>
+        <span class="pprLabel">Work Site supervisor</span>
+        <span class="pprData" data-intern-store="supervName">&nbsp;&nbsp;&nbsp;</span> </span>
+      <span>
+        <span class="pprLabel">Phone</span>
+        <span class="pprData"  data-intern-store="workPhone">&nbsp;&nbsp;&nbsp;</span> </span>
+      <span>
+        <span class="pprLabel">Supervisor’s Email</span>
+        <span class="pprData" data-intern-store="workSupervEmail">&nbsp;&nbsp;&nbsp;</span> </span>
+      <span>
+        <span class="pprLabel">Fax</span>
+        <span class="pprData"  data-intern-store="workFax">&nbsp;&nbsp;&nbsp;</span> </span>
+
+    </div>
+    <div class="kvSpans">
+      <span>
+        <span class="pprLabel">Begining Date</span>
+        <span class="pprData"  data-intern-store="internBeginDate">2023-mm-dd&nbsp;&nbsp;&nbsp;</span> </span>
+      <span>
+        <span class="pprLabel">Ending Date</span>
+        <span class="pprData" data-intern-store="internEndDate">2023-mm-dd&nbsp;&nbsp;&nbsp;</span> </span>
+      <span>
+        <span class="pprLabel">Total Hours</span>
+        <span class="pprData" data-intern-store="internTotalHours">132 </span> </span>
+
+    </div>
+    <div class="kvSpans">
+      <span>
+        <span class="pprLabel">Instructor</span> 
+        <span class="pprData">Rick Dubois </span> </span>
+      <span>
+        <span class="pprLabel">Department</span>
+        <span class="pprData">ISCS </span> </span>
+      <span>
+        <span class="pprLabel">Program</span>
+        <span class="pprData" data-intern-store="internProgram">&nbsp;&nbsp;&nbsp; </span> </span>
+
+    </div>
+    <div class="kvSpans">
+      <span>
+        <span class="pprLabel">Phone</span>
+        <span class="pprData">(509) 533-3246 </span> </span>
+      <span>
+        <span class="pprLabel">Email</span>
+        <span class="pprData">Rick.Dubois&#64;sfcc.spokane.edu </span> </span>
+      <span>
+        <span class="pprLabel">Fax</span>
+        <span class="pprData">(509) 533-3856 </span> </span>
+    </div>
+    <div class="kvSpans">
+      <span> 
+        <span class="pprData"  data-intern-store="internPaid">Paid  / None-Paid </span>
+        <span class="pprLabel">Experience</span>  </span>
+    </div>
+  </div>
+  <p>The Work Site, the instructor, and the student all agree to
+    abide by conditions set forth on the following page.
+    Please note the following:  Students are strongly advised to
+    check with Financial Aid before beginning a cooperative
+    education experience.  Failure to do so may affect financial
+    aid eligibility</p>
+  <p>Learning Tasks / Objectives:  The following are the skills
+    that the student will learn and practice as part of this
+    cooperative experience.  The instructor and the
+    Work Site Supervisor will periodically evaluate the student’s
+    progress in accomplishing the assigned tasks</p>
+  <ol data-intern-dialog="contractObjectiveFillinDial">
+    <li data-intern-store="internObjective1">&nbsp;&nbsp;&nbsp;</li>
+    <li data-intern-store="internObjective2">&nbsp;&nbsp;&nbsp;</li>
+    <li data-intern-store="internObjective3">&nbsp;&nbsp;&nbsp;</li>
+  </ol>
+  <div id="contractInitials">
+    <p>The student and Work Site understand that even if this is
+      a non-paid position, the student will perform learning tasks similar
+      to Work Site employees.  The student understands that if this is a
+      non-paid experience, there is no insurance coverage provided by the
+      Work Site or Community Colleges of Spokane for on-the-job accidents
+      or illnesses.  Students are encouraged to obtain health insurance
+      and students may be required by Work Site to provide evidence of
+      medical coverage prior to participation.
+      It is agreed by all parties to this agreement  that neither
+      Community Colleges of Spokane nor Work Site will be held responsible
+      for accidents that occur as a result of the student’s participation
+      in this work experience.  Furthermore, each party to this agreement
+      will be responsible for the negligent acts or omissions of its own
+      employees, officers, or agents in the performance of this Agreement.
+      Neither party will be considered the agent of the other and neither
+      party assumes any responsibility to the other party for the
+      consequences of any act or omission of any person, firm,
+      or corporation not a party to this Agreement.
+    </p>
+    <p>
+      <span class="initialBlock"><span class="initialRect">&nbsp;&nbsp;&nbsp;&nbsp;</span> Student’s Initials</span>
+      <span class="initialBlock"><span class="initialRect">&nbsp;&nbsp;&nbsp;&nbsp;</span>Supervisor’s Initials</span>
+      <span class="initialBlock"><span class="initialRect">&nbsp;&nbsp;&nbsp;&nbsp;</span>Instructor’s Initials</span>
+    </p>
+  </div>
+  <p>I have read and agree to the terms and conditions as
+    outlined in this TWO PAGE agreement</p>
+  <div id="contractSignatures" >
+     
+      <span>Student <span data-intern-store="stuName" ></span></span>
+      <span class="sigBlockLine"><span>signature</span> </span>
+      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+     
+      <span>Supervisor <span data-intern-store="supervName" ></span></span>
+      <span class="sigBlockLine"> <span>signature</span> </span>
+      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+     
+      <span>Instructor Rick Dubois</span>
+      <span class="sigBlockLine"><span>signature</span> </span>
+      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+      
+  </div>
+  <h3>Student Responsibilities</h3>
+  <ol>
+    <li> Maintain regular attendance both in school and at the work site.
+      Please note that while on a work-based learning experience you are
+      still a student and must continue to pay your tuition costs</li>
+    <li> If receiving financial aid, contact the Financial Aid Office
+      to ensure that the work-based learning experience won’t affect
+      financial aid eligibility</li>
+    <li> Promptly inform the work site supervisor and instructor of
+      any absence for any reason</li>
+    <li>Be honest, punctual, cooperative, courteous, and willing to learn</li>
+    <li>Meet Work Site and college expectations for items such as dress, timeliness, and maturity</li>
+    <li>Complete assignments, evaluation, forms, and other activities required by your instructor</li>
+    <li>Participate actively at the work site and at the college</li>
+    <li>Work in a safe and responsible manner</li>
+    <li> Inform your instructor of any problems that occur at the work site,
+      especially those pertaining to racial or sexual harassment. </li>
+    <li>Understand that participation in this work-based learning experience is voluntary on the part of all parties and can be terminated at any time.</li>
+    <li>Notify the instructor promptly if either party ends the work-based learning experience.</li>
+
+  </ol>
+  <h3>Instructor Responsibilities</h3>
+  <ol>
+    <li>In cooperation with the employer determine what skills a student will learn/practice.</li>
+    <li>Ensure that the Work Site understands the purpose of a work-based
+      learning experience and that he or she is willing to commit to
+      providing a quality learning experience and to evaluating student progress.</li>
+    <li>Complete and keep on file a document that outlines rights and responsibilities.</li>
+    <li>Maintain regular direct contact with student.</li>
+    <li>If possible, visit and review work site.</li>
+    <li>Monitor the adequacy and appropriateness of the work experience.
+      Included within this responsibility is workplace safety,
+      quality of learning experience, and protection from harassment, racial and gender discrimination.</li>
+    <li>The instructor has the right and responsibility to terminate work-based learning experiences that are inappropriate.</li>
+  </ol>
+  <h3>Work Site Responsibilities</h3>
+  <ol>
+    <li>Provide a real world work-based learning experience that supports the student’s educational goals.</li>
+    <li>Provide a thorough orientation to the job and work site, as well as a meaningful, well-supervised learning
+      experience (the student is not to take the place of a regularly scheduled worker).
+    </li>
+    <li>Guide and instruct the student in learning the various details of the job.</li>
+    <li>Provide a safe learning / working environment including protection
+      from discrimination and sexual harassment.</li>
+    <li>Verify attendance and/or time records and provide periodic student
+      evaluation reports (evaluation of the student’s performance will be the
+      joint responsibility of the student’s instructor and the employer).</li>
+    <li>Be available to meet with the instructor to assess student progress and problems that may arise.</li>
+    <li>Accommodate contact between student and instructor.</li> 
+
+  </ol>
+</div>
+<div class="paperFormDiv">
+  <form action="" >
+    <p>
+      <button data-intern-dialog="contractFillinDial" type="button">edit Contacts</button>
+      <button data-intern-dialog="contractObjectiveFillinDial" type="button">edit Objectives</button>
+       <button class="paperFormPrintButt" type="button">print</button></p>
+  </form>
+
+</div>
+</div>
+<dialog id="contractFillinDial">
+  <form method="dialog">
+      <fieldset title="Student Information">
+      <legend>Student Profile Information</legend>
+      <p><label for="contractstuName">Student name</label>
+      <input type="text" name="stuName" id="contractstuName"></p>
+      
+      <p><label for="contractstuEmail">Student Email</label>
+          <input type="text" name="stuEmail" id="contractstuEmail"></p>
+      <p><label for="contractstuPhone"> primary phone: </label>
+        <input type="text" name="stuPhone" id="contractstuPhone"
+        pattern="([-.\( ]?\d[-.\) ]?){3,15}([ ]?\[[HCF]\])?"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Business Information</legend>
+      <p><label for="contractworkSite">Work Site</label>
+        <input type="text" name="workSite" id="contractworkSite"></p>
+      <p><label for="contractworkAddress">Work Address</label>
+        <input type="text" name="workAddress" id="contractworkAddress"></p>
+
+      <p><label for="contractSupervName">Supervisor name</label>
+        <input type="text" name="supervName" id="contractSupervName">
+      <label for="contractworkSupervEmail">Supervisor email</label>
+        <input type="text" name="workSupervEmail" id="contractworkSupervEmail"></p>
+      <p><label for="contractworkPhone">Phone</label>
+        <input type="text" name="workPhone" id="contractworkPhone">
+        <label for="contractworkFax">Fax</label>
+        <input type="text" name="workFax" id="contractworkFax"></p>
+      </fieldset>
+      <fieldset>
+        <legend>Internship Information</legend>
+        <p> <label for="contractinternBeginDate">Begining Date</label>
+          <input type="date" name="internBeginDate"  id="contractinternBeginDate" >
+          <label for="contractinternEndDate">Ending Date</label>
+          <input type="date" name="internEndDate"  id="contractinternEndDate" ></p>
+        <p> <label for="contractinternTotalHours">Total Hours</label>
+          <input type="number" name="internTotalHours"  id="contractinternTotalHours" 
+          min="1" max="640">
+          <label for="contractinternProgram">Program</label>
+          <select name="internProgram" id="contractinternProgram">
+            <option value="CYBR BAS">CYBR BAS</option>
+            <option value="SIT BAS">SIT BAS</option>
+            <option value="IT AAS">IT AAS</option>
+          </select>
+          <select name="internPaid" id="contractinternPaid">
+            <option value="Paid">Paid</option>
+            <option value="None-Paid">None-Paid</option>
+          </select>
+        </p>
+      </fieldset>
+      <p>
+        <button class="fillinDialDoneButt" value="done">done</button>
+        <button value="cancel">cancel</button></p>
+  </form>
+
+</dialog>
+
+<dialog id="contractObjectiveFillinDial">
+  <form method="dialog">
+    <fieldset>
+    <label for="contractinternObjective1">Objective 1</label>
+    <textarea name="internObjective1" id="contractinternObjective1" cols="70" rows="2"></textarea>
+  </fieldset>
+  <fieldset>
+    <label for="contractinternObjective1">Objective 2</label>
+    <textarea name="internObjective2" id="contractinternObjective2" cols="70" rows="2"></textarea>
+  </fieldset>
+  <fieldset>
+    <label for="contractinternObjective1">Objective 3</label>
+    <textarea name="internObjective3" id="contractinternObjective3" cols="70" rows="2"></textarea>
+  </fieldset>
+  <p>
+    <button class="fillinDialDoneButt" value="done" >done</button>
+    <button value="cancel" >cancel</button></p>
+</form>
+</dialog>
+
+<div class="paperTopLvl">
+<h2>Information Sheet</h2>
+<div class="paperDesc">
+<p>This document is required to be completed at the start of employment
+   or when the work is arranged.  It is a contact information sheet
+    for the student and the worksite supervisor.
+     At the start of your employment, upload a signed copy
+      if this document in the &quot;upload Information Sheet&quot; assignment.</p>
+</div>
+<div class="paperContent" id="infoSheetContent" onclick="void(0)"   style="opacity:0;visibility:hidden ">
+  <div id="studInfoHead">
+    <h2>Spokane Falls Community College</h2>
+    <p>Capstone Internship</p>
+    <p>Student Information Sheet</p> </div>
+  <div id="studInfoStudent" class="kvSpans" data-intern-dialog="studInfoStuFillinDial" >
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Student Name:</div>
+      <div id="infoStudFullName" >
+        <span data-intern-store="stuLastName"></span><span data-intern-store="stuMidName"></span><span data-intern-store="stuFirstName"></span>
+        <span>last</span><span>middle</span><span>first</span>
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Home Address:</div>
+      <div   >
+        <p data-intern-store="stuAddrLine1"></p>
+        <p data-intern-store="stuAddrLine2"></p>
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Primary phone:</div>
+      <div   >
+        <p data-intern-store="stuPhone"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Secondary phone:</div>
+      <div   >
+        <p data-intern-store="stuPhone2"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">FAX:</div>
+      <div   >
+        <p data-intern-store="stuFax"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">SID:</div>
+      <div   >
+        <p data-intern-store="stuSID"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Email:</div>
+      <div   >
+        <p data-intern-store="stuEmail"></p> 
+      </div>
+    </div>
+      
+
+
+
+
+  </div>
+  <div id="studInfoWork"  class="kvSpans" data-intern-dialog="studInfoWorkFillinDial">
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Work Site</div>
+      <div   >
+        <p data-intern-store="workSite"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Supervisor’s Title</div>
+      <div   >
+        <p data-intern-store="supervTitle"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Work Site Supervisor</div>
+      <div   >
+        <p data-intern-store="supervName"></p> 
+      </div>
+    </div>
+    :
+:
+Supervisor’s Title:
+Address:
+City, State, Zip:
+
+
+  </div>
+  <div id="studInfoNote" class="kvSpans" data-intern-dialog="studInfoNotesFillinDial">
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Notes</div>
+      <div   >
+        <p data-intern-store="studInfoNote"></p> 
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="paperFormDiv" >
+  <form action="" >
+    <p>
+      <button data-intern-dialog="studInfoStuFillinDial" type="button">edit Student Info</button>
+      <button data-intern-dialog="studInfoWorkFillinDial" type="button">edit Work Info</button>
+      <button data-intern-dialog="studInfoNotesFillinDial" type="button">edit Notes</button>
+       <button class="paperFormPrintButt" type="button">print</button></p>
+  </form>
+
+</div>
+</div>
+
+<dialog id="studInfoStuFillinDial">
+  <form method="dialog">
+    <fieldset>
+      <legend>Student Name</legend>
+      <label for="studInfostuLastName">Last name</label>
+      <input type="text" name="stuLastName" id="studInfostuLastName">
+      <label for="studInfostuMidName">Mid name</label>
+      <input type="text" name="stuMidName" id="studInfostuMidName">
+      <label for="studInfostuFirstName">First name</label>
+      <input type="text" name="stuFirstName" id="studInfostuFirstName">
+
+    </fieldset>
+    <fieldset>
+      <legend>Home Address </legend>
+      <p><label for="studInfostuAddrLine1">AddrLine1</label>
+        <input type="text" name="stuAddrLine1" id="studInfostuAddrLine1"></p>
+      <p><label for="studInfostuAddrLine2">AddrLine2</label>
+        <input type="text" name="stuAddrLine2" id="studInfostuAddrLine2"></p> 
+      <p></p>
+    </fieldset>
+    <fieldset>
+      <legend>Phones</legend>
+      <label for="studInfostuPhone">Primary</label>
+        <input type="text" name="stuPhone" id="studInfostuPhone">
+      <label for="studInfostuPhone2"><label for="studInfostuPhone2">Secondary</label>
+        <input type="text" name="stuPhone2" id="studInfostuPhone2">
+      <label for="studInfostuFax"><label for="studInfostuFax">Fax</label>
+      <input type="text" name="stuFax" id="studInfostuFax">
+    </fieldset>
+    <fieldset>
+      <label for="studInfostuSID"><label for="studInfostuSID">SID</label>
+      <input type="text" name="stuSID" id="studInfostuSID">
+      <label for="studInfostuEmail"><label for="studInfostuEmail">Email</label>
+      <input type="text" name="stuEmail" id="studInfostuEmail">
+    </fieldset>
+    <p>
+      <button class="fillinDialDoneButt" value="done" >done</button>
+      <button value="cancel" >cancel</button></p>
+    </form>
+</dialog>
+<dialog id="studInfoWorkFillinDial">
+  <form method="dialog">
+    <fieldset>
+      <legend>Supervisor</legend>
+    </fieldset>
+    <fieldset>
+      <legend>Work Site <Address></Address></legend>
+    </fieldset>
+    <p>
+      <button class="fillinDialDoneButt" value="done" >done</button>
+      <button value="cancel" >cancel</button></p>
+    </form>
+</dialog>
+<dialog id="studInfoNotesFillinDial">
+  <form method="dialog">
+    <p>
+      <button class="fillinDialDoneButt" value="done" >done</button>
+      <button value="cancel" >cancel</button></p>
+    </form>
+</dialog>
+
+<div class="paperTopLvl">
+<h2>Time Sheet</h2>
+<div class="paperDesc">
+<p>This document is required to be completed at the end of the course.
+    It is recommend that it be completed at the time work occurs.
+    A work generated time sheet may be substituted if accompanied
+    with a description of work completed during.
+    Upon completing your timesheet(s), upload your timesheet(s)
+    in the &quot;upload timesheet&quot; assignment.
+    You can upload multiple documents if you have multiple
+      timesheets.</p>
+</div>
+<div class="paperContent" id="timeSheetContent" onclick="void(0)" style="opacity:0;visibility:hidden ">
+  <div id="timeSheetHead">
+    Spokane Falls Community College
+Capstone Internship 
+
+Field Experience Time Sheet
+
+Student:		Quarter/Year:	
+
+  </div>
+</div>
+<div class="paperFormDiv" style="opacity:0;visibility:hidden ">
+  <form action="" >
+    <p>
+      <button data-intern-dialog="contractFillinDial" type="button">edit Contacts</button>
+      <button data-intern-dialog="contractObjectiveFillinDial" type="button">edit Objectives</button>
+       <button class="paperFormPrintButt" type="button">print</button></p>
+  </form>
+
+</div>
+</div>
+
+
+<div class="paperTopLvl">
+<h2>Weekly Report</h2>
+<div class="paperDesc">
+<p>This document is required to be completed for each week you work.
+  It is a self-appraisal and reflection of the process.
+  At the end of each week of your employment, upload a completed
+    copy of this document in the &quot;upload weekly report&quot; assignment.
+    A separate document for each week is required</p>
+</div>
+<div class="paperContent" id="weeklyReportContent" onclick="void(0)" style="opacity:0;visibility:hidden ">
+  <div class="weeklyReportPageHead">
+    Spokane Falls Community College
+Professional Cooperative Education
+Weekly Report to Instructor
+
+  </div>
+</div>
+<div class="paperFormDiv" style="opacity:0;visibility:hidden ">
+  <form action="" >
+    <p>
+      <button data-intern-dialog="contractFillinDial" type="button">edit Contacts</button>
+      <button data-intern-dialog="contractObjectiveFillinDial" type="button">edit Objectives</button>
+       <button class="paperFormPrintButt" type="button">print</button></p>
+  </form>
+
+</div>
+</div>
+
+
+<div class="paperTopLvl">
+<h2>Evaluation</h2>
+<div class="paperDesc">
+<p>This document is required.
+  It must be completed by your supervisor(s) at the end of your
+  internship course. At the completion of your employment, upload
+   a signed copy if this document in
+    the &quot;upload Evaluation&quot; assignment</p>
+</div>
+<div class="paperContent" id="studEvalContent" onclick="void(0)" style="opacity:0;visibility:hidden ">
+  <div class="studEvalHead">
+    Spokane Falls Community College
+3410 W. Whistalks Way  Spokane, WA 99224-5288
+Capstone Internship Evaluation of Student Progress
+
+  </div>
+</div>
+<div class="paperFormDiv" style="opacity:0;visibility:hidden ">
+  <form action="" >
+    <p>
+      <button data-intern-dialog="contractFillinDial" type="button">edit Contacts</button>
+      <button data-intern-dialog="contractObjectiveFillinDial" type="button">edit Objectives</button>
+       <button class="paperFormPrintButt" type="button">print</button></p>
+  </form>
+
+</div>
+</div>
+
+
 
 <div class=cntx>
-<p> &copy; 2019/2022-04 <a href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener >Stephen Pollei</a> --
+<p> &copy; 2019/2023-03 <a href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener >Stephen Pollei</a> --
 <a href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank 
   rel=noopener >Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</a></p>
 </div>
@@ -65,3 +917,31 @@
   <option value="Leadership"></option>
     
   </datalist>
+
+  <script>
+    (function() {
+    // const fillBut = document.getElementById('relManForm').querySelector('input[value="Fill-in"');
+    //const superLtr = document.getElementById('superLtr');
+    //const superLtrFillinDial = document.getElementById('superLtrFillinDial');
+    //superLtr.addEventListener('click', function() {superLtrFillinDial.showModal(); });
+    //console.log(document)
+    const dialogedElements = document.querySelectorAll('[data-intern-dialog]')
+    //console.log(dialogedElements)
+    for (digElem of dialogedElements) {
+      //const targDialog = document.getElementById(digElem.dataset.internDialog)
+      //digElem.addEventListener('click', function() {targDialog.showModal(); });
+      digElem.addEventListener('click', dialogedElementClick_cb)
+    }
+    const dialogs = document.getElementsByTagName('dialog')
+    for (dialo of dialogs) {
+      dialo.addEventListener('close', dalogClose_cb);
+    }
+    const printButts = document.querySelectorAll('button.paperFormPrintButt')
+    for (prtButt of printButts) {
+      prtButt.addEventListener('click', paperFormPrintButt_cb)
+    }
+    lclStoreToDocument()
+    let intrnProfsLS = localStorage.getItem('sfcc::cybr475::intern-profiles');
+    
+    })();
+    </script>
