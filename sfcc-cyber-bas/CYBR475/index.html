@@ -28,7 +28,7 @@
   text-decoration: underline;
  }
 div.kvSpans {
-  display: flex; flex-wrap: wrap; justify-content: space-around;
+  display: flex; flex-wrap: wrap; justify-content: space-around; 
 }
 .kvSpans > * {
   margin-block: 0;
@@ -90,10 +90,16 @@ div.paperTopLvl {
 .sigBlockLine > span {
   border-top: 1px solid black;
 }
+#studInfoHead p {
+  text-align: center;
+  font-size: larger;
+  font-weight: bolder;
+
+}
 #infoStudFullName {
   display: grid;
   grid-template-columns: fit-content(29ch) fit-content(12ch) fit-content(18ch);
-  gap: 0.8em;
+  column-gap: 0.8em; 
 }
 #infoStudFullName [data-intern-store] {
   border-bottom: 1px solid black;
@@ -103,15 +109,19 @@ div.paperTopLvl {
   display: flex; 
 }
 .infoJunk > * {
-  min-width: 9em; margin: 0;
+  min-width: 3em; margin: 0;
 }
 .infoJunk :is(p, div) {margin:0;}
-.infoJunk [data-intern-store] {
+.infoJunk :not( .infoJunkBlock ) p[data-intern-store] {
   text-decoration: underline;
 }
 .infoJunkLabel {
   font-size: larger;
   font-weight: bolder;
+}
+.infoJunkBlock {
+  min-height: 5em; min-width: 32em;
+  border: 1px solid black;
 }
 img { margin:0;}
 hr { clear:both; display: block;}
@@ -638,7 +648,7 @@ hr { clear:both; display: block;}
      At the start of your employment, upload a signed copy
       if this document in the &quot;upload Information Sheet&quot; assignment.</p>
 </div>
-<div class="paperContent" id="infoSheetContent" onclick="void(0)"   style="opacity:0;visibility:hidden ">
+<div class="paperContent" id="infoSheetContent" onclick="void(0)" >
   <div id="studInfoHead">
     <h2>Spokane Falls Community College</h2>
     <p>Capstone Internship</p>
@@ -713,18 +723,39 @@ hr { clear:both; display: block;}
         <p data-intern-store="supervName"></p> 
       </div>
     </div>
-    :
-:
-Supervisor’s Title:
-Address:
-City, State, Zip:
+    <div class="infoJunk">
+      <div class="infoJunkLabel"> Supervisor's Email</div>
+      <div   >
+        <p data-intern-store="workSupervEmail"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Work Address:</div>
+      <div   >
+        <p data-intern-store="orgAddrLine1"></p>
+        <p data-intern-store="orgAddrLine2"></p>
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Work phone:</div>
+      <div   >
+        <p data-intern-store="workPhone"></p> 
+      </div>
+    </div>
+     
+    <div class="infoJunk">
+      <div class="infoJunkLabel">FAX:</div>
+      <div   >
+        <p data-intern-store="workFax"></p> 
+      </div>
+    </div> 
 
 
   </div>
   <div id="studInfoNote" class="kvSpans" data-intern-dialog="studInfoNotesFillinDial">
     <div class="infoJunk">
       <div class="infoJunkLabel">Notes</div>
-      <div   >
+      <div  class="infoJunkBlock">
         <p data-intern-store="studInfoNote"></p> 
       </div>
     </div>
@@ -767,15 +798,15 @@ City, State, Zip:
       <legend>Phones</legend>
       <label for="studInfostuPhone">Primary</label>
         <input type="text" name="stuPhone" id="studInfostuPhone">
-      <label for="studInfostuPhone2"><label for="studInfostuPhone2">Secondary</label>
+       <label for="studInfostuPhone2">Secondary</label>
         <input type="text" name="stuPhone2" id="studInfostuPhone2">
-      <label for="studInfostuFax"><label for="studInfostuFax">Fax</label>
+       <label for="studInfostuFax">Fax</label>
       <input type="text" name="stuFax" id="studInfostuFax">
     </fieldset>
     <fieldset>
-      <label for="studInfostuSID"><label for="studInfostuSID">SID</label>
+       <label for="studInfostuSID">SID</label>
       <input type="text" name="stuSID" id="studInfostuSID">
-      <label for="studInfostuEmail"><label for="studInfostuEmail">Email</label>
+       <label for="studInfostuEmail">Email</label>
       <input type="text" name="stuEmail" id="studInfostuEmail">
     </fieldset>
     <p>
@@ -787,9 +818,28 @@ City, State, Zip:
   <form method="dialog">
     <fieldset>
       <legend>Supervisor</legend>
+      <label for="studInfoWorksupervTitle">Title </label>
+      <input type="text" name="supervTitle" id="studInfoWorksupervTitle">
+      <label for="studInfoWorksupervName">Name </label>
+      <input type="text" name="supervName" id="studInfoWorksupervName">
+      <label for="studInfoWorkupervEmail">Supervisor email</label>
+        <input type="text" name="workSupervEmail" id="studInfoWorksupervEmail">
     </fieldset>
     <fieldset>
-      <legend>Work Site <Address></Address></legend>
+      <legend>Work Site Address </legend>
+      <label for="studInfoWorkorgAddrLine1">Line 1 </label>
+      <input type="text" name="orgAddrLine1" id="studInfoWorkorgAddrLine1">
+      <label for="studInfoWorkorgAddrLine2">Line 2 </label>
+      <input type="text" name="orgAddrLine2" id="studInfoWorkorgAddrLine2">
+      <label for="studInfoWorkorgAddrLine2">City, State, Zip</label>
+    </fieldset>
+    <fieldset>
+      <legend>Work Phones</legend>
+      <label for="studInfoWorkPhone">Primary</label>
+        <input type="text" name="workPhone" id="studInfoWorkPhone">
+        
+       <label for="studInfoWorkFax">Fax</label>
+      <input type="text" name="workFax" id="studInfoWorkFax">
     </fieldset>
     <p>
       <button class="fillinDialDoneButt" value="done" >done</button>
@@ -798,6 +848,10 @@ City, State, Zip:
 </dialog>
 <dialog id="studInfoNotesFillinDial">
   <form method="dialog">
+    <fieldset>
+      <legend>Notes</legend>
+      <textarea name="studInfoNote" id="studInfoNoteTA" cols="72" rows="4"></textarea>
+    </fieldset>
     <p>
       <button class="fillinDialDoneButt" value="done" >done</button>
       <button value="cancel" >cancel</button></p>
