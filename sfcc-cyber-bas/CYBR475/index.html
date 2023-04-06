@@ -90,7 +90,7 @@ div.paperTopLvl {
 .sigBlockLine > span {
   border-top: 1px solid black;
 }
-#studInfoHead p {
+.paperHead p {
   text-align: center;
   font-size: larger;
   font-weight: bolder;
@@ -121,6 +121,23 @@ div.paperTopLvl {
 }
 .infoJunkBlock {
   min-height: 5em; min-width: 32em;
+  border: 1px solid black;
+}
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  min-width: clamp( 38em, 90%, 72em );
+}
+table  thead th {
+  text-align: center;
+}
+table tbody tr {
+  min-height: 0.6em;min-width: 2em;
+}
+table.timeSheetData tfoot td[colspan] {
+  text-align: right;
+}
+table td {
   border: 1px solid black;
 }
 img { margin:0;}
@@ -649,7 +666,7 @@ hr { clear:both; display: block;}
       if this document in the &quot;upload Information Sheet&quot; assignment.</p>
 </div>
 <div class="paperContent" id="infoSheetContent" onclick="void(0)" >
-  <div id="studInfoHead">
+  <div id="studInfoHead" class="paperHead">
     <h2>Spokane Falls Community College</h2>
     <p>Capstone Internship</p>
     <p>Student Information Sheet</p> </div>
@@ -870,15 +887,117 @@ hr { clear:both; display: block;}
     You can upload multiple documents if you have multiple
       timesheets.</p>
 </div>
-<div class="paperContent" id="timeSheetContent" onclick="void(0)" style="opacity:0;visibility:hidden ">
-  <div id="timeSheetHead">
-    Spokane Falls Community College
-Capstone Internship 
+<div class="paperContent" id="timeSheetContent" onclick="void(0)" >
+  <div id="timeSheetHead"  class="paperHead">
+    <h2>Spokane Falls Community College</h2>
+    <p>Capstone Internship</p>
+    <p>Field Experience Time Sheet</p>
+  </div>
+  <div class="timeSheetData" data-intern-dialog="timeSheetDataFillinDial" >
+    <div  class="kvSpans" >
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Student</div>
+        <div   >
+          <p data-intern-store="stuName"></p> 
+        </div>
+      </div>
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Quarter/Year</div>
+        <div   >
+          <p data-intern-store="classQuarter"> ______ 202_ </p> 
+        </div>
+      </div>
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Work Site</div>
+        <div   >
+          <p data-intern-store="workSite"> </p> 
+        </div>
+      </div>
+    </div>
+    <div  class="kvSpans" >
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Work Site Supervisor</div>
+        <div   >
+          <p data-intern-store="supervName"></p> 
+        </div>
+      </div>
+      <div class="infoJunk">
+        <div class="infoJunkLabel"> Supervisor's Phone</div>
+        <div   >
+          <p data-intern-store="workPhone"></p> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <table class="timeSheetData">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Act. Code</th>
+          <th scope="col">Description of Activity</th>
+          <th scope="col">Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Page 1 Subtotal</td><td></td>
+        </tr>
+        <tr><td colspan="3">Page 2 Subtotal</td><td></td></tr>
+        <tr><td colspan="3">Total Hours</td><td></td></tr>
+      </tfoot>
+    </table>
 
-Field Experience Time Sheet
-
-Student:		Quarter/Year:	
-
+  </div>
+  <div>
+    <p>Super Signature</p>
+    <p>Student Signature</p>
+  </div>
+  <div>
+    <p>Activity Code</p>
+    <p>A = Student observed mentor</p>
+    <p>B = Student performed under supervision of mentor</p>
+    <p>C = Student performed without supervision</p>
+    <p>D = Student attended meetings/interviewed mentor/staff</p>
+    <p>Hours are rounded to nearest ½ hour</p>
   </div>
 </div>
 <div class="paperFormDiv" style="opacity:0;visibility:hidden ">
@@ -902,13 +1021,43 @@ Student:		Quarter/Year:
     copy of this document in the &quot;upload weekly report&quot; assignment.
     A separate document for each week is required</p>
 </div>
-<div class="paperContent" id="weeklyReportContent" onclick="void(0)" style="opacity:0;visibility:hidden ">
-  <div class="weeklyReportPageHead">
-    Spokane Falls Community College
-Professional Cooperative Education
-Weekly Report to Instructor
-
+<div class="paperContent" id="weeklyReportContent" onclick="void(0)"  >
+  <div id="weeklyReportPageHead" class="paperHead">
+    <h2>Spokane Falls Community College</h2>
+    <p>Professional Cooperative Education</p>
+    <p>Weekly Report to Instructor</p> 
   </div>
+  <div class="weeklyReportData kvSpans" data-intern-dialog="weeklyReportDataFillinDial" >
+    <div class="infoJunk">
+      <div class="infoJunkLabel">Name</div>
+      <div   >
+        <p data-intern-store="stuName"></p> 
+      </div>
+    </div>
+    <div class="infoJunk">
+      <div class="infoJunkLabel">program</div>
+      <div   >
+        <p data-intern-store="internProgram"></p> 
+      </div>
+    </div>
+  </div>
+  <p>Date: 2023-05-05</p>
+  <div>
+    <p>What happened this week?</p>
+    <p></p>
+  </div>
+  <div>
+    <p>Reviewing your three objectives—which one did you spend the most time on this week?   Explain</p>
+    <p></p>
+  </div>
+  <div>
+    <p>What were you not prepared for this week?</p>
+    <p></p>
+  </div>
+</div>
+
+  
+
 </div>
 <div class="paperFormDiv" style="opacity:0;visibility:hidden ">
   <form action="" >
@@ -931,12 +1080,125 @@ Weekly Report to Instructor
    a signed copy if this document in
     the &quot;upload Evaluation&quot; assignment</p>
 </div>
-<div class="paperContent" id="studEvalContent" onclick="void(0)" style="opacity:0;visibility:hidden ">
+<div class="paperContent" id="studEvalContent" onclick="void(0)"  >
   <div class="studEvalHead">
     Spokane Falls Community College
 3410 W. Whistalks Way  Spokane, WA 99224-5288
 Capstone Internship Evaluation of Student Progress
 
+  </div>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Check What Best Applies</th>
+          <th>Exceeds Expectations</th>
+          <th>Above Average</th>
+          <th>Average</th>
+          <th>Needs Improvement</th>
+          <th>Not Observed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2">Learning Objective 1</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td rowspan="2">Learning Objective 2</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td rowspan="2">Learning Objective 3</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td rowspan="3">Attitude Toward</td>
+          <td>Work</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>learning</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Responsibilities</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td rowspan="2">Appearance</td>
+          <td>Grooming</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Dress</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+      </tbody>
+    </table>
   </div>
 </div>
 <div class="paperFormDiv" style="opacity:0;visibility:hidden ">
