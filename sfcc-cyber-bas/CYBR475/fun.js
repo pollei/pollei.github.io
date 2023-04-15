@@ -120,3 +120,5 @@ function initTimeSheet0() {
 
 /*
  * https://pollei.github.io/sfcc-cyber-bas/ASTR100/wk-sched/?strtDay=2023-03-31
+ * https://www.youtube.com/watch?v=EoUIS2PxKCs util functions
+ */
