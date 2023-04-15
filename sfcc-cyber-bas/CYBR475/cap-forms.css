@@ -1,0 +1,167 @@
+.topLvl , .infoJunk {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2ch;
+}
+.topLvl > * {
+  margin: 0.5em;
+}
+
+@media screen {
+  .paperContent {
+  min-height: 5rem;
+  min-width: 50ch;
+  margin: 2em;
+  padding: 1em;
+ }
+ .kvSpans {
+  min-width: 8rem; 
+ }
+}
+.pprData {
+  text-decoration: underline;
+ }
+div.kvSpans {
+  display: flex; flex-wrap: wrap; justify-content: space-around; 
+}
+.kvSpans > * {
+  margin-block: 0;
+  margin-right: 2em;
+}
+div.paperTopLvl {
+  max-width: max( 72rem, 48vw );
+}
+@media print {
+  /* body > *:not( div.printSelect) {display: none; } */
+  body > *:not( div.paperTopLvl),
+  div.paperTopLvl > *:not( div.paperContent ) {
+    display: none; }
+  .paperDesc , .paperFormDiv {
+    display: none;
+  }
+  #contractSignatures, .paperContent { break-after:page; }
+}
+#superLtrHead { max-width: fit-content; float: left;}
+#superLtrLogo {
+  max-width: min-content; float: right; margin-top: 0; margin-bottom: 1em;
+  padding: 6px;
+  border: 1px solid black;
+}
+#superLtrHead p , .compactParas p {
+  margin: 0;
+}
+#superLtrLogo p {
+  font-weight : bolder; text-align: center;
+  text-transform: uppercase; font-size: smaller;
+}
+#contractInitials {
+  padding: 0.25em; border: 1px solid black;
+}
+.initialBlock , .initialRect {
+  display: inline-block;
+  margin: 0.1em;
+}
+.initialRect {
+  border: 1px solid black; 
+  padding: 0.3em 2em;
+}
+#contractSignatures {
+  display: grid;
+  grid-template-columns: fit-content(29ch) 1fr fit-content(18ch);
+   
+  gap: 0.5em;
+}
+#contractSignatures > span {
+  min-height: 2.16em;
+}
+.sigBlockLine {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: end;
+  text-align: center;
+}
+.sigBlockLine > span {
+  border-top: 1px solid black;
+}
+.paperHead p {
+  text-align: center;
+  font-size: larger;
+  font-weight: bolder;
+
+}
+#infoStudFullName {
+  display: grid;
+  grid-template-columns: fit-content(29ch) fit-content(12ch) fit-content(18ch);
+  column-gap: 0.8em; 
+}
+#infoStudFullName [data-intern-store] {
+  border-bottom: 1px solid black;
+  align-self: stretch;
+}
+.infoJunk {
+  display: flex; 
+}
+.infoJunk > * {
+  min-width: 3em; margin: 0;
+}
+.infoJunk :is(p, div) {margin:0;}
+.infoJunk :not( .infoJunkBlock ) p[data-intern-store] {
+  text-decoration: underline;
+}
+.infoJunkLabel {
+  font-size: larger;
+  font-weight: bolder;
+}
+.infoJunkBlock {
+  min-height: 5em; min-width: 32em;
+  border: 1px solid black;
+}
+table {
+  border: 1.6px solid black;
+  border-collapse: collapse;
+  min-width: clamp( 38em, 90%, 72em );
+  table-layout: auto;
+  container-type: inline-size; 
+}
+
+table  thead th {
+  text-align: center;
+}
+.small:where( td, th) {
+  min-width: 2em;
+  max-width: 5em;
+}
+.medium:where( td, th) {
+  min-width: 5em;
+  max-width: 10em;
+}
+.bg-text:where( td, th) {
+  min-width: clamp( 38em, 55cqw, 72em ); 
+}
+
+table tbody tr {
+  min-height: 0.6em;min-width: 2em;
+}
+table.timeSheetData tfoot td[colspan] {
+  text-align: right;
+}
+table td {
+  border: 1px solid black;
+}
+td.learnObjCell {
+  min-height: 2.2em;
+  min-width: clamp( 28em, 30cqw, 72em );
+}
+img { margin:0;}
+hr { clear:both; display: block;}
+.hilite {
+  font-size: larger;
+  font-weight : bolder;
+}
+.detail { font-size: smaller;}
+ [data-intern-dialog] {
+  cursor: pointer; }
+   [data-intern-dialog]:focus-within ,  [data-intern-dialog]:hover {
+    border: 1px dashed darkorchid;
+  }

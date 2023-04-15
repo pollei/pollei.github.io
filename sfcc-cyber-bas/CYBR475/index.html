@@ -1,158 +1,10 @@
 <!DOCTYPE html><html lang=en><meta charset="UTF-8">
 <title>SFCC CYBR 475 Capstone Internship   - pollei github  </title>
 <link rel="stylesheet" href="../../main0.css">
+<link rel="stylesheet" href="cap-forms.css">
 <script src="../../main0.js"></script>
 <script src="fun.js"></script>
-<style>
-.topLvl , .infoJunk {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2ch;
-}
-.topLvl > * {
-  margin: 0.5em;
-}
 
-@media screen {
-  .paperContent {
-  min-height: 5rem;
-  min-width: 50ch;
-  margin: 2em;
-  padding: 1em;
- }
- .kvSpans {
-  min-width: 8rem; 
- }
-}
-.pprData {
-  text-decoration: underline;
- }
-div.kvSpans {
-  display: flex; flex-wrap: wrap; justify-content: space-around; 
-}
-.kvSpans > * {
-  margin-block: 0;
-  margin-right: 2em;
-}
-div.paperTopLvl {
-  max-width: max( 72rem, 48vw );
-}
-@media print {
-  /* body > *:not( div.printSelect) {display: none; } */
-  body > *:not( div.paperTopLvl),
-  div.paperTopLvl > *:not( div.paperContent ) {
-    display: none; }
-  .paperDesc , .paperFormDiv {
-    display: none;
-  }
-  #contractSignatures, .paperContent { break-after:page; }
-}
-#superLtrHead { max-width: fit-content; float: left;}
-#superLtrLogo {
-  max-width: min-content; float: right; margin-top: 0; margin-bottom: 1em;
-  padding: 6px;
-  border: 1px solid black;
-}
-#superLtrHead p , .compactParas p {
-  margin: 0;
-}
-#superLtrLogo p {
-  font-weight : bolder; text-align: center;
-  text-transform: uppercase; font-size: smaller;
-}
-#contractInitials {
-  padding: 0.25em; border: 1px solid black;
-}
-.initialBlock , .initialRect {
-  display: inline-block;
-  margin: 0.1em;
-}
-.initialRect {
-  border: 1px solid black; 
-  padding: 0.3em 2em;
-}
-#contractSignatures {
-  display: grid;
-  grid-template-columns: fit-content(29ch) 1fr fit-content(18ch);
-   
-  gap: 0.5em;
-}
-#contractSignatures > span {
-  min-height: 2.16em;
-}
-.sigBlockLine {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: end;
-  text-align: center;
-}
-.sigBlockLine > span {
-  border-top: 1px solid black;
-}
-.paperHead p {
-  text-align: center;
-  font-size: larger;
-  font-weight: bolder;
-
-}
-#infoStudFullName {
-  display: grid;
-  grid-template-columns: fit-content(29ch) fit-content(12ch) fit-content(18ch);
-  column-gap: 0.8em; 
-}
-#infoStudFullName [data-intern-store] {
-  border-bottom: 1px solid black;
-  align-self: stretch;
-}
-.infoJunk {
-  display: flex; 
-}
-.infoJunk > * {
-  min-width: 3em; margin: 0;
-}
-.infoJunk :is(p, div) {margin:0;}
-.infoJunk :not( .infoJunkBlock ) p[data-intern-store] {
-  text-decoration: underline;
-}
-.infoJunkLabel {
-  font-size: larger;
-  font-weight: bolder;
-}
-.infoJunkBlock {
-  min-height: 5em; min-width: 32em;
-  border: 1px solid black;
-}
-table {
-  border: 1px solid black;
-  border-collapse: collapse;
-  min-width: clamp( 38em, 90%, 72em );
-}
-table  thead th {
-  text-align: center;
-}
-table tbody tr {
-  min-height: 0.6em;min-width: 2em;
-}
-table.timeSheetData tfoot td[colspan] {
-  text-align: right;
-}
-table td {
-  border: 1px solid black;
-}
-img { margin:0;}
-hr { clear:both; display: block;}
-.hilite {
-  font-size: larger;
-  font-weight : bolder;
-}
-.detail { font-size: smaller;}
- [data-intern-dialog] {
-  cursor: pointer; }
-   [data-intern-dialog]:focus-within ,  [data-intern-dialog]:hover {
-    border: 1px dashed darkorchid;
-  }
-</style>
 
 <h1>SFCC CYBR 475 Capstone Internship </h1>
  
@@ -888,117 +740,12 @@ hr { clear:both; display: block;}
       timesheets.</p>
 </div>
 <div class="paperContent" id="timeSheetContent" onclick="void(0)" >
-  <div id="timeSheetHead"  class="paperHead">
-    <h2>Spokane Falls Community College</h2>
-    <p>Capstone Internship</p>
-    <p>Field Experience Time Sheet</p>
-  </div>
-  <div class="timeSheetData" data-intern-dialog="timeSheetDataFillinDial" >
-    <div  class="kvSpans" >
-      <div class="infoJunk">
-        <div class="infoJunkLabel">Student</div>
-        <div   >
-          <p data-intern-store="stuName"></p> 
-        </div>
-      </div>
-      <div class="infoJunk">
-        <div class="infoJunkLabel">Quarter/Year</div>
-        <div   >
-          <p data-intern-store="classQuarter"> ______ 202_ </p> 
-        </div>
-      </div>
-      <div class="infoJunk">
-        <div class="infoJunkLabel">Work Site</div>
-        <div   >
-          <p data-intern-store="workSite"> </p> 
-        </div>
-      </div>
-    </div>
-    <div  class="kvSpans" >
-      <div class="infoJunk">
-        <div class="infoJunkLabel">Work Site Supervisor</div>
-        <div   >
-          <p data-intern-store="supervName"></p> 
-        </div>
-      </div>
-      <div class="infoJunk">
-        <div class="infoJunkLabel"> Supervisor's Phone</div>
-        <div   >
-          <p data-intern-store="workPhone"></p> 
-        </div>
-      </div>
-    </div>
-  </div>
-  <div>
-    <table class="timeSheetData">
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Act. Code</th>
-          <th scope="col">Description of Activity</th>
-          <th scope="col">Hours</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>&nbsp;</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="3">Page 1 Subtotal</td><td></td>
-        </tr>
-        <tr><td colspan="3">Page 2 Subtotal</td><td></td></tr>
-        <tr><td colspan="3">Total Hours</td><td></td></tr>
-      </tfoot>
-    </table>
+  <div id="timeSheetAutoPages" onclick="void(0)">
 
   </div>
-  <div>
-    <p>Super Signature</p>
-    <p>Student Signature</p>
-  </div>
-  <div>
-    <p>Activity Code</p>
-    <p>A = Student observed mentor</p>
-    <p>B = Student performed under supervision of mentor</p>
-    <p>C = Student performed without supervision</p>
-    <p>D = Student attended meetings/interviewed mentor/staff</p>
-    <p>Hours are rounded to nearest ½ hour</p>
-  </div>
+  
+  
+  
 </div>
 <div class="paperFormDiv" style="opacity:0;visibility:hidden ">
   <form action="" >
@@ -1010,6 +757,126 @@ hr { clear:both; display: block;}
 
 </div>
 </div>
+<template id="tmpl-timeSheetAutoPages">
+  <div class="timeSheetPage">
+    <div id="timeSheetHead"  class="paperHead">
+      <h2>Spokane Falls Community College</h2>
+      <p>Capstone Internship</p>
+      <p>Field Experience Time Sheet</p>
+    </div>
+    <div class="timeSheetData" data-intern-dialog="timeSheetDataFillinDial" >
+      <div  class="kvSpans" >
+        <div class="infoJunk">
+          <div class="infoJunkLabel">Student</div>
+          <div   >
+            <p data-intern-store="stuName"></p> 
+          </div>
+        </div>
+        <div class="infoJunk">
+          <div class="infoJunkLabel">Quarter/Year</div>
+          <div   >
+            <p data-intern-store="classQuarter"> ______ 202_ </p> 
+          </div>
+        </div>
+        <div class="infoJunk">
+          <div class="infoJunkLabel">Work Site</div>
+          <div   >
+            <p data-intern-store="workSite"> </p> 
+          </div>
+        </div>
+      </div>
+      <div  class="kvSpans" >
+        <div class="infoJunk">
+          <div class="infoJunkLabel">Work Site Supervisor</div>
+          <div   >
+            <p data-intern-store="supervName"></p> 
+          </div>
+        </div>
+        <div class="infoJunk">
+          <div class="infoJunkLabel"> Supervisor's Phone</div>
+          <div   >
+            <p data-intern-store="workPhone"></p> 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <table class="timeSheetData">
+        <thead>
+          <tr>
+            <th scope="col" class="medium">Date</th>
+            <th scope="col" class="small">Act. Code</th>
+            <th scope="col" class="bg-text">Description of Activity</th>
+            <th scope="col">Hours</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Page 1 Subtotal</td><td></td>
+          </tr>
+          <tr><td colspan="3">Page 2 Subtotal</td><td></td></tr>
+          <tr><td colspan="3">Total Hours</td><td></td></tr>
+        </tfoot>
+      </table>
+  
+    </div>
+
+  </div>
+  <div class="timeSheetFinalFooter">
+    <div>
+      <p>Super Signature</p>
+      <p>Student Signature</p>
+    </div>
+    <div>
+      <p>Activity Code</p>
+      <p>A = Student observed mentor</p>
+      <p>B = Student performed under supervision of mentor</p>
+      <p>C = Student performed without supervision</p>
+      <p>D = Student attended meetings/interviewed mentor/staff</p>
+      <p>Hours are rounded to nearest ½ hour</p>
+    </div>
+
+  </div>
+</template>
+
 
 
 <div class="paperTopLvl">
@@ -1092,16 +959,16 @@ Capstone Internship Evaluation of Student Progress
       <thead>
         <tr>
           <th colspan="2">Check What Best Applies</th>
-          <th>Exceeds Expectations</th>
-          <th>Above Average</th>
-          <th>Average</th>
-          <th>Needs Improvement</th>
-          <th>Not Observed</th>
+          <th class="medium">Exceeds Expectations</th>
+          <th class="medium">Above Average</th>
+          <th class="medium">Average</th>
+          <th class="medium">Needs Improvement</th>
+          <th class="medium">Not Observed</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td colspan="2">Learning Objective 1</td>
+          <td colspan="2" class="learnObjCell">Learning Objective 1</td>
           <td></td>
           <td></td>
           <td></td>
@@ -1109,7 +976,7 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
         </tr>
         <tr>
-          <td colspan="2">Learning Objective 2</td>
+          <td colspan="2" class="learnObjCell">Learning Objective 2</td>
           <td></td>
           <td></td>
           <td></td>
@@ -1117,7 +984,7 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
         </tr>
         <tr>
-          <td colspan="2">Learning Objective 3</td>
+          <td colspan="2" class="learnObjCell">Learning Objective 3</td>
           <td></td>
           <td></td>
           <td></td>
@@ -1140,11 +1007,9 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
         </tr>
         <tr>
           <td>Responsibilities</td>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1167,7 +1032,6 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
         </tr>
         <tr>
           <td rowspan="3">Dependability</td>
@@ -1185,11 +1049,9 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
         </tr>
         <tr>
           <td>Completion Tasks</td>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1212,7 +1074,6 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
         </tr>
         <tr>
           <td rowspan="3">Human Relations with</td>
@@ -1230,11 +1091,9 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
         </tr>
         <tr>
           <td>Supervision</td>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1257,11 +1116,9 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
         </tr>
         <tr>
           <td>Acceptable quality</td>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1275,10 +1132,9 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
         </tr>
         <tr>
-          <td colspan="7" rowspan="2">Comments</td>
+          <td colspan="7"  >Comments</td>
           
         </tr>
 
@@ -1343,6 +1199,7 @@ Capstone Internship Evaluation of Student Progress
     }
     lclStoreToDocument()
     let intrnProfsLS = localStorage.getItem('sfcc::cybr475::intern-profiles');
+    initTimeSheet0();
     
     })();
     </script>
