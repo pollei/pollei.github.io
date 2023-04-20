@@ -26,10 +26,10 @@ div.kvSpans {
 }
 .kvSpans > * {
   margin-block: 0;
-  margin-right: 2em;
+  margin-right: 1.2em;
 }
 div.paperTopLvl {
-  max-width: max( 72rem, 48vw );
+  max-width: max( 78rem, 48vw );
 }
 @media print {
   /* body > *:not( div.printSelect) {display: none; } */
@@ -118,15 +118,17 @@ div.paperTopLvl {
   border: 1px solid black;
 }
 table {
-  border: 1.6px solid black;
+  border: 1.9px solid black;
   border-collapse: collapse;
-  min-width: clamp( 38em, 90%, 72em );
+  min-width: clamp( 38em, 90%, 102em );
   table-layout: auto;
   container-type: inline-size; 
 }
 
 table  thead th {
   text-align: center;
+  padding-inline: 0.46em;
+  border: 2.9px solid black;
 }
 .small:where( td, th) {
   min-width: 2em;
@@ -137,7 +139,7 @@ table  thead th {
   max-width: 10em;
 }
 .bg-text:where( td, th) {
-  min-width: clamp( 38em, 55cqw, 72em ); 
+  min-width: clamp( 28em, 55cqw, 82em ); 
 }
 
 table tbody tr {
@@ -147,11 +149,11 @@ table.timeSheetData tfoot td[colspan] {
   text-align: right;
 }
 table td {
-  border: 1px solid black;
+  border: 1.8px solid black;
 }
 td.learnObjCell {
   min-height: 2.2em;
-  min-width: clamp( 28em, 30cqw, 72em );
+  min-width: clamp( 28em, 30cqw, 78em );
 }
 img { margin:0;}
 hr { clear:both; display: block;}
