@@ -39,7 +39,7 @@ div.lsec--right {max-width:36em;outline:black dotted;float:right;padding:4px;mar
 form#uShare label {min-width:4em;text-align:right;display: inline-block;}
 form#uShare fieldset {border:none;display:contents;}
 form#uShare input:invalid { border: 2px dashed red;}
-form#uShare input[type=text] {font-family: Lucida Console, Courier, monospace;}
+form#uShare input[type=text] {font-family: "Lucida Console", Courier, monospace;}
 @supports (user-select: all) {
   span#enrollCode { user-select: all;}
 }
