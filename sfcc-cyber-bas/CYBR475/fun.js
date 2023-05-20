@@ -19,6 +19,7 @@ function formToLclStore(formElem) {
             //localStorage.setItem('sfcc::cybr475::intern-data::' + inpEl.name, '' + inpEl.value)
         //}
     }
+    blobInternItems()
 
 }
 function lclStoreToForm(formElem) {
@@ -41,6 +42,7 @@ function lclStoreToDocument() {
             dynEl.innerText = dynVal
         }
     }
+
 }
 function dialogedElementClick_cb(ev) {
     const dialogedEl = ev.target.closest('[data-intern-dialog]')
