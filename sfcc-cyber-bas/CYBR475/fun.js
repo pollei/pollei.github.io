@@ -27,8 +27,10 @@ function lclStoreToForm(formElem) {
     for (let inpEl of inputElements) {
         //const dynVal = localStorage.getItem('sfcc::cybr475::intern-data::' +inpEl.name)
         const dynVal = lclGetItem(inpEl.name)
-        if (null != dynVal && dynVal.length > 0) {
+        if (null != dynVal && dynVal.length >= 0) {
             inpEl.value = dynVal
+        } else {
+            inpEl.value = inpEl.dataset.internFormDefault ?? inpEl.dataset.internDefault ?? ''
         }
     } 
 }
@@ -38,8 +40,10 @@ function lclStoreToDocument() {
         //const dynVal = localStorage.getItem('sfcc::cybr475::intern-data::' + dynEl.dataset.internStore)
         const dynVal = lclGetItem(dynEl.dataset.internStore)
         //console.log(dynEl, dynVal)
-        if (null != dynVal && dynVal.length > 0) {
+        if (null != dynVal && dynVal.length >= 0) {
             dynEl.innerText = dynVal
+        } else {
+            dynEl.innerText = dynEl.dataset.internDocDefault ?? dynEl.dataset.internDefault ?? ''
         }
     }
 
@@ -57,7 +61,7 @@ function paperFormPrintButt_cb(ev) {
 function dialogClose_cb(ev) {
     console.log('close', ev)
     //const formElements = ev.target.querySelectorAll('[name]')
-    console.log('close return value', ev.target.returnValue)
+    //console.log('close return value', ev.target.returnValue)
     if ( 'done' == ev.target.returnValue) {
         formToLclStore(ev.target.querySelectorAll('form')[0])
         lclStoreToDocument()
@@ -120,6 +124,35 @@ function Date_within_days_now(dts, n) {
 function getDateOffs(dts) {
     return Math.floor((Date.now() - str_to_Date(dts).getTime()) / 86400000 );
 }
+function uploadJsonFileInput_change_cb(evt) {
+    const uploadJsonFileBtn = document.getElementById('uploadJsonFileBtn');
+    //console.info(evt.target, uploadJsonFileBtn)
+    if ( + evt.target.files.length >= 1) {
+        uploadJsonFileBtn.removeAttribute('disabled') }
+    else {
+        uploadJsonFileBtn.setAttribute('disabled','') }
+}
+function uploadJsonFileBtn_click_cb(evt) {
+    const uploadJsonFileInput = document.getElementById('uploadJsonFileInput')
+    evt.stopPropagation();
+    evt.preventDefault();
+    //console.info(evt.target, uploadJsonFileInput)
+    if (uploadJsonFileInput.files.length < 1) {
+        console.error('no json file to load')
+    }
+    //console.info(uploadJsonFileInput.files[0])
+    uploadJsonFileInput.files[0].text().then(
+        (textResult) => {
+            console.info(typeof(textResult), textResult)
+            try {
+                const obj = JSON.parse(textResult)
+                globalThis.internGlob.internItems = obj
+                blobInternItems()
+                lclStoreToDocument()
+            } catch (err) {
+                console.error('file json not parsed', err) }
+        } ).catch( (err) => { console.error('file text not read', err)  } )
+}
 function getTmplCloneSrc(tmplId, itmClass) {
     const tmpl= document.getElementById(tmplId);
     //console.log(tmpl, tmpl.content)
@@ -136,7 +169,7 @@ function tmplClone(tmplId, itmClass) {
 }
 function addEventListenerById(nodeId, eventName, callback) {
     let node = document.getElementById(nodeId);
-    node.addEventListener(eventName, callback);
+    node?.addEventListener(eventName, callback);
 }
 function initTimeSheet0() {
     const timeSheetAutoPages = document.getElementById('timeSheetAutoPages');
@@ -188,6 +221,8 @@ function initPage() {
       prtButt.addEventListener('click', paperFormPrintButt_cb)
     }
     lclStoreToDocument()
+    addEventListenerById('uploadJsonFileInput','input',uploadJsonFileInput_change_cb)
+    addEventListenerById('uploadJsonFileBtn','click',uploadJsonFileBtn_click_cb)
     //let intrnProfsLS = localStorage.getItem('sfcc::cybr475::intern-profiles');
     initTimeSheet0();
 }
