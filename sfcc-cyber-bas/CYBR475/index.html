@@ -111,7 +111,30 @@
 </ul>
 
 </div>
+<div id="fileIODiv">
+  <h3>Save and Load Internship Data</h3>
+  <p>This webpage contains ough draft vesion of the
+    forms associated with the Capstone Internship in editable fomat. There is a crude mechanism to save and Load
+    the data as json.
+  </p>
+  <p>
+    <a  download="CYBR475___intern.json" type="application/json" id="downJsonLink"
+  >Save CYBR475 intern data as json</a>
+  </p>
+  <div  onclick="void(0)">
+    <form  id="uploadJsonFileForm">
+      <fieldset>
+        <legend>upload CYBR475  intern data</legend>
+      <label for="uploadJsonFile">Upload JSON</label>
+      <input type="file" name="uploadJsonFile" id="uploadJsonFileInput"
+      accept=".json,application/json" required>
+      <button type="button" id="uploadJsonFileBtn">upload CYBR475  intern data</button>
+    </fieldset>
+    </form>
+  </div>
 </div>
+</div>
+
 
 
 <div class="paperTopLvl">
@@ -1175,31 +1198,4 @@ Capstone Internship Evaluation of Student Progress
     
   </datalist>
 
-  <script>
-    (function() {
-    // const fillBut = document.getElementById('relManForm').querySelector('input[value="Fill-in"');
-    //const superLtr = document.getElementById('superLtr');
-    //const superLtrFillinDial = document.getElementById('superLtrFillinDial');
-    //superLtr.addEventListener('click', function() {superLtrFillinDial.showModal(); });
-    //console.log(document)
-    const dialogedElements = document.querySelectorAll('[data-intern-dialog]')
-    //console.log(dialogedElements)
-    for (digElem of dialogedElements) {
-      //const targDialog = document.getElementById(digElem.dataset.internDialog)
-      //digElem.addEventListener('click', function() {targDialog.showModal(); });
-      digElem.addEventListener('click', dialogedElementClick_cb)
-    }
-    const dialogs = document.getElementsByTagName('dialog')
-    for (dialo of dialogs) {
-      dialo.addEventListener('close', dalogClose_cb);
-    }
-    const printButts = document.querySelectorAll('button.paperFormPrintButt')
-    for (prtButt of printButts) {
-      prtButt.addEventListener('click', paperFormPrintButt_cb)
-    }
-    lclStoreToDocument()
-    let intrnProfsLS = localStorage.getItem('sfcc::cybr475::intern-profiles');
-    initTimeSheet0();
-    
-    })();
-    </script>
+  <script> initPage() </script>

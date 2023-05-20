@@ -2,12 +2,21 @@ function resetDialogForms(diaNd) {
     let forms = diaNd.querySelectorAll('form');
     forms.forEach(fElem => { fElem.reset();  });
 }
+function lclGetItem(itmName) {
+    return (globalThis.internGlob.internItems?.[itmName] ?? 
+        localStorage.getItem('sfcc::cybr475::intern-data::' + itmName));
+}
+function lclSetItem(itmName, itmValue ) {
+    //localStorage.setItem('sfcc::cybr475::intern-data::' + itmName, '' + itmValue);
+    globalThis.internGlob.internItems[itmName] = itmValue;
+}
 function formToLclStore(formElem) {
     const inputElements = formElem.querySelectorAll('[name]')
     for (let inpEl of inputElements) {
+        lclSetItem(inpEl.name, '' + inpEl.value)
         //console.log(inpEl)
         //if ('text' == inpEl.type || ('date' == inpEl.type)) {
-            localStorage.setItem('sfcc::cybr475::intern-data::' + inpEl.name, '' + inpEl.value)
+            //localStorage.setItem('sfcc::cybr475::intern-data::' + inpEl.name, '' + inpEl.value)
         //}
     }
 
@@ -15,7 +24,8 @@ function formToLclStore(formElem) {
 function lclStoreToForm(formElem) {
     const inputElements = formElem.querySelectorAll('[name]')
     for (let inpEl of inputElements) {
-        const dynVal = localStorage.getItem('sfcc::cybr475::intern-data::' +inpEl.name)
+        //const dynVal = localStorage.getItem('sfcc::cybr475::intern-data::' +inpEl.name)
+        const dynVal = lclGetItem(inpEl.name)
         if (null != dynVal && dynVal.length > 0) {
             inpEl.value = dynVal
         }
@@ -24,7 +34,8 @@ function lclStoreToForm(formElem) {
 function lclStoreToDocument() {
     const dynamicElems = document.querySelectorAll('[data-intern-store]')
     for (let dynEl of dynamicElems) {
-        const dynVal = localStorage.getItem('sfcc::cybr475::intern-data::' + dynEl.dataset.internStore)
+        //const dynVal = localStorage.getItem('sfcc::cybr475::intern-data::' + dynEl.dataset.internStore)
+        const dynVal = lclGetItem(dynEl.dataset.internStore)
         //console.log(dynEl, dynVal)
         if (null != dynVal && dynVal.length > 0) {
             dynEl.innerText = dynVal
@@ -41,7 +52,7 @@ function dialogedElementClick_cb(ev) {
 function paperFormPrintButt_cb(ev) {
     window.print() 
 }
-function dalogClose_cb(ev) {
+function dialogClose_cb(ev) {
     console.log('close', ev)
     //const formElements = ev.target.querySelectorAll('[name]')
     console.log('close return value', ev.target.returnValue)
@@ -63,7 +74,22 @@ function nukeButt_cb(evt) {
     keys.forEach( x => localStorage.removeItem(x));
     return;
 }
+function backCompatLclStore() {
+    const keys = []
+    const oldRegex = /^sfcc::cybr475::intern-data::/
+    const keyRegex = /^sfcc::cybr475::intern-data::([^:]+)$/
+    for (let i=0; i<localStorage.length; i++) {
+        if (localStorage.key(i).match(oldRegex)) { keys.push(localStorage.key(i)); }
+    }
+    keys.forEach( ky => {
+        const mtch = ky.match(keyRegex)
+        //console.info(mtch,mtch[1])
+        globalThis.internGlob.internItems[mtch[1]] = localStorage.getItem(ky)
+        localStorage.removeItem(ky)
+    } );
+    blobInternItems()
 
+}
 function is_val_date_str(dts ) {
     if (!dts.match(/\d\d\d\d-\d\d-\d\d/)) return false;
     let dta = dts.split('-',3).map( x => parseInt(x,10));
@@ -116,6 +142,52 @@ function initTimeSheet0() {
     let tsFooter = tmplClone("tmpl-timeSheetAutoPages","timeSheetFinalFooter");
     timeSheetAutoPages.appendChild(tsPage);
     tsPage.appendChild(tsFooter);
+}
+function blobInternItems() {
+    globalThis.internGlob.jsonSerial = JSON.stringify(globalThis.internGlob.internItems)
+    globalThis.internGlob.internBlob = new Blob(
+        [globalThis.internGlob.jsonSerial], {type: "application/json", } )
+    //console.info('dowblo', globalThis?.internGlob?.downBlobUrl, !!(globalThis?.internGlob?.downBlobUrl))
+    if (globalThis?.internGlob?.downBlobUrl) URL.revokeObjectURL(globalThis?.internGlob?.downBlobUrl)
+    globalThis.internGlob.downBlobUrl = URL.createObjectURL(globalThis.internGlob.internBlob)
+    localStorage.setItem('sfcc::cybr475::intern-json',internGlob.jsonSerial )
+    //console.info(globalThis.internGlob)
+    const downJsonLink = document.getElementById('downJsonLink')
+    downJsonLink.href = globalThis.internGlob.downBlobUrl
+    //console.info(downJsonLink)
+}
+function initPage() {
+    let lclJson = localStorage.getItem('sfcc::cybr475::intern-json')
+    if ( ! ('internGlob'  in globalThis)) {
+        globalThis.internGlob = {
+            internItems : {
+                timeSheetPages: [],
+                weeklyReportPages: [],
+                evalPages: [],
+
+            }, internBlob : null,
+        }
+    }
+    if ( null !== lclJson) {
+        globalThis.internGlob.internItems =JSON.parse(lclJson)
+    }
+    backCompatLclStore()
+    blobInternItems()
+    const dialogedElements = document.querySelectorAll('[data-intern-dialog]');
+    for (digElem of dialogedElements) {
+      digElem.addEventListener('click', dialogedElementClick_cb)
+    }
+    const dialogs = document.getElementsByTagName('dialog')
+    for (dialo of dialogs) {
+      dialo.addEventListener('close', dialogClose_cb);
+    }
+    const printButts = document.querySelectorAll('button.paperFormPrintButt')
+    for (prtButt of printButts) {
+      prtButt.addEventListener('click', paperFormPrintButt_cb)
+    }
+    lclStoreToDocument()
+    //let intrnProfsLS = localStorage.getItem('sfcc::cybr475::intern-profiles');
+    initTimeSheet0();
 }
 
 /*

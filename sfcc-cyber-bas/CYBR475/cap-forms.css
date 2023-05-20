@@ -1,3 +1,6 @@
+html {
+  overflow: auto scroll;
+}
 .topLvl , .infoJunk {
     display: flex;
     flex-wrap: wrap;
