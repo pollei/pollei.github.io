@@ -240,7 +240,7 @@
       </fieldset>
       <p>
         <button class="fillinDialDoneButt" value="done">done</button>
-        <button value="cancel">cancel</button></p>
+        <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
   </form>
 
 </dialog>
@@ -275,7 +275,7 @@
         <span class="pprLabel">Work Site</span>
         <span class="pprData"  data-intern-store="workSite">&nbsp;&nbsp;&nbsp;</span> </span>
       <span>
-        <span class="pprLabel">address </span>
+        <span class="pprLabel">Work Address </span>
         <span class="pprData"  data-intern-store="workAddress">&nbsp;&nbsp;&nbsp;</span> </span>
       <span>
         <span class="pprLabel">Work Site supervisor</span>
@@ -506,7 +506,7 @@
       </fieldset>
       <p>
         <button class="fillinDialDoneButt" value="done">done</button>
-        <button value="cancel">cancel</button></p>
+        <button value="cancel"  name="cancel" formnovalidate >cancel</button></p>
   </form>
 
 </dialog>
@@ -527,7 +527,7 @@
   </fieldset>
   <p>
     <button class="fillinDialDoneButt" value="done" >done</button>
-    <button value="cancel" >cancel</button></p>
+    <button value="cancel"  name="cancel" formnovalidate >cancel</button></p>
 </form>
 </dialog>
 
@@ -703,7 +703,7 @@
     </fieldset>
     <p>
       <button class="fillinDialDoneButt" value="done" >done</button>
-      <button value="cancel" >cancel</button></p>
+      <button value="cancel"  name="cancel" formnovalidate >cancel</button></p>
     </form>
 </dialog>
 <dialog id="studInfoWorkFillinDial">
@@ -735,18 +735,18 @@
     </fieldset>
     <p>
       <button class="fillinDialDoneButt" value="done" >done</button>
-      <button value="cancel" >cancel</button></p>
+      <button value="cancel"  name="cancel" formnovalidate >cancel</button></p>
     </form>
 </dialog>
 <dialog id="studInfoNotesFillinDial">
   <form method="dialog">
     <fieldset>
       <legend>Notes</legend>
-      <textarea name="studInfoNote" id="studInfoNoteTA" cols="72" rows="4"></textarea>
+      <textarea name="studInfoNote" id="studInfoNoteTA" cols="78" rows="15"></textarea>
     </fieldset>
     <p>
       <button class="fillinDialDoneButt" value="done" >done</button>
-      <button value="cancel" >cancel</button></p>
+      <button value="cancel"  name="cancel" formnovalidate >cancel</button></p>
     </form>
 </dialog>
 
@@ -785,7 +785,9 @@
     <div id="timeSheetHead"  class="paperHead">
       <h2>Spokane Falls Community College</h2>
       <p>Capstone Internship</p>
-      <p>Field Experience Time Sheet</p>
+      <p>Field Experience Time Sheet
+        pg. <span data-page-store="pageNum">1</span> of <span data-intern-store="timeSheetPageCnt">2</span>
+      </p>
     </div>
     <div class="timeSheetData" data-intern-dialog="timeSheetDataFillinDial" >
       <div  class="kvSpans" >
@@ -833,44 +835,7 @@
             <th scope="col">Hours</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
+        <tbody> </tbody>
         <tfoot>
           <tr>
             <td colspan="3">Page 1 Subtotal</td><td></td>
@@ -883,6 +848,7 @@
     </div>
 
   </div>
+  
   <div class="timeSheetFinalFooter">
     <div>
       <p>Super Signature</p>
@@ -899,8 +865,87 @@
 
   </div>
 </template>
+<template id="tmpl-timeSheetTable">
+  <tr class="timeSheetItem">
+    <td class="timeSheetItemDate">&nbsp;</td>
+    <td class="timeSheetItemCode">&nbsp;</td>
+    <td class="timeSheetItemDesc">&nbsp;</td>
+    <td class="timeSheetItemHours">&nbsp;</td>
+  </tr>
+  <tr class="timeSheetTotal">
+    <td colspan="3"  class="timeSheetTotalDesc">&nbsp; </td>
+    <td  class="timeSheetTotalHours">&nbsp;</td>
+  </tr>
+</template>
+<dialog id="timeSheetDataFillinDial">
+  <form method="dialog">
+    <fieldset>
+      <legend>Student Name</legend>
+      <input type="text" name="stuName" id="timeSheetstuName">
+    </fieldset>
+    <fieldset>
+      <legend>Quarter </legend>
+      <select name="classQuarter" id="timeSheetClassQuarter">
+        <optgroup label="2023">
+          <option  >Spring 2023</option>
+          <option  >Summer 2023</option>
+          <option  >Fall 2023</option>
+        </optgroup>
+        <optgroup label="2024">
+          <option  >Spring 2024</option>
+          <option  >Summer 2024</option>
+          <option  >Fall 2024</option>
+        </optgroup>
+        <optgroup label="2025">
+          <option  >Spring 2025</option>
+          <option  >Summer 2025</option>
+          <option  >Fall 2025</option>
+        </optgroup>
 
-
+      </select>
+    </fieldset>
+    <fieldset>
+      <legend>Supervisor</legend>
+      <label for="timeSheetWorksupervTitle">Title </label>
+      <input type="text" name="supervTitle" id="timeSheetWorksupervTitle">
+      <label for="timeSheetWorksupervName">Name </label>
+      <input type="text" name="supervName" id="timeSheetWorksupervName">
+      <label for="timeSheetWorkupervEmail">Supervisor email</label>
+        <input type="text" name="workSupervEmail" id="timeSheetWorksupervEmail">
+    </fieldset>
+    <p>
+      <button class="fillinDialDoneButt" value="done" >done</button>
+      <button value="cancel"  name="cancel" formnovalidate >cancel</button></p>
+    </form>
+</dialog>
+<dialog id="timeSheetCreateNew" data-dialog-close-cb="tsDialogClose_cb">
+  <form method="dialog" >
+    <fieldset>
+      <input type="date" name="timeSheetItemDate" id="timeSheetCreateNewDate">
+      <select name="timeSheetItemCode" id="timeSheetCreateNewCode">
+        <option value="A">Student observed mentor</option>
+        <option value="B">Student performed under supervision of mentor</option>
+        <option value="C">Student performed without supervision</option>
+        <option value="D">Student attended meetings/interviewed mentor/staff</option>
+      </select>
+    </fieldset>
+    <fieldset>
+      <legend>Description</legend>
+      <textarea name="timeSheetItemDesc" id="timeSheetCreateNewDescTA" cols="68" rows="1"></textarea>
+    </fieldset>
+    <fieldset>
+      <legend>Hours</legend>
+      <input type="number" name="timeSheetItemHours" id="timeSheetCreateNewHours"
+        min="0.1" max="12.0" step="0.1" >
+    </fieldset>
+     
+     
+    <p>
+      <button class="timeSheetCreateNewButt" value="create" >create</button>
+      <button class="timeSheetCreateNewDoneButt" value="done" >create and close</button>
+      <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
+    </form>
+</dialog>
 
 <div class="paperTopLvl">
 <h2>Weekly Report</h2>

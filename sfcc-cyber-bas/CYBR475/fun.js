@@ -52,6 +52,7 @@ function dialogedElementClick_cb(ev) {
     const dialogedEl = ev.target.closest('[data-intern-dialog]')
     //console.log(ev.target, ev.target.dataset, dialogedEl, dialogedEl.dataset)
     const targDialog = document.getElementById(dialogedEl.dataset.internDialog)
+    if (!targDialog) return;
     lclStoreToForm(targDialog.querySelectorAll('form')[0])
     targDialog.showModal();
 }
@@ -67,6 +68,39 @@ function dialogClose_cb(ev) {
         lclStoreToDocument()
     }
     
+}
+function tsDialogClose_cb(ev) {
+    console.log('ts close return value', ev.target.returnValue)
+    if ('cancel' == ev.target.returnValue) {
+        return;
+    }
+    const targDialog = document.getElementById("timeSheetCreateNew");
+    if ('create' == ev.target.returnValue) {
+        window.queueMicrotask(
+            () => {targDialog.showModal() } );
+        //ev.preventDefault();
+        //ev.stopPropagation();
+    }
+    const timeSheetCreateNewDate = document.getElementById('timeSheetCreateNewDate');
+    const timeSheetCreateNewCode = document.getElementById('timeSheetCreateNewCode');
+    const timeSheetCreateNewDesc = document.getElementById('timeSheetCreateNewDescTA');
+    const timeSheetCreateNewHours = document.getElementById('timeSheetCreateNewHours');
+    const tsNewRow = tmplClone("tmpl-timeSheetTable","timeSheetItem");
+    const timeSheetItemDate = tsNewRow.getElementsByClassName('timeSheetItemDate')[0];
+    const timeSheetItemCode = tsNewRow.getElementsByClassName('timeSheetItemCode')[0];
+    const timeSheetItemDesc = tsNewRow.getElementsByClassName('timeSheetItemDesc')[0];
+    const timeSheetItemHours = tsNewRow.getElementsByClassName('timeSheetItemHours')[0];
+    timeSheetItemDate.innerText = timeSheetCreateNewDate.value;
+    timeSheetItemCode.innerText = timeSheetCreateNewCode.value;
+    timeSheetItemDesc.innerText = timeSheetCreateNewDesc.value;
+    timeSheetItemHours.innerText = timeSheetCreateNewHours.value;
+    // dataset.internTsRowType='CreateNew'
+    const tsCreateNewRow = document.querySelector("tr[data-intern-ts-row-type='CreateNew']");
+    tsCreateNewRow.before(tsNewRow);
+    timeSheetCreateNewDesc.value='';
+    //targDialog.querySelector('form').reset();
+    //ev.target.closest('form').reset()
+
 }
 function nukeButt_cb(evt) {
     let keys = []; 
@@ -150,8 +184,23 @@ function uploadJsonFileBtn_click_cb(evt) {
                 blobInternItems()
                 lclStoreToDocument()
             } catch (err) {
-                console.error('file json not parsed', err) }
-        } ).catch( (err) => { console.error('file text not read', err)  } )
+                console.error('file json not parsed', err?.name, err?.message) }
+        } ).catch( (err) => { console.error('file text not read', err?.name, err?.message)  } )
+}
+function tsNewRow_click_cb(evt) {
+    console.info(evt.target)
+    const tr = evt.target.closest('tr');
+    const targDialog = document.getElementById("timeSheetCreateNew");
+    const startDate = lclGetItem("internBeginDate");
+    const prevTrDateElem = tr.previousElementSibling?.querySelectorAll('.timeSheetItemDate')[0];
+    const currTrDateElem = tr?.querySelectorAll('.timeSheetItemDate')[0];
+    const timeSheetCreateNewDate = document.getElementById('timeSheetCreateNewDate');
+    console.info(timeSheetCreateNewDate.value)
+    if (timeSheetCreateNewDate.value.length < 6) {
+        timeSheetCreateNewDate.value = startDate;
+    }
+    targDialog.showModal();
+    
 }
 function getTmplCloneSrc(tmplId, itmClass) {
     const tmpl= document.getElementById(tmplId);
@@ -171,9 +220,28 @@ function addEventListenerById(nodeId, eventName, callback) {
     let node = document.getElementById(nodeId);
     node?.addEventListener(eventName, callback);
 }
+function wireDialogedElements (elem) {
+    for (const digElem of (elem ?? document).querySelectorAll('[data-intern-dialog]')) {
+      digElem.addEventListener('click', dialogedElementClick_cb)
+    }
+}
 function initTimeSheet0() {
     const timeSheetAutoPages = document.getElementById('timeSheetAutoPages');
     let tsPage = tmplClone("tmpl-timeSheetAutoPages","timeSheetPage");
+    wireDialogedElements(tsPage)
+    const tsTbody = tsPage.querySelectorAll('tbody')[0]
+    console.info(tsTbody)
+    if (false && tsTbody ) {
+        for (let i=0; i<15; i++) {
+            const tsRow = tmplClone("tmpl-timeSheetTable","timeSheetItem");
+            tsTbody.appendChild(tsRow)
+        }
+    }
+    const tsNewRow = tmplClone("tmpl-timeSheetTable","timeSheetItem");
+    tsTbody?.appendChild(tsNewRow);
+    tsNewRow?.addEventListener('click', tsNewRow_click_cb)
+    tsNewRow.dataset.internTsRowType='CreateNew';
+
     let tsFooter = tmplClone("tmpl-timeSheetAutoPages","timeSheetFinalFooter");
     timeSheetAutoPages.appendChild(tsPage);
     tsPage.appendChild(tsFooter);
@@ -208,23 +276,23 @@ function initPage() {
     }
     backCompatLclStore()
     blobInternItems()
-    const dialogedElements = document.querySelectorAll('[data-intern-dialog]');
-    for (digElem of dialogedElements) {
-      digElem.addEventListener('click', dialogedElementClick_cb)
-    }
+    wireDialogedElements()
     const dialogs = document.getElementsByTagName('dialog')
-    for (dialo of dialogs) {
-      dialo.addEventListener('close', dialogClose_cb);
+    for (const dialo of dialogs) {
+      dialo.addEventListener('close',
+        (('dialogCloseCb' in dialo.dataset && typeof(globalThis[ dialo.dataset.dialogCloseCb ]) === 'function' )
+         ? globalThis[ dialo.dataset.dialogCloseCb ]
+          : dialogClose_cb));
     }
     const printButts = document.querySelectorAll('button.paperFormPrintButt')
     for (prtButt of printButts) {
       prtButt.addEventListener('click', paperFormPrintButt_cb)
     }
+    initTimeSheet0();
     lclStoreToDocument()
     addEventListenerById('uploadJsonFileInput','input',uploadJsonFileInput_change_cb)
     addEventListenerById('uploadJsonFileBtn','click',uploadJsonFileBtn_click_cb)
     //let intrnProfsLS = localStorage.getItem('sfcc::cybr475::intern-profiles');
-    initTimeSheet0();
 }
 
 /*
