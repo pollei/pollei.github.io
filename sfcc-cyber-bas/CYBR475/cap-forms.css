@@ -25,7 +25,8 @@ html {
   text-decoration: underline;
  }
 div.kvSpans {
-  display: flex; flex-wrap: wrap; justify-content: space-around; 
+  display: flex; flex-wrap: wrap; justify-content: space-around;
+  row-gap: 0.7em;
 }
 .kvSpans > * {
   margin-block: 0;
@@ -87,11 +88,23 @@ div.paperTopLvl {
 .sigBlockLine > span {
   border-top: 1px solid black;
 }
+.paperHead {
+  position:relative;
+
+}
+.paperHead::after {
+  content: '';
+  position:absolute;
+  background-image: url('../../sfcc-icon.svg');
+  right: 0.5em;
+  top: 0.5em;
+  min-height: 80px;
+  min-width: 120px;
+}
 .paperHead p {
   text-align: center;
   font-size: larger;
   font-weight: bolder;
-
 }
 #infoStudFullName {
   display: grid;
@@ -165,8 +178,10 @@ hr { clear:both; display: block;}
   font-weight : bolder;
 }
 .detail { font-size: smaller;}
- [data-intern-dialog] {
+ [data-intern-dialog], tr[data-intern-ts-row-type='CreateNew']  {
   cursor: pointer; }
-   [data-intern-dialog]:focus-within ,  [data-intern-dialog]:hover {
+:is([data-intern-dialog], tr[data-intern-ts-row-type='CreateNew']):is(:focus-within, :hover)
+    {
     border: 1px dashed darkorchid;
+    box-shadow: 8px 5px 7px -3px darkorchid;
   }
