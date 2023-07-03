@@ -40,7 +40,7 @@ div.paperTopLvl {
   body > *:not( div.paperTopLvl),
   div.paperTopLvl > *:not( div.paperContent ) {
     display: none; }
-  .paperDesc , .paperFormDiv {
+  .paperDesc , .paperFormDiv, tr[data-intern-ts-row-type='CreateNew'] {
     display: none;
   }
   #contractSignatures, .paperContent { break-after:page; }

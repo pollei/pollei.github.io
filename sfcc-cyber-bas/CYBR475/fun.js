@@ -8,7 +8,7 @@ function lclGetItem(itmName) {
 }
 function lclSetItem(itmName, itmValue ) {
     //localStorage.setItem('sfcc::cybr475::intern-data::' + itmName, '' + itmValue);
-    globalThis.internGlob.internItems[itmName] = itmValue;
+    globalThis.internGlob.internItems[itmName] = '' + itmValue;
 }
 function formToLclStore(formElem) {
     const inputElements = formElem.querySelectorAll('[name]')
@@ -19,8 +19,7 @@ function formToLclStore(formElem) {
             //localStorage.setItem('sfcc::cybr475::intern-data::' + inpEl.name, '' + inpEl.value)
         //}
     }
-    blobInternItems()
-
+    blobInternItems();
 }
 function lclStoreToForm(formElem) {
     const inputElements = formElem.querySelectorAll('[name]')
@@ -46,7 +45,19 @@ function lclStoreToDocument() {
             dynEl.innerText = dynEl.dataset.internDocDefault ?? dynEl.dataset.internDefault ?? ''
         }
     }
-
+}
+function formToObj(containerElem) {
+    let ret = {};
+    for (const elem of containerElem.querySelectorAll('[name]')) {
+        //console.info('named elem', elem);
+        if ('name' in elem  && 'value' in  elem ) ret[elem.name] = elem.value;
+    }
+    return ret;
+}
+function objFillForm(obj, containerElem) {
+    for (const elem of containerElem.querySelectorAll('[name]')) {
+        elem.value = obj[elem.name] ?? elem.dataset.internDocDefault ?? elem.dataset.internDefault ?? ''
+    }
 }
 function dialogedElementClick_cb(ev) {
     const dialogedEl = ev.target.closest('[data-intern-dialog]')
@@ -60,14 +71,29 @@ function paperFormPrintButt_cb(ev) {
     window.print() 
 }
 function dialogClose_cb(ev) {
-    console.log('close', ev)
+    //console.log('close', ev)
     //const formElements = ev.target.querySelectorAll('[name]')
     //console.log('close return value', ev.target.returnValue)
     if ( 'done' == ev.target.returnValue) {
         formToLclStore(ev.target.querySelectorAll('form')[0])
         lclStoreToDocument()
     }
-    
+}
+function objFillTsRow(tsRowObj, tsRowElem) {
+    for (const elem of tsRowElem.querySelectorAll('[data-field-name]')) {
+        if (elem.dataset.fieldName && elem.dataset.fieldName in tsRowObj ) {
+            elem.innerText = tsRowObj[elem.dataset.fieldName]; }
+    }
+}
+function tsNewRowClone(tsObj, opts) {
+    tsObj ??= {};
+    opts ??= {};
+    const retNewRow = tmplClone("tmpl-timeSheetTable","timeSheetItem");
+    objFillTsRow(tsObj, retNewRow);
+    if ('click' in opts) {
+        retNewRow?.addEventListener('click', opts?.click ) }
+    retNewRow.dataset.internTsRowType= ( opts?.type ?? 'Normal' );
+    return retNewRow;
 }
 function tsDialogClose_cb(ev) {
     console.log('ts close return value', ev.target.returnValue)
@@ -81,25 +107,46 @@ function tsDialogClose_cb(ev) {
         //ev.preventDefault();
         //ev.stopPropagation();
     }
-    const timeSheetCreateNewDate = document.getElementById('timeSheetCreateNewDate');
-    const timeSheetCreateNewCode = document.getElementById('timeSheetCreateNewCode');
+    let tsObj = formToObj(targDialog);
+    //console.info('ts obj', tsObj);
     const timeSheetCreateNewDesc = document.getElementById('timeSheetCreateNewDescTA');
-    const timeSheetCreateNewHours = document.getElementById('timeSheetCreateNewHours');
-    const tsNewRow = tmplClone("tmpl-timeSheetTable","timeSheetItem");
-    const timeSheetItemDate = tsNewRow.getElementsByClassName('timeSheetItemDate')[0];
-    const timeSheetItemCode = tsNewRow.getElementsByClassName('timeSheetItemCode')[0];
-    const timeSheetItemDesc = tsNewRow.getElementsByClassName('timeSheetItemDesc')[0];
-    const timeSheetItemHours = tsNewRow.getElementsByClassName('timeSheetItemHours')[0];
-    timeSheetItemDate.innerText = timeSheetCreateNewDate.value;
-    timeSheetItemCode.innerText = timeSheetCreateNewCode.value;
-    timeSheetItemDesc.innerText = timeSheetCreateNewDesc.value;
-    timeSheetItemHours.innerText = timeSheetCreateNewHours.value;
-    // dataset.internTsRowType='CreateNew'
+    const tsNewRow = tsNewRowClone(tsObj,{ click : tsNewRow_click_cb, type: 'CreateNew' } );
+    const tsPages = globalThis.internGlob.internItems.timeSheetPages;
+    tsPages[tsPages.length -1].push(tsObj);
+    blobInternItems();
     const tsCreateNewRow = document.querySelector("tr[data-intern-ts-row-type='CreateNew']");
     tsCreateNewRow.before(tsNewRow);
     timeSheetCreateNewDesc.value='';
     //targDialog.querySelector('form').reset();
     //ev.target.closest('form').reset()
+
+}
+function indexToNthChildCss(index) { return ':nth-child( ' + (index+1) + ' )'; }
+function getTsRow(pageIndex, rowIndex) {
+    return document.querySelector(
+        '#timeSheetAutoPages > ' + indexToNthChildCss(pageIndex) + ' tbody > tr' + indexToNthChildCss(rowIndex))
+}
+function tsDialogModifyRowClose_cb(ev) {
+    console.log('ts close return value', ev.target.returnValue)
+    if ('cancel' == ev.target.returnValue) {
+        return;
+    }
+    const targDialog = document.getElementById("timeSheetModifyRow");
+    let tsObj = formToObj(targDialog);
+    const pageIndexElem = targDialog.querySelector('[name="pageIndex"]');
+    const rowIndexElem = targDialog.querySelector('[name="rowIndex"]');
+    const pageIndexNum = 0 | + pageIndexElem.value;
+    const rowIndexNum = 0 | + rowIndexElem.value;
+    const modRow = getTsRow(pageIndexNum, rowIndexNum);
+    console.info('mod row', modRow);
+    const gii = globalThis?.internGlob?.internItems;
+    const tsPages = gii?.timeSheetPages;
+    if ('modify' == ev.target.returnValue) {
+        tsPages[pageIndexNum][rowIndexNum]=tsObj;
+        objFillTsRow(tsObj, modRow);
+        blobInternItems();
+        return;
+    }
 
 }
 function nukeButt_cb(evt) {
@@ -195,12 +242,26 @@ function tsNewRow_click_cb(evt) {
     const prevTrDateElem = tr.previousElementSibling?.querySelectorAll('.timeSheetItemDate')[0];
     const currTrDateElem = tr?.querySelectorAll('.timeSheetItemDate')[0];
     const timeSheetCreateNewDate = document.getElementById('timeSheetCreateNewDate');
-    console.info(timeSheetCreateNewDate.value)
+    //console.info(timeSheetCreateNewDate.value)
     if (timeSheetCreateNewDate.value.length < 6) {
         timeSheetCreateNewDate.value = startDate;
     }
     targDialog.showModal();
     
+}
+function tsModifyRow_click_cb(evt) {
+    const tr = evt.target.closest('tr');
+    const timeSheetPage= evt.target.closest('.timeSheetPage');
+    console.info('modify targ', evt.target, tr, timeSheetPage);
+    const targDialog = document.getElementById("timeSheetModifyRow");
+    const gii = globalThis.internGlob.internItems;
+    const tsPages = globalThis.internGlob.internItems.timeSheetPages;
+    objFillForm(tsPages[0][tr.rowIndex-1], targDialog.querySelector('form'));
+    const pageIndexElem = targDialog.querySelector('[name="pageIndex"]');
+    const rowIndexElem = targDialog.querySelector('[name="rowIndex"]');
+    pageIndexElem.value = '0'; // TODO FIXME multiple page
+    rowIndexElem.value = '' +(tr.rowIndex-1);
+    targDialog.showModal();
 }
 function getTmplCloneSrc(tmplId, itmClass) {
     const tmpl= document.getElementById(tmplId);
@@ -225,23 +286,41 @@ function wireDialogedElements (elem) {
       digElem.addEventListener('click', dialogedElementClick_cb)
     }
 }
+function tsSumPage(pgIndex) {
+    let ret = 0;
+    const tsPages = globalThis.internGlob.internItems.timeSheetPages;
+    for (let i=0; i< tsPages[pgIndex].length; i++) {
+        ret += + tsPages[pgIndex][i]['hours'];
+    }
+    return ret;
+}
+function tsNewPageClone(pgIndex) {
+    pgIndex ??= 0;
+    const gii = globalThis.internGlob.internItems;
+    const tsPages = globalThis.internGlob.internItems.timeSheetPages;
+    if (tsPages.length <= pgIndex) {tsPages.push([]);}
+    const retTsPage = tmplClone("tmpl-timeSheetAutoPages","timeSheetPage");
+    wireDialogedElements(retTsPage)
+    const tsTbody = retTsPage.querySelector('tbody');
+    for (let i=0; i< tsPages[pgIndex].length; i++) {
+        const tsRow = tsNewRowClone(tsPages[pgIndex][i], { click : tsModifyRow_click_cb  });
+        tsTbody.appendChild(tsRow);
+    }
+    return retTsPage;
+}
 function initTimeSheet0() {
     const timeSheetAutoPages = document.getElementById('timeSheetAutoPages');
-    let tsPage = tmplClone("tmpl-timeSheetAutoPages","timeSheetPage");
-    wireDialogedElements(tsPage)
-    const tsTbody = tsPage.querySelectorAll('tbody')[0]
-    console.info(tsTbody)
-    if (false && tsTbody ) {
-        for (let i=0; i<15; i++) {
-            const tsRow = tmplClone("tmpl-timeSheetTable","timeSheetItem");
-            tsTbody.appendChild(tsRow)
-        }
-    }
-    const tsNewRow = tmplClone("tmpl-timeSheetTable","timeSheetItem");
+    const gii = globalThis.internGlob.internItems;
+    if (!('timeSheetPages' in gii)) { gii.timeSheetPages = [ [], ]; }
+    if (gii.timeSheetPages.length < 1) {gii.timeSheetPages.push([]) }
+    lclSetItem('timeSheetPageCnt', gii.timeSheetPages.length);
+    gii.timeSheetPageCnt = gii.timeSheetPages.length;
+    let tsPage = tsNewPageClone(0);
+    let sum0 = tsSumPage(0);
+    tsPage.querySelector('[data-ts-page-index="0"] td.timeSheetTotalHours').innerText = '' + sum0;
+    const tsTbody = tsPage.querySelector('tbody');
+    const tsNewRow = tsNewRowClone(null, { click : tsNewRow_click_cb, type: 'CreateNew'});
     tsTbody?.appendChild(tsNewRow);
-    tsNewRow?.addEventListener('click', tsNewRow_click_cb)
-    tsNewRow.dataset.internTsRowType='CreateNew';
-
     let tsFooter = tmplClone("tmpl-timeSheetAutoPages","timeSheetFinalFooter");
     timeSheetAutoPages.appendChild(tsPage);
     tsPage.appendChild(tsFooter);
@@ -257,6 +336,9 @@ function blobInternItems() {
     //console.info(globalThis.internGlob)
     const downJsonLink = document.getElementById('downJsonLink')
     downJsonLink.href = globalThis.internGlob.downBlobUrl
+    downJsonLink.download = (
+        "CYBR475_" + lclGetItem('orgName')
+        +  "_" + lclGetItem('stuLastName') + "_" + Date.now() + "_intern.json" )
     //console.info(downJsonLink)
 }
 function initPage() {
@@ -264,7 +346,7 @@ function initPage() {
     if ( ! ('internGlob'  in globalThis)) {
         globalThis.internGlob = {
             internItems : {
-                timeSheetPages: [],
+                timeSheetPages: [ [], ],
                 weeklyReportPages: [],
                 evalPages: [],
 
