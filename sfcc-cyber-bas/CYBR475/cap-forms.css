@@ -69,13 +69,13 @@ div.paperTopLvl {
   border: 1px solid black; 
   padding: 0.3em 2em;
 }
-#contractSignatures {
+.gridSignatures {
   display: grid;
   grid-template-columns: fit-content(29ch) 1fr fit-content(18ch);
    
   gap: 0.5em;
 }
-#contractSignatures > span {
+.gridSignatures > span {
   min-height: 2.16em;
 }
 .sigBlockLine {
@@ -185,3 +185,51 @@ hr { clear:both; display: block;}
     border: 1px dashed darkorchid;
     box-shadow: 8px 5px 7px -3px darkorchid;
   }
+.timeSheetFinalACBox {
+  margin: 1.2em; padding-block: 0.4em;
+  position: relative;
+  border: 0.8px dashed gray;
+  border-radius: 1.4em;z-index: 0;
+}
+.timeSheetFinalACBox > p {
+  width: fit-content; position: absolute; z-index: 1;
+  left: 6em; top: -0.6em; background-color: white;
+}
+  .timeSheetFinalACList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    column-gap: 1.8em;
+    margin: 0;
+  }
+  .timeSheetFinalACList > p { margin: 0.2em; }
+  table.evalTab tbody tr[data-intern-key] td {
+      position: relative; padding: 0.2em;
+  }
+  table.evalTab tbody tr[data-intern-value="na"] td:nth-last-child(1)::before {
+    content: '✔️'; position: absolute; left: 2em; top: 0.2em; 
+  }
+  table.evalTab tbody tr[data-intern-value="-"] td:nth-last-child(2)::before {
+    content: '✔️'; position: absolute; left: 2em; top: 0.2em; 
+  }
+  table.evalTab tbody tr[data-intern-value="0"] td:nth-last-child(3)::before {
+    content: '✔️'; position: absolute; left: 2em; top: 0.2em; 
+  }
+  table.evalTab tbody tr[data-intern-value="+"] td:nth-last-child(4)::before {
+    content: '✔️'; position: absolute; left: 2em; top: 0.2em; 
+  }
+  table.evalTab tbody tr[data-intern-value="++"] td:nth-last-child(5)::before {
+    content: '💎'; position: absolute; left: 2em; top: 0.2em;
+     
+  }
+  table.evalTab tbody tr[data-intern-key] td div {
+    padding: 0.23em; text-align: right  ; min-height: 1.2lh;
+  }
+  table.evalTab tbody tr[data-intern-key] td:nth-last-child(7) div {
+    min-width: 39ch;
+  }
+/*
+  table.evalTab tbody tr[data-intern-key] td:nth-last-child(1) {
+    background-color: chartreuse;
+  }
+  */

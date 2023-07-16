@@ -376,7 +376,7 @@
   </div>
   <p>I have read and agree to the terms and conditions as
     outlined in this TWO PAGE agreement</p>
-  <div id="contractSignatures" >
+  <div id="contractSignatures" class="gridSignatures" data-intern-dialog="contractSignaturesDial">
      
       <span>Student <span data-intern-store="stuName" ></span></span>
       <span class="sigBlockLine"><span>signature</span> </span>
@@ -838,11 +838,7 @@
         </thead>
         <tbody> </tbody>
         <tfoot>
-          <tr  class="timeSheetTotal" data-ts-page-index="0">
-            <td colspan="3" class="timeSheetTotalDesc" >Page 1 Subtotal</td><td class="timeSheetTotalHours"></td>
-          </tr>
-          <tr  class="timeSheetTotal" data-ts-page-index="1"><td colspan="3" class="timeSheetTotalDesc" >Page 2 Subtotal</td><td></td></tr>
-          <tr><td colspan="3">Total Hours</td><td></td></tr>
+          
         </tfoot>
       </table>
   
@@ -851,19 +847,25 @@
   </div>
   
   <div class="timeSheetFinalFooter">
-    <div>
-      <p>Super Signature</p>
-      <p>Student Signature</p>
+    <div class="timeSheetFinalSigs gridSignatures" data-intern-dialog="timeSheetFinalSigsDial">
+      <span>Student <span data-intern-store="stuName" ></span></span>
+      <span class="sigBlockLine"><span>signature</span> </span>
+      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+     
+      <span>Supervisor <span data-intern-store="supervName" ></span></span>
+      <span class="sigBlockLine"> <span>signature</span> </span>
+      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
     </div>
-    <div>
+    <div class="timeSheetFinalACBox">
       <p>Activity Code</p>
-      <p>A = Student observed mentor</p>
-      <p>B = Student performed under supervision of mentor</p>
-      <p>C = Student performed without supervision</p>
-      <p>D = Student attended meetings/interviewed mentor/staff</p>
-      <p>Hours are rounded to nearest ½ hour</p>
+      <div  class="timeSheetFinalACList">
+        <p>A = Student observed mentor</p>
+        <p>B = Student performed under supervision of mentor</p>
+        <p>C = Student performed without supervision</p>
+        <p>D = Student attended meetings/interviewed mentor/staff</p>
+      </div>
     </div>
-
+    <p>Hours are rounded to nearest ½ hour</p>
   </div>
 </template>
 <template id="tmpl-timeSheetTable">
@@ -873,9 +875,12 @@
     <td class="timeSheetItemDesc" data-field-name="desc">&nbsp;</td>
     <td class="timeSheetItemHours" data-field-name="hours">&nbsp;</td>
   </tr>
-  <tr class="timeSheetTotal">
-    <td colspan="3"  class="timeSheetTotalDesc">&nbsp; </td>
-    <td  class="timeSheetTotalHours">&nbsp;</td>
+  <tr class="timeSheetTotal timeSheetSubTotal" >
+    <td colspan="3" class="timeSheetTotalDesc" ></td>
+    <td class="timeSheetTotalHours"></td></tr>
+  <tr class="timeSheetTotal  timeSheetFinalTotal">
+    <td colspan="3"  class="timeSheetTotalDesc">Total Hours</td>
+    <td  class="timeSheetTotalHours"></td>
   </tr>
 </template>
 <dialog id="timeSheetDataFillinDial">
@@ -973,7 +978,7 @@
     <p>
       <button class="timeSheetCreateNewButt" value="modify" >modify</button>
       <button value="cancel" formnovalidate >cancel</button>
-      <button value="delete" formnovalidate disabled>delete</button></p>
+      <button value="delete" formnovalidate  >delete</button></p>
     </form>
 </dialog>
 
@@ -1046,14 +1051,43 @@
     the &quot;upload Evaluation&quot; assignment</p>
 </div>
 <div class="paperContent" id="studEvalContent" onclick="void(0)"  >
-  <div class="studEvalHead">
-    Spokane Falls Community College
-3410 W. Whistalks Way  Spokane, WA 99224-5288
-Capstone Internship Evaluation of Student Progress
-
+  <div class="studEvalHead paperHead">
+    <h2>Spokane Falls Community College</h2>
+    <p>3410 W. Whistalks Way  Spokane, WA 99224-5288 </p>
+    <p>Capstone Internship <span>Final</span> Evaluation of Student Progress</p> 
   </div>
   <div>
-    <table>
+    <div  class="kvSpans" >
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Student</div>
+        <div   >
+          <p data-intern-store="stuName"></p> 
+        </div>
+      </div>
+      
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Work Site</div>
+        <div   >
+          <p data-intern-store="workSite"> </p> 
+        </div>
+      </div>
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Supervisor</div>
+        <div   >
+          <p data-intern-store="supervName">  </p> 
+        </div>
+      </div>
+      <div class="infoJunk">
+        <div class="infoJunkLabel">Quarter/Year</div>
+        <div   >
+          <p data-intern-store="classQuarter"> ______ 202_ </p> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p>Supervisor, please evaluate performance in each of the following categories & return to the instructor</p>
+    <table class="evalTab">
       <thead>
         <tr>
           <th colspan="2">Check What Best Applies</th>
@@ -1064,9 +1098,174 @@ Capstone Internship Evaluation of Student Progress
           <th class="medium">Not Observed</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td colspan="2" class="learnObjCell">Learning Objective 1</td>
+      <tbody data-intern-dialog="finalEvalObjectivesnDial">
+        <tr data-intern-key="evalRateObj1">
+          <td colspan="2" class="learnObjCell" 
+          >Learning Objective 1: <span data-intern-store="internObjective1"></span></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateObj2">
+          <td colspan="2" class="learnObjCell"
+          >Learning Objective 2: <span data-intern-store="internObjective2"></span></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateObj3">
+          <td colspan="2" class="learnObjCell"
+          >Learning Objective 3: <span data-intern-store="internObjective3"></span></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        </tbody>
+        <tbody  data-intern-dialog="finalEvalMainDial">
+        <tr data-intern-key="evalRateWorkAtt">
+          <td rowspan="3"><div>Attitude Toward</div></td>
+          <td><div>Work</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateLearnAtt">
+          <td><div>learning</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateRespAtt">
+          <td><div>Responsibilities</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateGroomApp">
+          <td rowspan="2"><div>Appearance</div></td>
+          <td><div>Grooming</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateDressApp">
+          <td><div>Dress</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRatePuncDep">
+          <td rowspan="3"><div>Dependability</div></td>
+          <td><div>Punctuality</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateAttDep">
+          <td><div>Attandance</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateTaskDep">
+          <td><div>Completion Tasks</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateWritComm">
+          <td rowspan="2"><div>Communications</div></td>
+          <td><div>Written</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateVerbalComm">
+          <td><div>Verbal</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRatePublicRelat">
+          <td rowspan="3"><div>Human Relations with</div></td>
+          <td><div>Public</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRatePeerRelat">
+          <td><div>Fellow Employees</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateSupervRelat">
+          <td><div>Supervision</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateOutPerf">
+          <td rowspan="3"><div>Job Performance</div></td>
+          <td><div>Adequate Output</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateAccuPerf">
+          <td><div>Accurate and Timely</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr data-intern-key="evalRateQualPerf">
+          <td><div>Acceptable quality</div></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+      <tbody  data-intern-dialog="finalEvalOverallDial">
+        <tr  data-intern-key="evalRateOverall">
+          <td colspan="2"><div>Overall Rating</div></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1074,171 +1273,24 @@ Capstone Internship Evaluation of Student Progress
           <td></td>
         </tr>
         <tr>
-          <td colspan="2" class="learnObjCell">Learning Objective 2</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td colspan="2" class="learnObjCell">Learning Objective 3</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="3">Attitude Toward</td>
-          <td>Work</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>learning</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Responsibilities</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="2">Appearance</td>
-          <td>Grooming</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Dress</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="3">Dependability</td>
-          <td>Punctuality</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Attandance</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Completion Tasks</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="2">Communications</td>
-          <td>Written</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Verbal</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="3">Human Relations with</td>
-          <td>Public</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Fellow Employees</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Supervision</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td rowspan="3">Job Performance</td>
-          <td>Adequate Output</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Accurate and Timely</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Acceptable quality</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td colspan="2">Overall Rating</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td colspan="7"  >Comments</td>
+          <td colspan="7"  >Comments: <span data-intern-store="evalRateNotes"></span> </td>
           
         </tr>
 
       </tbody>
     </table>
+    <div class="EvalSigs gridSignatures" data-intern-dialog="evalSigsDial">
+      <span>Supervisor <span data-intern-store="supervName" ></span></span>
+      <span class="sigBlockLine"> <span>signature</span> </span>
+      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+
+      <span>Student <span data-intern-store="stuName" ></span></span>
+      <span class="sigBlockLine"><span>signature</span> </span>
+      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+    </div>
+    <p>*Student signature does not necessarily indicate agreement with evaluation.</p>
   </div>
+
 </div>
 <div class="paperFormDiv" style="opacity:0;visibility:hidden ">
   <form action="" >
@@ -1251,10 +1303,247 @@ Capstone Internship Evaluation of Student Progress
 </div>
 </div>
 
+<dialog id="finalEvalObjectivesnDial">
+<form method="dialog">
+  <fieldset><legend>Objective 1</legend>
+    <label  >Objective:
+    <textarea name="internObjective1" cols="70" rows="3"></textarea></label>
+    <label  >rating:
+      <select name="evalRateObj1"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </fieldset>
+  <fieldset><legend>Objective 2</legend> 
+    <label  >Objective:
+      <textarea name="internObjective2" cols="70" rows="3"></textarea></label>
+      <label  >rating:
+        <select name="evalRateObj2"  >
+          <option value="++">Exceeds Expectations</option>
+          <option value="+">Above Average</option>
+          <option value="0">Average</option>
+          <option value="-">Needs Improvement</option>
+          <option value="na">Not Observed</option>
+        </select>
+      </label>
+  </fieldset>
+  <fieldset><legend>Objective 3</legend>
+    <label  >Objective:
+      <textarea name="internObjective3" cols="70" rows="3"></textarea></label>
+      <label  >rating:
+        <select name="evalRateObj3"  >
+          <option value="++">Exceeds Expectations</option>
+          <option value="+">Above Average</option>
+          <option value="0">Average</option>
+          <option value="-">Needs Improvement</option>
+          <option value="na">Not Observed</option>
+        </select>
+      </label>
+  </fieldset>
+  <p>
+    <button class="fillinDialDoneButt" value="done">done</button>
+    <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
+</form>
+</dialog>
+<dialog id="finalEvalMainDial">
+<form method="dialog">
+  <fieldset>
+    <legend>Attitude Toward</legend>
+    <label  >Work:
+      <select name="evalRateWorkAtt"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Learning
+      <select name="evalRateLearnAtt"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Responsibilities:
+      <select name="evalRateRespAtt"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </fieldset>
+  <fieldset>
+    <legend>Appearance</legend>
+    <label  >Grooming:
+      <select name="evalRateGroomApp"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Dress:
+      <select name="evalRateDressApp"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </fieldset>
+  <fieldset>
+    <legend>Dependability</legend>
+    <label  >Punctuality:
+      <select name="evalRatePuncDep"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Attandance:
+      <select name="evalRateAttDep"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Completion Tasks:
+      <select name="evalRateTaskDep"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </fieldset>
+  <fieldset>
+    <legend>Communications</legend>
+    <label  >Written:
+      <select name="evalRateWritComm"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Verbal:
+      <select name="evalRateVerbalComm"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </fieldset>
+  <fieldset>
+    <legend>Human Relations with</legend>
+    <label  >Public:
+      <select name="evalRatePublicRelat"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Fellow Employees:
+      <select name="evalRatePeerRelat"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Supervision:
+      <select name="evalRateSupervRelat"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </fieldset>
+  <fieldset>
+    <legend>Job Performance</legend>
+    <label  >Adequate Output:
+      <select name="evalRateOutPerf"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Accurate and Timely:
+      <select name="evalRateAccuPerf"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+    <label  >Acceptable quality:
+      <select name="evalRateQualPerf"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </fieldset>
 
+  <p>
+    <button class="fillinDialDoneButt" value="done">done</button>
+    <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
+</form>
+</dialog>
+<dialog id="finalEvalOverallDial">
+<form method="dialog">
+  <p>
+    <label  >Overall rating:
+      <select name="evalRateOverall"  >
+        <option value="++">Exceeds Expectations</option>
+        <option value="+">Above Average</option>
+        <option value="0">Average</option>
+        <option value="-">Needs Improvement</option>
+        <option value="na">Not Observed</option>
+      </select>
+    </label>
+  </p>
+  <p>
+    <label  >Notes:
+      <textarea name="evalRateNotes" cols="70" rows="4"></textarea></label>
+  </p>
+  <p>
+    <button class="fillinDialDoneButt" value="done">done</button>
+    <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
+</form>
+</dialog>
 
 <div class=cntx>
-<p> &copy; 2019/2023-03 <a href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener >Stephen Pollei</a> --
+<p> &copy; 2019/2023-07 <a href=https://www.linkedin.com/in/stephen-pollei-926b07b/ target=_blank rel=nopener >Stephen Pollei</a> --
 <a href=https://creativecommons.org/licenses/by-nc-nd/4.0/ target=_blank 
   rel=noopener >Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)</a></p>
 </div>
