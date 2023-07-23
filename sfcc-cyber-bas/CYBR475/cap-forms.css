@@ -95,9 +95,9 @@ div.paperTopLvl {
 
 }
 .paperHead::after {
-  content: '';
+  content: url('../../sfcc-icon.svg');
   position:absolute;
-  background-image: url('../../sfcc-icon.svg');
+  /* background-image: url('../../sfcc-icon.svg'); */
   right: 0.5em;
   top: 0.5em;
   min-height: 80px;
