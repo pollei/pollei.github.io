@@ -130,6 +130,19 @@
       accept=".json,application/json" required>
       <button type="button" id="uploadJsonFileBtn" disabled>Load CYBR475  intern data</button>
     </fieldset>
+    <fieldset>
+      <legend>Print Pages</legend>
+      <select name="pages" id="pagePrintSelect" multiple size="6">
+        <option value="superLtrContent">Introduction Letter</option>
+        <option value="contractContent">Agreement</option>
+        <option value="infoSheetContent" selected>Student Information Sheet</option>
+        <option value="timeSheetContent" selected>Time Sheet</option>
+        <option value="weeklyReportContent">Weekly Reports</option>
+        <option value="studEvalContent" selected>Student Evaluation</option>
+
+      </select>
+      <button class="paperFormPrintButt" type="button">print</button>
+    </fieldset>
     </form>
   </div>
 </div>
@@ -218,7 +231,7 @@
   <form method="dialog">
       <p>
           <label for="superLtrDate">Intro Letter Day</label>
-          <input type="date" name="introLetDate"  id="superLtrtDate" ></p>
+          <input type="date" name="introLetDate"  id="superLtrtDate"  min="2023-01-01" max="2023-12-24" ></p>
       <fieldset title="Student Information">
         <legend>Student Information</legend>
       <p><label for="superLtrstuName">Student name</label>
@@ -380,11 +393,15 @@
      
       <span>Student <span data-intern-store="stuName" ></span></span>
       <span class="sigBlockLine"><span>signature</span> </span>
-      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+      <span  data-intern-store="contractStuSignature"
+        data-intern-doc-default="date 2023 - &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; " 
+      >date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
      
       <span>Supervisor <span data-intern-store="supervName" ></span></span>
       <span class="sigBlockLine"> <span>signature</span> </span>
-      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+      <span data-intern-store="contractSupvSignature"
+        data-intern-doc-default="date 2023 - &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; "
+        >date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
      
       <span>Instructor Rick Dubois</span>
       <span class="sigBlockLine"><span>signature</span> </span>
@@ -486,9 +503,9 @@
       <fieldset>
         <legend>Internship Information</legend>
         <p> <label for="contractinternBeginDate">Begining Date</label>
-          <input type="date" name="internBeginDate"  id="contractinternBeginDate" >
+          <input type="date" name="internBeginDate"  id="contractinternBeginDate" min="2023-01-01" max="2023-12-24" >
           <label for="contractinternEndDate">Ending Date</label>
-          <input type="date" name="internEndDate"  id="contractinternEndDate" ></p>
+          <input type="date" name="internEndDate"  id="contractinternEndDate" min="2023-01-01" max="2023-12-24" ></p>
         <p> <label for="contractinternTotalHours">Total Hours</label>
           <input type="number" name="internTotalHours"  id="contractinternTotalHours" 
           min="1" max="640">
@@ -781,7 +798,7 @@
 </div>
 </div>
 <template id="tmpl-timeSheetAutoPages">
-  <div class="timeSheetPage">
+  <div class="timeSheetPage pageContent">
     <div id="timeSheetHead"  class="paperHead">
       <h2>Spokane Falls Community College</h2>
       <p>Capstone Internship</p>
@@ -847,14 +864,18 @@
   </div>
   
   <div class="timeSheetFinalFooter">
-    <div class="timeSheetFinalSigs gridSignatures" data-intern-dialog="timeSheetFinalSigsDial">
+    <div class="timeSheetFinalSigs gridSignatures" data-intern-dialog="timeSheetFinalSigsDial"  onclick="void(0)">
       <span>Student <span data-intern-store="stuName" ></span></span>
       <span class="sigBlockLine"><span>signature</span> </span>
-      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+      <span data-intern-store="timesheetStuSignature"
+        data-intern-doc-default="date 2023 - &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; "
+      >date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
      
       <span>Supervisor <span data-intern-store="supervName" ></span></span>
       <span class="sigBlockLine"> <span>signature</span> </span>
-      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+      <span data-intern-store="timesheetSupvSignature"
+        data-intern-doc-default="date 2023 - &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; "
+      >date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
     </div>
     <div class="timeSheetFinalACBox">
       <p>Activity Code</p>
@@ -927,7 +948,7 @@
 <dialog id="timeSheetCreateNew" data-dialog-close-cb="tsDialogClose_cb">
   <form method="dialog" >
     <fieldset>
-      <input type="date" name="date" id="timeSheetCreateNewDate" >
+      <input type="date" name="date" id="timeSheetCreateNewDate"  min="2023-01-01" max="2023-12-24" >
       <select name="code" id="timeSheetCreateNewCode">
         <option value="A">Student observed mentor</option>
         <option value="B">Student performed under supervision of mentor</option>
@@ -956,7 +977,7 @@
   <form method="dialog" >
     <input type="hidden" name="pageIndex"><input type="hidden" name="rowIndex">
     <fieldset>
-      <input type="date" name="date" id="timeSheetCreateNewDate" >
+      <input type="date" name="date" id="timeSheetCreateNewDate" min="2023-01-01" max="2023-12-24" >
       <select name="code" id="timeSheetCreateNewCode">
         <option value="A">Student observed mentor</option>
         <option value="B">Student performed under supervision of mentor</option>
@@ -1188,7 +1209,7 @@
           <td></td>
         </tr>
         <tr data-intern-key="evalRateTaskDep">
-          <td><div>Completion Tasks</div></td>
+          <td><div>Completion&nbsp;Tasks</div></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1213,7 +1234,7 @@
           <td></td>
         </tr>
         <tr data-intern-key="evalRatePublicRelat">
-          <td rowspan="3"><div>Human Relations with</div></td>
+          <td rowspan="3"><div>Human&nbsp;Relations&nbsp;with</div></td>
           <td><div>Public</div></td>
           <td></td>
           <td></td>
@@ -1222,7 +1243,7 @@
           <td></td>
         </tr>
         <tr data-intern-key="evalRatePeerRelat">
-          <td><div>Fellow Employees</div></td>
+          <td><div>Fellow&nbsp;Employees</div></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1239,7 +1260,7 @@
         </tr>
         <tr data-intern-key="evalRateOutPerf">
           <td rowspan="3"><div>Job Performance</div></td>
-          <td><div>Adequate Output</div></td>
+          <td><div>Adequate&nbsp;Output</div></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1247,7 +1268,7 @@
           <td></td>
         </tr>
         <tr data-intern-key="evalRateAccuPerf">
-          <td><div>Accurate and Timely</div></td>
+          <td><div>Accurate&nbsp;and&nbsp;Timely</div></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1255,7 +1276,7 @@
           <td></td>
         </tr>
         <tr data-intern-key="evalRateQualPerf">
-          <td><div>Acceptable quality</div></td>
+          <td><div>Acceptable&nbsp;quality</div></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1282,11 +1303,15 @@
     <div class="EvalSigs gridSignatures" data-intern-dialog="evalSigsDial">
       <span>Supervisor <span data-intern-store="supervName" ></span></span>
       <span class="sigBlockLine"> <span>signature</span> </span>
-      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+      <span data-intern-store="evalSupvSignature"
+      data-intern-doc-default="date 2023 - &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; "
+      >date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
 
       <span>Student <span data-intern-store="stuName" ></span></span>
       <span class="sigBlockLine"><span>signature</span> </span>
-      <span>date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
+      <span data-intern-store="evalStuSignature"
+        data-intern-doc-default="date 2023 - &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; "
+      >date 2023- &nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; </span>
     </div>
     <p>*Student signature does not necessarily indicate agreement with evaluation.</p>
   </div>
@@ -1536,6 +1561,46 @@
     <label  >Notes:
       <textarea name="evalRateNotes" cols="70" rows="4"></textarea></label>
   </p>
+  <p>
+    <button class="fillinDialDoneButt" value="done">done</button>
+    <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
+</form>
+</dialog>
+
+<dialog id="contractSignaturesDial">
+  <form method="dialog">
+    <fieldset><legend>Student Signature Date</legend>
+      <input type="date" name="contractStuSignature" min="2023-01-01" max="2023-12-24">
+    </fieldset>
+  <fieldset><legend>Supervisor Signature Date</legend>
+    <input type="date" name="contractSupvSignature" min="2023-01-01" max="2023-12-24">
+  </fieldset>
+  <p>
+    <button class="fillinDialDoneButt" value="done">done</button>
+    <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
+</form>
+</dialog>
+<dialog id="timeSheetFinalSigsDial">
+  <form method="dialog">
+    <fieldset><legend>Student Signature Date</legend>
+      <input type="date" name="timesheetStuSignature" min="2023-01-01" max="2023-12-24">
+    </fieldset>
+  <fieldset><legend>Supervisor Signature Date</legend>
+    <input type="date" name="timesheetSupvSignature" min="2023-01-01" max="2023-12-24">
+  </fieldset>
+  <p>
+    <button class="fillinDialDoneButt" value="done">done</button>
+    <button value="cancel" name="cancel" formnovalidate >cancel</button></p>
+</form>
+</dialog>
+<dialog id="evalSigsDial">
+  <form method="dialog">
+    <fieldset><legend>Student Signature Date</legend>
+      <input type="date" name="evalStuSignature" min="2023-01-01" max="2023-12-24">
+    </fieldset>
+  <fieldset><legend>Supervisor Signature Date</legend>
+    <input type="date" name="evalSupvSignature" min="2023-01-01" max="2023-12-24">
+  </fieldset>
   <p>
     <button class="fillinDialDoneButt" value="done">done</button>
     <button value="cancel" name="cancel" formnovalidate >cancel</button></p>

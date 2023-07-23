@@ -40,10 +40,12 @@ div.paperTopLvl {
   body > *:not( div.paperTopLvl),
   div.paperTopLvl > *:not( div.paperContent ) {
     display: none; }
-  .paperDesc , .paperFormDiv, tr[data-intern-ts-row-type='CreateNew'] {
+  .paperDesc , .paperFormDiv,
+   tr[data-intern-ts-row-type='CreateNew'],
+   [data-intern-print="no"] {
     display: none;
   }
-  #contractSignatures, .paperContent { break-after:page; }
+  #contractSignatures, .paperContent, .pageContent { break-after:page; }
 }
 #superLtrHead { max-width: fit-content; float: left;}
 #superLtrLogo {
@@ -105,6 +107,8 @@ div.paperTopLvl {
   text-align: center;
   font-size: larger;
   font-weight: bolder;
+  margin-top: 4px;
+  margin-bottom: 3px;
 }
 #infoStudFullName {
   display: grid;
@@ -223,10 +227,10 @@ hr { clear:both; display: block;}
      
   }
   table.evalTab tbody tr[data-intern-key] td div {
-    padding: 0.23em; text-align: right  ; min-height: 1.2lh;
+    padding: 0.23em; text-align: right  ; min-height: 1.1ex;
   }
   table.evalTab tbody tr[data-intern-key] td:nth-last-child(7) div {
-    min-width: 39ch;
+    min-width: 27ch;
   }
 /*
   table.evalTab tbody tr[data-intern-key] td:nth-last-child(1) {

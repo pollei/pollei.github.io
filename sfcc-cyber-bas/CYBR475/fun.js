@@ -6,6 +6,9 @@ function lclGetItem(itmName) {
     return (globalThis.internGlob.internItems?.[itmName] ?? 
         localStorage.getItem('sfcc::cybr475::intern-data::' + itmName));
 }
+function lclRemoveItem(itmName) {
+    delete globalThis.internGlob.internItems[itmName]
+}
 function lclSetItem(itmName, itmValue ) {
     //localStorage.setItem('sfcc::cybr475::intern-data::' + itmName, '' + itmValue);
     globalThis.internGlob.internItems[itmName] = '' + itmValue;
@@ -13,11 +16,11 @@ function lclSetItem(itmName, itmValue ) {
 function formToLclStore(formElem) {
     const inputElements = formElem.querySelectorAll('[name]')
     for (let inpEl of inputElements) {
-        lclSetItem(inpEl.name, '' + inpEl.value)
-        //console.log(inpEl)
-        //if ('text' == inpEl.type || ('date' == inpEl.type)) {
-            //localStorage.setItem('sfcc::cybr475::intern-data::' + inpEl.name, '' + inpEl.value)
-        //}
+        //console.info(inpEl, inpEl.value, inpEl?.type === 'date', inpEl.value.length)
+        if (inpEl?.type === 'date'  && inpEl.value.length < 4 ) {
+            lclRemoveItem(inpEl.name)
+        } else {
+            lclSetItem(inpEl.name, '' + inpEl.value); }
     }
     blobInternItems();
 }
@@ -77,6 +80,15 @@ function dialogedElementClick_cb(ev) {
     targDialog.showModal();
 }
 function paperFormPrintButt_cb(ev) {
+    const pagePrintSelectElem = document.getElementById('pagePrintSelect');
+    console.info(pagePrintSelectElem );
+    for (const optElem of pagePrintSelectElem.options) {
+        console.info(optElem, optElem.value,optElem.selected );
+        const pageElem = document.getElementById(optElem.value);
+        if (pageElem != null ) {
+            pageElem.dataset.internPrint = (optElem.selected ? 'yes' : 'no');
+        }
+    }
     window.print() 
 }
 function dialogClose_cb(ev) {
@@ -105,7 +117,7 @@ function tsNewRowClone(tsObj, opts) {
     return retNewRow;
 }
 function tsDialogClose_cb(ev) {
-    console.log('ts close return value', ev.target.returnValue)
+    //console.log('ts close return value', ev.target.returnValue)
     if ('cancel' == ev.target.returnValue) {
         return;
     }
@@ -137,7 +149,7 @@ function getTsRow(pageIndex, rowIndex) {
         '#timeSheetAutoPages > ' + indexToNthChildCss(pageIndex) + ' tbody > tr' + indexToNthChildCss(rowIndex))
 }
 function tsDialogModifyRowClose_cb(ev) {
-    console.log('ts close return value', ev.target.returnValue)
+    //console.log('ts close return value', ev.target.returnValue)
     if ('cancel' == ev.target.returnValue) {
         return;
     }
@@ -151,7 +163,7 @@ function tsDialogModifyRowClose_cb(ev) {
     const gii = globalThis?.internGlob?.internItems;
     const tsPages = gii?.timeSheetPages;
     if ('modify' == ev.target.returnValue) {
-        console.info('mod row', modRow);
+        //console.info('mod row', modRow);
         tsPages[pageIndexNum][rowIndexNum]=tsObj;
         objFillTsRow(tsObj, modRow);
         blobInternItems();
@@ -159,12 +171,12 @@ function tsDialogModifyRowClose_cb(ev) {
         return;
     }
     if ('delete' == ev.target.returnValue) {
-        console.info('del ts row', modRow, tsPages[pageIndexNum], rowIndexNum);
+        //console.info('del ts row', modRow, tsPages[pageIndexNum], rowIndexNum);
         tsPages[pageIndexNum].splice(rowIndexNum, 1);
         blobInternItems();
         modRow.remove();
         updateTimeSheetTotalHours()
-        console.info('del ts row after', modRow, tsPages[pageIndexNum]);
+        //console.info('del ts row after', modRow, tsPages[pageIndexNum]);
     }
 
 }
@@ -243,7 +255,7 @@ function uploadJsonFileBtn_click_cb(evt) {
     //console.info(uploadJsonFileInput.files[0])
     uploadJsonFileInput.files[0].text().then(
         (textResult) => {
-            console.info(typeof(textResult), textResult)
+            //console.info(typeof(textResult), textResult)
             try {
                 const obj = JSON.parse(textResult)
                 globalThis.internGlob.internItems = obj
@@ -255,14 +267,14 @@ function uploadJsonFileBtn_click_cb(evt) {
         } ).catch( (err) => { console.error('file text not read', err?.name, err?.message)  } )
 }
 function tsNewRow_click_cb(evt) {
-    console.info(evt.target)
+    //console.info(evt.target)
     const tr = evt.target.closest('tr');
     const targDialog = document.getElementById("timeSheetCreateNew");
     const startDate = lclGetItem("internBeginDate");
     const prevTrDateElem = tr.previousElementSibling?.querySelectorAll('.timeSheetItemDate')[0];
     const currTrDateElem = tr?.querySelectorAll('.timeSheetItemDate')[0];
     const timeSheetCreateNewDate = document.getElementById('timeSheetCreateNewDate');
-    console.info('ts crear', timeSheetCreateNewDate.value, tr.previousElementSibling,prevTrDateElem,  prevTrDateElem?.innerText ?? startDate )
+    //console.info('ts crear', timeSheetCreateNewDate.value, tr.previousElementSibling,prevTrDateElem,  prevTrDateElem?.innerText ?? startDate )
     if (timeSheetCreateNewDate.value.length < 6 || true ) {
         timeSheetCreateNewDate.value = prevTrDateElem?.innerText ?? startDate;
     }
@@ -272,7 +284,7 @@ function tsNewRow_click_cb(evt) {
 function tsModifyRow_click_cb(evt) {
     const tr = evt.target.closest('tr');
     const timeSheetPage= evt.target.closest('.timeSheetPage');
-    console.info('modify targ', evt.target, tr, timeSheetPage);
+    //console.info('modify targ', evt.target, tr, timeSheetPage);
     const targDialog = document.getElementById("timeSheetModifyRow");
     const gii = globalThis.internGlob.internItems;
     const tsPages = globalThis.internGlob.internItems.timeSheetPages;
@@ -403,6 +415,7 @@ function loadTimeSheetPages() {
     const finalTotEl = tmplClone("tmpl-timeSheetTable","timeSheetFinalTotal");
     lastTfoot?.appendChild(finalTotEl);
     let tsFooter = tmplClone("tmpl-timeSheetAutoPages","timeSheetFinalFooter");
+    wireDialogedElements(tsFooter);
     lastTsPage.appendChild(tsFooter);
     updateTimeSheetTotalHours();
 
